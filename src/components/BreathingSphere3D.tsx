@@ -66,7 +66,7 @@ interface BreathingSphere3DProps {
 
 const BreathingSphere3D = ({ phase, isPlaying, phaseDuration, className = "" }: BreathingSphere3DProps) => {
   return (
-    <div className={`relative ${className}`} style={{ width: 260, height: 260 }}>
+    <div className={`relative ${className}`} style={{ width: 300, height: 300 }}>
       {/* Outer ambient glow */}
       <div
         className="absolute inset-0 rounded-full transition-all duration-1000"
@@ -77,7 +77,7 @@ const BreathingSphere3D = ({ phase, isPlaying, phaseDuration, className = "" }: 
         }}
       />
       <Canvas
-        camera={{ position: [0, 0, 3.2], fov: 45 }}
+        camera={{ position: [0, 0, 4.2], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >

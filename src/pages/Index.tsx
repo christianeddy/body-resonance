@@ -1,22 +1,45 @@
 import { PageTransition } from "@/components/layout/PageTransition";
 import { Wind, Snowflake, Flame, ChevronRight, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { useSessionStats } from "@/hooks/useSessions";
+import { usePractices } from "@/hooks/usePractices";
+import { usePrograms, useAllProgramProgress } from "@/hooks/usePrograms";
 
 const Index = () => {
+  const { profile } = useAuth();
+  const { totalSessions, totalMinutes, streak } = useSessionStats();
+  const { data: practices } = usePractices("respiracion");
+  const { data: programs } = usePrograms();
+  const { data: allProgress } = useAllProgramProgress();
+
+  // Recommend practice based on profile + time of day
+  const hour = new Date().getHours();
+  let recommendedIntention = "calma";
+  if (hour < 12) recommendedIntention = "energia";
+  else if (hour >= 21) recommendedIntention = "dormir";
+  else if (hour >= 15) recommendedIntention = "calma";
+  else recommendedIntention = "reset";
+
+  const recommended = practices?.find((p) => p.intention === recommendedIntention) ?? practices?.[0];
+  const timeLabel = hour < 12 ? "MAÑANA" : hour < 18 ? "TARDE" : "NOCHE";
+
+  const displayName = profile?.display_name || "Atleta";
+
   return (
     <PageTransition>
       {/* Header */}
       <div className="flex items-center justify-between pt-14 pb-6">
-        <h1 className="font-display text-2xl text-foreground">Hola, Atleta</h1>
+        <h1 className="font-display text-2xl text-foreground">Hola, {displayName}</h1>
         <Settings size={20} strokeWidth={1.5} className="text-muted-foreground" />
       </div>
 
       {/* Stats */}
       <div className="mb-8 flex gap-3 overflow-x-auto scrollbar-hide">
         {[
-          { value: "12", label: "SESIONES" },
-          { value: "86", label: "MINUTOS" },
-          { value: "3", label: "DÍAS DE RACHA", highlight: true },
+          { value: String(totalSessions), label: "SESIONES" },
+          { value: String(totalMinutes), label: "MINUTOS" },
+          { value: String(streak), label: "DÍAS DE RACHA", highlight: streak > 0 },
         ].map((stat, i) => (
           <div
             key={i}
@@ -32,62 +55,70 @@ const Index = () => {
       </div>
 
       {/* Daily Ritual */}
-      <section className="mb-8">
-        <div
-          className="card-body relative overflow-hidden rounded-2xl p-6"
-          style={{ background: "linear-gradient(135deg, hsl(240 12% 5%) 0%, hsl(240 30% 10%) 100%)" }}
-        >
-          <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-display text-[11px] text-accent mb-3">
-            MAÑANA
-          </span>
-          <h2 className="font-display text-xl text-foreground mb-1">Arrancar con energía</h2>
-          <p className="font-body text-sm text-muted-foreground mb-6">7 min · Intensidad media</p>
-          <div className="flex justify-end">
-            <Link
-              to="/player/arrancar-energia"
-              className="animate-pulse-cta inline-flex items-center rounded-full bg-primary px-6 py-2.5 font-display text-sm text-primary-foreground"
-            >
-              COMENZAR
-            </Link>
+      {recommended && (
+        <section className="mb-8">
+          <div
+            className="card-body relative overflow-hidden rounded-2xl p-6"
+            style={{ background: "linear-gradient(135deg, hsl(240 12% 5%) 0%, hsl(240 30% 10%) 100%)" }}
+          >
+            <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-display text-[11px] text-accent mb-3">
+              {timeLabel}
+            </span>
+            <h2 className="font-display text-xl text-foreground mb-1">{recommended.display_name}</h2>
+            <p className="font-body text-sm text-muted-foreground mb-6">
+              {recommended.duration_estimated} · Intensidad {recommended.intensity}
+            </p>
+            <div className="flex justify-end">
+              <Link
+                to={`/player/${recommended.id}`}
+                className="animate-pulse-cta inline-flex items-center rounded-full bg-primary px-6 py-2.5 font-display text-sm text-primary-foreground"
+              >
+                COMENZAR
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Programs */}
-      <section className="mb-8">
-        <h3 className="font-display text-base text-muted-foreground mb-4">PROGRAMAS</h3>
-        <div className="flex gap-3 overflow-x-auto scrollbar-hide stagger-children">
-          {[
-            { name: "NEW TO BODY", desc: "Tu introducción al método", progress: "Nuevo" },
-            { name: "DORMIR MEJOR", desc: "Protocolo de 7 días para descanso profundo", progress: "Día 3 de 7" },
-            { name: "RESET TOTAL", desc: "Reinicia tu sistema nervioso", progress: "Nuevo" },
-          ].map((prog, i) => (
-            <Link
-              to={`/programa/${i + 1}`}
-              key={i}
-              className="card-body flex-shrink-0 w-60 rounded-2xl p-5"
-            >
-              <h4 className="font-display text-lg text-foreground mb-1">{prog.name}</h4>
-              <p className="font-body text-[13px] text-muted-foreground line-clamp-2 mb-3">{prog.desc}</p>
-              <span className="inline-block rounded-full bg-primary/10 px-3 py-1 font-display text-[11px] text-accent">
-                {prog.progress}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {programs && programs.length > 0 && (
+        <section className="mb-8">
+          <h3 className="font-display text-base text-muted-foreground mb-4">PROGRAMAS</h3>
+          <div className="flex gap-3 overflow-x-auto scrollbar-hide stagger-children">
+            {programs.map((prog) => {
+              const progress = allProgress?.find((p) => p.program_id === prog.id);
+              const progressLabel = progress
+                ? `Día ${progress.current_day} de ${prog.max_days}`
+                : "Nuevo";
+              return (
+                <Link
+                  to={`/programa/${prog.id}`}
+                  key={prog.id}
+                  className="card-body flex-shrink-0 w-60 rounded-2xl p-5"
+                >
+                  <h4 className="font-display text-lg text-foreground mb-1">{prog.name}</h4>
+                  <p className="font-body text-[13px] text-muted-foreground line-clamp-2 mb-3">{prog.description}</p>
+                  <span className="inline-block rounded-full bg-primary/10 px-3 py-1 font-display text-[11px] text-accent">
+                    {progressLabel}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Explore */}
       <section className="mb-8">
         <h3 className="font-display text-base text-muted-foreground mb-4">EXPLORA</h3>
         <div className="stagger-children space-y-3">
           {[
-            { name: "RESPIRACIÓN", icon: Wind, gradient: "var(--gradient-ice)" },
-            { name: "FRÍO", icon: Snowflake, gradient: "var(--gradient-ice)" },
-            { name: "CALOR", icon: Flame, gradient: "var(--gradient-fire)" },
-          ].map(({ name, icon: Icon, gradient }, i) => (
+            { name: "RESPIRACIÓN", icon: Wind, gradient: "var(--gradient-ice)", to: "/respirar" },
+            { name: "FRÍO", icon: Snowflake, gradient: "var(--gradient-ice)", to: "/sesion" },
+            { name: "CALOR", icon: Flame, gradient: "var(--gradient-fire)", to: "/sesion" },
+          ].map(({ name, icon: Icon, gradient, to }, i) => (
             <Link
-              to={name === "RESPIRACIÓN" ? "/respirar" : "/sesion"}
+              to={to}
               key={i}
               className="card-body flex items-center justify-between rounded-xl p-5"
               style={{ background: gradient }}

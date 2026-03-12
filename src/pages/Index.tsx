@@ -100,6 +100,13 @@ const Index = () => {
     reset: "bg-emerald-400/10 text-emerald-400",
   };
 
+  const intentionGradients: Record<string, string> = {
+    energia: "linear-gradient(90deg, #f59e0b 0%, #ef4444 100%)",
+    calma: "linear-gradient(90deg, #60a5fa 0%, #a78bfa 100%)",
+    dormir: "linear-gradient(90deg, #818cf8 0%, #c084fc 100%)",
+    reset: "linear-gradient(90deg, #34d399 0%, #22d3ee 100%)",
+  };
+
   const intentionImages: Record<string, string> = {
     energia: ritualEnergia,
     reset: ritualReset,

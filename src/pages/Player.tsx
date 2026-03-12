@@ -151,19 +151,15 @@ const Player = () => {
       </p>
       <p className="font-body text-sm text-muted-foreground mb-12">Respira con Lore</p>
 
-      {/* Breathing Circle — THE STAR */}
-      <div
-        className={`breathing-circle mb-8 transition-all duration-300 ${phaseClass} ${exiting ? "opacity-0 scale-95" : ""}`}
-        style={{
-          "--cycle-duration": `${cycleDuration}s`,
-          "--phase-duration": `${currentPhaseDuration}s`,
-        } as React.CSSProperties}
-      >
-        <div className="breathing-ring breathing-ring--outer" />
-        <div className="breathing-ring breathing-ring--middle" />
-        <div className="breathing-ring breathing-ring--inner" />
-        <div className="breathing-glow" />
-      </div>
+      {/* 3D Breathing Sphere */}
+      <Suspense fallback={<div className="w-[260px] h-[260px] flex items-center justify-center"><div className="h-6 w-6 rounded-full border-2 border-primary border-t-transparent animate-spin" /></div>}>
+        <BreathingSphere3D
+          phase={currentPhaseName}
+          isPlaying={isVisualPlaying}
+          phaseDuration={currentPhaseDuration}
+          className={`mb-8 transition-opacity duration-300 ${exiting ? "opacity-0" : ""}`}
+        />
+      </Suspense>
 
       {/* Progress bar */}
       <div className="w-full max-w-xs mb-8">

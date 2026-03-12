@@ -138,7 +138,7 @@ const Index = () => {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 mb-2">
               <Icon size={16} weight="duotone" className="text-accent" />
             </div>
-            <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-4xl" : "font-display text-4xl text-foreground"}>
+            <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-4xl font-light" : "font-display text-4xl text-foreground font-light"}>
               {value}
             </p>
             <p className="font-body text-[11px] text-muted-foreground mt-1">{label}</p>
@@ -153,9 +153,11 @@ const Index = () => {
           alt="Bodhi ice bath"
           className="w-full h-56 sm:h-72 object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-        <div className="absolute bottom-4 left-5 right-5">
-          <p className="font-display text-lg text-foreground">Regulación · Recuperación · Bienestar</p>
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <p className="font-display text-lg sm:text-xl text-foreground/90 tracking-wide text-center drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] backdrop-blur-[2px] bg-background/10 rounded-full px-6 py-2">
+            Regulación · Recuperación · Bienestar
+          </p>
         </div>
       </div>
 

@@ -76,6 +76,7 @@ export const useSaveSession = () => {
       practice_id: string;
       practice_name: string;
       duration_seconds: number;
+      estimated_duration_seconds?: number;
       feeling?: string;
       ice_duration_minutes?: number;
       temperature?: string;

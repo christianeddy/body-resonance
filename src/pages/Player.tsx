@@ -188,13 +188,6 @@ const Player = () => {
         <div className="w-6" />
       </div>
 
-      {/* Complete button */}
-      <button
-        onClick={handleComplete}
-        className="mt-16 font-body text-xs text-muted-foreground hover:text-foreground transition-colors border border-border rounded-lg px-4 py-2.5"
-      >
-        Terminar sesión
-      </button>
     </div>
   );
 };

@@ -7,6 +7,57 @@ import { useSessionStats } from "@/hooks/useSessions";
 import { usePractices } from "@/hooks/usePractices";
 import { usePrograms, useAllProgramProgress } from "@/hooks/usePrograms";
 
+const MOOD_TO_INTENTION: Record<string, string> = {
+  energia: "energia",
+  calma: "calma",
+  reset: "reset",
+  enfoque: "energia", // maps to energia until enfoque intention exists
+  dormir: "dormir",
+};
+
+const MoodPractices = ({ intention }: { intention: string }) => {
+  const mappedIntention = MOOD_TO_INTENTION[intention] ?? intention;
+  const { data: practices, isLoading } = usePractices("respiracion", mappedIntention);
+
+  if (isLoading) {
+    return (
+      <div className="mt-4 space-y-2">
+        {[1, 2].map((i) => (
+          <div key={i} className="card-body rounded-xl p-4 h-16 animate-pulse" />
+        ))}
+      </div>
+    );
+  }
+
+  if (!practices || practices.length === 0) {
+    return (
+      <p className="mt-4 font-body text-sm text-muted-foreground text-center py-3">
+        No hay prácticas para esta intención aún
+      </p>
+    );
+  }
+
+  return (
+    <div className="mt-4 space-y-2 stagger-children">
+      {practices.map((p) => (
+        <Link
+          to={`/practica/${p.id}`}
+          key={p.id}
+          className="card-body flex items-center gap-4 rounded-xl px-5 py-4"
+        >
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+            <ArrowsClockwise size={16} weight="duotone" className="text-accent" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h4 className="font-display text-base text-foreground">{p.display_name}</h4>
+            <p className="font-body text-xs text-muted-foreground mt-0.5">{p.duration_estimated}</p>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+};
+
 const Index = () => {
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const { profile } = useAuth();
@@ -114,30 +165,35 @@ const Index = () => {
 
       {/* ¿Cómo te sientes hoy? */}
       <section className="mb-8">
-        <h3 className="font-display text-base text-muted-foreground mb-4">¿Cómo te sientes hoy?</h3>
-        <div className="grid grid-cols-5 gap-2">
+        <h3 className="font-display text-xs uppercase tracking-widest text-muted-foreground mb-4">Cómo te sientes hoy</h3>
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {[
-            { id: "energia", label: "Energía", icon: Lightning, iconBg: "bg-amber-500/20", iconCls: "text-amber-400" },
-            { id: "calma", label: "Calma", icon: Heart, iconBg: "bg-blue-400/20", iconCls: "text-blue-400" },
-            { id: "reset", label: "Soltar", icon: ArrowsClockwise, iconBg: "bg-emerald-500/20", iconCls: "text-emerald-400" },
-            { id: "enfoque", label: "Enfoque", icon: Brain, iconBg: "bg-violet-500/20", iconCls: "text-violet-400" },
-            { id: "dormir", label: "Dormir", icon: Bed, iconBg: "bg-indigo-500/20", iconCls: "text-indigo-400" },
+            { id: "energia", label: "Necesito energía", icon: Lightning, iconBg: "bg-amber-500/20", iconCls: "text-amber-400" },
+            { id: "calma", label: "Necesito calma", icon: Heart, iconBg: "bg-blue-400/20", iconCls: "text-blue-400" },
+            { id: "reset", label: "Quiero soltar\ntensión", icon: ArrowsClockwise, iconBg: "bg-emerald-500/20", iconCls: "text-emerald-400" },
+            { id: "enfoque", label: "Quiero enfocarme", icon: Brain, iconBg: "bg-violet-500/20", iconCls: "text-violet-400" },
+            { id: "dormir", label: "Quiero dormir", icon: Bed, iconBg: "bg-indigo-500/20", iconCls: "text-indigo-400" },
           ].map(({ id, label, icon: Icon, iconBg, iconCls }) => (
             <button
               key={id}
               type="button"
               onClick={() => setSelectedMood(selectedMood === id ? null : id)}
-              className={`card-body flex flex-col items-center gap-2 rounded-xl px-2 py-3 transition-all duration-200 border ${
+              className={`card-body flex flex-col items-start gap-2 rounded-xl px-3 py-3 min-w-[110px] flex-shrink-0 transition-all duration-200 border ${
                 selectedMood === id ? "border-primary ring-2 ring-primary/20" : "border-border"
               }`}
             >
               <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${iconBg}`}>
                 <Icon size={18} weight="duotone" className={iconCls} />
               </div>
-              <span className="font-body text-[11px] text-foreground text-center leading-tight">{label}</span>
+              <span className="font-body text-[11px] text-foreground text-left leading-tight whitespace-pre-line">{label}</span>
             </button>
           ))}
         </div>
+
+        {/* Mood-filtered practices */}
+        {selectedMood && (
+          <MoodPractices intention={selectedMood} />
+        )}
       </section>
 
       {/* Programs */}

@@ -1,0 +1,1 @@
+ALTER TABLE public.sessions ADD COLUMN estimated_duration_seconds integer NULL;

@@ -1,6 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { House, Wind, Thermometer, UserCircle, Sun, Moon } from "@phosphor-icons/react";
-import { useTheme } from "next-themes";
+import { House, Wind, Thermometer, UserCircle } from "@phosphor-icons/react";
 
 const tabs = [
   { to: "/", label: "Inicio", icon: House },
@@ -10,7 +9,6 @@ const tabs = [
 ];
 
 export const BottomNav = () => {
-  const { theme, setTheme } = useTheme();
   const location = useLocation();
 
   return (
@@ -20,16 +18,13 @@ export const BottomNav = () => {
         style={{
           backdropFilter: "blur(24px) saturate(1.4)",
           WebkitBackdropFilter: "blur(24px) saturate(1.4)",
-          boxShadow:
-            "var(--shadow-card), var(--shadow-inner-glow)",
+          boxShadow: "var(--shadow-card), var(--shadow-inner-glow)",
         }}
       >
         <div className="flex items-center justify-around">
           {tabs.map(({ to, label, icon: Icon }) => {
             const isActive =
-              to === "/"
-                ? location.pathname === "/"
-                : location.pathname.startsWith(to);
+              to === "/" ? location.pathname === "/" : location.pathname.startsWith(to);
 
             return (
               <NavLink
@@ -62,20 +57,6 @@ export const BottomNav = () => {
               </NavLink>
             );
           })}
-          {/* Theme toggle */}
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="group relative flex flex-col items-center gap-1 px-4 py-1.5 transition-all duration-200"
-          >
-            {theme === "dark" ? (
-              <Sun size={22} weight="duotone" className="text-muted-foreground group-hover:text-foreground/70 transition-colors duration-200" />
-            ) : (
-              <Moon size={22} weight="duotone" className="text-muted-foreground group-hover:text-foreground/70 transition-colors duration-200" />
-            )}
-            <span className="font-body text-[10px] tracking-wide text-muted-foreground group-hover:text-foreground/70 transition-colors duration-200">
-              {theme === "dark" ? "Claro" : "Oscuro"}
-            </span>
-          </button>
         </div>
       </div>
     </nav>

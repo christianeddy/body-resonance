@@ -156,7 +156,7 @@ const Index = () => {
             <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-display text-[11px] text-accent mb-3">
               {timeLabel}
             </span>
-            <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-2">{recommended.display_name}</h2>
+            <h2 className="font-display text-2xl text-foreground mb-2">{recommended.display_name}</h2>
             {recommended.intention && (
               <span className={`inline-block rounded-full px-3 py-1 font-display text-[11px] mb-3 ${intentionColors[recommended.intention] ?? "bg-accent/10 text-accent"}`}>
                 {intentionLabel[recommended.intention] ?? recommended.intention}
@@ -179,7 +179,7 @@ const Index = () => {
 
       {/* ¿Cómo te sientes hoy? */}
       <section className="mb-8">
-        <h3 className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">Cómo te sientes hoy</h3>
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">Cómo te sientes hoy</h3>
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {[
             { id: "energia", label: "Necesito energía", icon: Lightning, iconBg: "bg-amber-500/20", iconCls: "text-amber-400" },
@@ -212,7 +212,7 @@ const Index = () => {
 
       {/* Programs */}
       <section className="mb-8">
-        <h3 className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">Programas</h3>
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">Programas</h3>
         {programs && programs.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-thin stagger-children">
             {programs.map((prog) => {
@@ -245,7 +245,7 @@ const Index = () => {
 
       {/* Explore */}
       <section className="mb-8">
-        <h3 className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">Explora</h3>
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">Explora</h3>
         <div className="stagger-children space-y-3">
           {[
             { name: "Respiración", description: "Técnicas guiadas", icon: Wind, gradient: "var(--gradient-ice)", to: "/respirar", isHeat: false },

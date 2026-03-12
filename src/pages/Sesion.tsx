@@ -96,7 +96,7 @@ const Sesion = () => {
         </div>
       )}
 
-      <h2 className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
+      <h2 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">
         Protocolo Bodhi para {activeTab === "hielo" ? "frío" : "sauna"}
       </h2>
 
@@ -145,7 +145,7 @@ const Sesion = () => {
       )}
 
       {/* Aprende sobre — siempre visible */}
-      <h2 className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">
+      <h2 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">
         Aprende sobre el {activeTab === "hielo" ? "frío" : "calor"}
       </h2>
       <div className="space-y-3">

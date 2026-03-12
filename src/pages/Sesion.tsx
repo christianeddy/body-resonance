@@ -52,59 +52,9 @@ const Sesion = () => {
 
   return (
     <PageTransition>
-      <h1 className="font-display text-3xl text-foreground pt-14 pb-6">Sesión</h1>
-
-      {/* Tabs */}
-      <div className="flex gap-6 mb-8 border-b border-border">
-        {(["hielo", "calor"] as Tab[]).map((tab) => {
-          const isFrio = tab === "hielo";
-          const Icon = isFrio ? Snowflake : Fire;
-          return (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`pb-3 font-display text-sm relative flex items-center gap-2 ${
-                activeTab === tab ? "text-foreground" : "text-muted-foreground"
-              }`}
-            >
-              <span
-                className="inline-block font-semibold"
-                style={{
-                  background: isFrio
-                    ? "linear-gradient(90deg, #22d3ee, #818cf8)"
-                    : "linear-gradient(90deg, #f59e0b, #ef4444)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: activeTab === tab ? "transparent" : undefined,
-                }}
-              >
-                {isFrio ? "Frío" : "Calor"}
-              </span>
-              <Icon
-                key={activeTab === tab ? `${tab}-active` : tab}
-                size={16}
-                weight="duotone"
-                className={`transition-transform duration-500 ${isFrio ? "text-cyan-400" : "text-orange-400"} ${
-                  activeTab === tab
-                    ? isFrio
-                      ? "animate-[wiggle_0.6s_ease-in-out]"
-                      : "animate-[flicker_0.6s_ease-in-out]"
-                    : ""
-                }`}
-              />
-              {activeTab === tab && (
-                <div
-                  className="absolute bottom-0 left-0 right-0 h-0.5"
-                  style={{
-                    background: isFrio
-                      ? "linear-gradient(90deg, #22d3ee, #818cf8)"
-                      : "linear-gradient(90deg, #f59e0b, #ef4444)",
-                  }}
-                />
-              )}
-            </button>
-          );
-        })}
-      </div>
+      <h1 className="font-display text-2xl text-foreground pt-14 pb-6">
+        {activeTab === "hielo" ? "Frío" : "Calor"}
+      </h1>
 
       {/* Hero image */}
       {activeTab === "hielo" && (

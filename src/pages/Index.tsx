@@ -3,6 +3,10 @@ import { useState } from "react";
 import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed } from "@phosphor-icons/react";
 import heroHome from "@/assets/hero-home.png";
 import ritualEnergia from "@/assets/ritual-energia.png";
+// TODO: add unique images for each intention
+import ritualReset from "@/assets/ritual-energia.png"; // placeholder
+import ritualCalma from "@/assets/ritual-energia.png"; // placeholder
+import ritualDormir from "@/assets/ritual-energia.png"; // placeholder
 import { Link } from "react-router-dom";
 
 import { useAuth } from "@/hooks/useAuth";

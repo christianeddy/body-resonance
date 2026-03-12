@@ -52,9 +52,6 @@ const Perfil = () => {
         </div>
         <div>
           <h1 className="font-display text-xl text-foreground">{displayName}</h1>
-          <span className="inline-block rounded-full bg-primary/10 px-3 py-0.5 font-display text-[11px] text-accent mt-1">
-            {profileLabel}
-          </span>
         </div>
       </div>
 

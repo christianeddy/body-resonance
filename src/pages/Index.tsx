@@ -1,4 +1,6 @@
 import { PageTransition } from "@/components/layout/PageTransition";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed, Snowflake, Sun } from "@phosphor-icons/react";
 import ritualEnergia from "@/assets/ritual-energia.png";

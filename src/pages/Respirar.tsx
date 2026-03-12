@@ -1,49 +1,90 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { PageTransition } from "@/components/layout/PageTransition";
-import { Heart, CaretRight } from "@phosphor-icons/react";
+import { Heart, MagnifyingGlass, Wind } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
-import { usePractices } from "@/hooks/usePractices";
 import { useFavorites, useToggleFavorite } from "@/hooks/useFavorites";
-import heroRespiracion from "@/assets/hero-respiracion.png";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import type { Practice } from "@/hooks/usePractices";
 
-const filters = ["Todas", "Energía", "Calma", "Reset", "Dormir"];
+const intentionFilters = ["Todas", "Energía", "Calma", "Enfoque", "Reset", "Dormir", "Hielo", "Sauna"];
+const durationFilters = ["Duración", "3 min", "5 min", "10 min"];
+
+const filterToCategory: Record<string, string | undefined> = {
+  Hielo: "hielo",
+  Sauna: "calor",
+};
 const filterToIntention: Record<string, string | undefined> = {
-  Todas: undefined,
   Energía: "energia",
   Calma: "calma",
+  Enfoque: "enfoque",
   Reset: "reset",
   Dormir: "dormir",
 };
 
-const intensityToLevel = (i: string | null) => {
-  if (i === "baja") return 1;
-  if (i === "media") return 2;
-  if (i === "media-alta") return 3;
-  if (i === "alta") return 3;
-  return 1;
+const labelForPractice = (p: Practice) => {
+  if (p.category === "hielo") return "Hielo";
+  if (p.category === "calor") return "Sauna";
+  if (p.intention) {
+    const map: Record<string, string> = { energia: "Energía", calma: "Calma", reset: "Reset", dormir: "Dormir", enfoque: "Enfoque" };
+    return map[p.intention] || p.intention;
+  }
+  return p.category;
 };
-
-const IntensityBars = ({ level }: { level: number }) => (
-  <div className="flex gap-0.5">
-    {[1, 2, 3].map((i) => (
-      <div
-        key={i}
-        className={`h-3 w-1 rounded-full ${
-          i <= level ? "bg-primary" : "bg-muted"
-        }`}
-      />
-    ))}
-  </div>
-);
 
 const Respirar = () => {
   const [activeFilter, setActiveFilter] = useState("Todas");
+  const [activeDuration, setActiveDuration] = useState("Duración");
+  const [search, setSearch] = useState("");
   const [bouncing, setBouncing] = useState<string | null>(null);
 
-  const intention = filterToIntention[activeFilter];
-  const { data: practices, isLoading } = usePractices("respiracion", intention);
+  const { data: allPractices, isLoading } = useQuery({
+    queryKey: ["all-practices"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("practices")
+        .select("*")
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return data as Practice[];
+    },
+  });
+
   const { data: favorites } = useFavorites();
   const toggleFav = useToggleFavorite();
+
+  const filtered = useMemo(() => {
+    if (!allPractices) return [];
+    let list = allPractices;
+
+    // Intention / category filter
+    if (activeFilter !== "Todas") {
+      const cat = filterToCategory[activeFilter];
+      const int = filterToIntention[activeFilter];
+      if (cat) {
+        list = list.filter((p) => p.category === cat);
+      } else if (int) {
+        list = list.filter((p) => p.intention === int);
+      }
+    }
+
+    // Duration filter
+    if (activeDuration !== "Duración") {
+      const mins = parseInt(activeDuration);
+      list = list.filter((p) => {
+        if (!p.duration_estimated) return false;
+        return p.duration_estimated.includes(String(mins));
+      });
+    }
+
+    // Search
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      list = list.filter((p) => p.display_name.toLowerCase().includes(q));
+    }
+
+    return list;
+  }, [allPractices, activeFilter, activeDuration, search]);
 
   const handleToggleFav = (id: string) => {
     setBouncing(id);
@@ -54,27 +95,49 @@ const Respirar = () => {
 
   return (
     <PageTransition>
-      <h1 className="font-display text-3xl text-foreground pt-14 pb-6">Respirar</h1>
+      {/* Header */}
+      <h1 className="font-display text-3xl text-foreground pt-14">Respirar</h1>
+      <p className="font-body text-sm text-muted-foreground mt-1 mb-5">Descubre tu práctica ideal</p>
 
-      {/* Hero */}
-      <div className="relative rounded-2xl overflow-hidden mb-6">
-        <img src={heroRespiracion} alt="Respiración guiada Bodhi" className="w-full h-52 object-cover animate-[heroZoom_1.2s_cubic-bezier(0.22,1,0.36,1)_forwards]" style={{ objectPosition: '50% 30%' }} />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-        <p className="absolute bottom-3 left-4 right-4 font-body text-sm text-foreground/90">
-          La respiración es tu herramienta más accesible para regular tu estado interno.
-        </p>
+      {/* Search */}
+      <div className="relative mb-5">
+        <MagnifyingGlass size={18} weight="regular" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+        <input
+          type="text"
+          placeholder="Buscar práctica…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full rounded-xl bg-card border border-border/40 py-3 pl-10 pr-4 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/40"
+        />
       </div>
 
-      {/* Filters */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide mb-6">
-        {filters.map((f) => (
+      {/* Intention filters */}
+      <div className="flex gap-2 overflow-x-auto scrollbar-hide mb-3">
+        {intentionFilters.map((f) => (
           <button
             key={f}
             onClick={() => setActiveFilter(f)}
             className={`flex-shrink-0 rounded-full px-4 py-2 font-display text-xs transition-all duration-200 ${
               activeFilter === f
                 ? "bg-primary text-primary-foreground"
-                : "border border-[hsl(0_0%_100%/0.12)] text-muted-foreground hover:text-foreground"
+                : "border border-border/40 text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {f}
+          </button>
+        ))}
+      </div>
+
+      {/* Duration filters */}
+      <div className="flex gap-2 overflow-x-auto scrollbar-hide mb-6">
+        {durationFilters.map((f) => (
+          <button
+            key={f}
+            onClick={() => setActiveDuration(f === activeDuration ? "Duración" : f)}
+            className={`flex-shrink-0 rounded-full px-4 py-2 font-display text-xs transition-all duration-200 ${
+              activeDuration === f
+                ? "bg-primary text-primary-foreground"
+                : "border border-border/40 text-muted-foreground hover:text-foreground"
             }`}
           >
             {f}
@@ -85,26 +148,39 @@ const Respirar = () => {
       {/* Practice List */}
       {isLoading ? (
         <div className="space-y-3">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="card-body rounded-xl p-4 h-16 animate-pulse" />
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="rounded-xl bg-card p-4 h-[68px] animate-pulse" />
           ))}
         </div>
       ) : (
         <div className="stagger-children space-y-3">
-          {practices?.map((p) => (
-            <div key={p.id} className="card-body flex items-center gap-4 rounded-xl p-4">
-              <div className="flex-1 min-w-0">
-                <Link to={`/practica/${p.id}`} className="block">
-                  <p className="font-body text-base font-medium text-foreground truncate">{p.display_name}</p>
-                  <p className="font-body text-sm text-muted-foreground mt-0.5">
-                    {p.duration_estimated} · {p.intensity}
-                  </p>
-                </Link>
+          {filtered.map((p) => (
+            <Link
+              key={p.id}
+              to={`/practica/${p.id}`}
+              className="flex items-center gap-4 rounded-xl bg-card border border-border/20 p-4 transition-colors hover:bg-card/80"
+            >
+              {/* Breathing icon */}
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                <Wind size={20} weight="duotone" className="text-primary" />
               </div>
-              <IntensityBars level={intensityToLevel(p.intensity)} />
+
+              {/* Info */}
+              <div className="flex-1 min-w-0">
+                <p className="font-body text-base font-medium text-foreground truncate">{p.display_name}</p>
+                <p className="font-body text-sm text-muted-foreground mt-0.5">
+                  {labelForPractice(p)} · {p.duration_estimated}
+                </p>
+              </div>
+
+              {/* Favorite */}
               <button
-                onClick={() => handleToggleFav(p.id)}
-                className={bouncing === p.id ? "animate-bounce-fav" : ""}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleToggleFav(p.id);
+                }}
+                className={`flex-shrink-0 ${bouncing === p.id ? "animate-bounce-fav" : ""}`}
               >
                 <Heart
                   size={20}
@@ -112,11 +188,14 @@ const Respirar = () => {
                   className={favorites?.includes(p.id) ? "fill-primary text-primary" : "text-muted-foreground"}
                 />
               </button>
-              <Link to={`/practica/${p.id}`}>
-                <CaretRight size={20} weight="duotone" className="text-muted-foreground" />
-              </Link>
-            </div>
+            </Link>
           ))}
+
+          {filtered.length === 0 && (
+            <p className="text-center text-muted-foreground font-body text-sm py-8">
+              No se encontraron prácticas
+            </p>
+          )}
         </div>
       )}
     </PageTransition>

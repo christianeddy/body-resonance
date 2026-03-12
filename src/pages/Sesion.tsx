@@ -1,5 +1,5 @@
 import { PageTransition } from "@/components/layout/PageTransition";
-import { CaretRight, Thermometer, Fire, Heart, Clock, Snowflake } from "@phosphor-icons/react";
+import { CaretRight, Thermometer, Fire, Heart, Clock, Snowflake, Lock } from "@phosphor-icons/react";
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { usePractices } from "@/hooks/usePractices";

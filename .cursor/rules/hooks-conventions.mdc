@@ -1,0 +1,171 @@
+---
+description: Convenciones de hooks con TanStack Query v5 y Supabase en Body Resonance
+globs: src/hooks/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Convenciones de Hooks — Body Resonance
+
+Stack: **TanStack Query v5** + **Supabase JS v2** + **TypeScript**.
+
+## Estructura de un hook de datos
+
+```ts
+// src/hooks/useEjemplo.ts
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+
+export function useEjemplos() {
+  const { user } = useAuth();
+
+  return useQuery({
+    queryKey: ["ejemplos", user?.id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("ejemplos")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!user,  // ← siempre para queries autenticados
+  });
+}
+```
+
+## Reglas obligatorias
+
+### 1. `enabled: !!user` en queries autenticados
+
+```ts
+// ✅ CORRECTO — no lanza query hasta tener user
+useQuery({
+  queryKey: ["sessions", user?.id],
+  queryFn: fetchSessions,
+  enabled: !!user,
+});
+
+// ❌ INCORRECTO — puede lanzar query sin autenticar
+useQuery({
+  queryKey: ["sessions"],
+  queryFn: fetchSessions,
+});
+```
+
+### 2. `queryKey` siempre incluye el `user.id`
+
+```ts
+// ✅ — datos distintos por usuario
+queryKey: ["favorites", user?.id]
+
+// ❌ — todos los usuarios comparten el mismo cache
+queryKey: ["favorites"]
+```
+
+### 3. Parámetros de filtro en el queryKey
+
+```ts
+// ✅ — queryKey dinámico refleja los filtros aplicados
+export function usePractices(category?: string, intention?: string) {
+  return useQuery({
+    queryKey: ["practices", category, intention],
+    queryFn: () => fetchPractices(category, intention),
+  });
+}
+```
+
+### 4. Fetch individual con `enabled: !!id`
+
+```ts
+export function usePractice(id?: string) {
+  return useQuery({
+    queryKey: ["practice", id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("practices")
+        .select("*")
+        .eq("id", id!)
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!id,
+  });
+}
+```
+
+## Mutations — patrón con invalidación
+
+```ts
+export function useSaveSession() {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+
+  return useMutation({
+    mutationFn: async (sessionData: SessionInput) => {
+      const { data, error } = await supabase
+        .from("sessions")
+        .insert({ ...sessionData, user_id: user!.id })
+        .select()
+        .single();
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      // Invalidar queries relacionados tras éxito
+      queryClient.invalidateQueries({ queryKey: ["sessions"] });
+      queryClient.invalidateQueries({ queryKey: ["session-stats"] });
+    },
+  });
+}
+```
+
+## Toggle mutation (insert/delete)
+
+```ts
+// Patrón usado en useFavorites — toggle sin estado local
+mutationFn: async (practiceId: string) => {
+  const isAlreadySaved = favorites.includes(practiceId);
+
+  if (isAlreadySaved) {
+    const { error } = await supabase
+      .from("saved_practices")
+      .delete()
+      .eq("user_id", user!.id)
+      .eq("practice_id", practiceId);
+    if (error) throw error;
+  } else {
+    const { error } = await supabase
+      .from("saved_practices")
+      .insert({ user_id: user!.id, practice_id: practiceId });
+    if (error) throw error;
+  }
+},
+```
+
+## Acceso a Supabase
+
+Siempre importar el cliente tipado:
+
+```ts
+import { supabase } from "@/integrations/supabase/client";
+```
+
+Los tipos de la BD están en `@/integrations/supabase/types`. Usar `Database["public"]["Tables"]["nombre"]["Row"]` para tipar resultados.
+
+## Hooks de Auth
+
+Usar `useAuth()` para acceder a `user`, `session`, `profile`, `loading`:
+
+```ts
+import { useAuth } from "@/hooks/useAuth";
+
+const { user, profile, loading } = useAuth();
+
+// profile.onboarding_completed — boolean
+// profile.user_profile — segmentación del usuario
+```
+
+No llamar `supabase.auth.getUser()` directamente en componentes; usar el contexto.

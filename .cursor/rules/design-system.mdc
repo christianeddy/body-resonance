@@ -1,0 +1,99 @@
+---
+description: Design system tokens, CSS custom classes y animaciones de Body Resonance
+globs: **/*.{tsx,ts,css}
+alwaysApply: false
+---
+
+# Design System — Body Resonance
+
+App **siempre oscura** (dark-only). No hay modo light. No usar `dark:` prefixes.
+
+## Tokens CSS — Variables de `index.css`
+
+| Token | Valor | Uso |
+|---|---|---|
+| `--background` | `240 10% 2%` | Fondo base negro profundo |
+| `--card` | `240 12% 5%` | Superficies de tarjetas |
+| `--primary` | `221 83% 53%` | Azul principal, CTAs |
+| `--accent` | `213 94% 68%` | Azul claro, highlights |
+| `--success` | `160 60% 52%` | Verde, estados completados |
+| `--muted-foreground` | `240 4% 56%` | Texto secundario |
+| `--surface-elevated` | `240 15% 6%` | Superficies elevadas |
+| `--surface-hover` | `240 15% 8%` | Estado hover |
+
+### Gradientes semánticos
+
+```css
+/* Usa variables, no valores hardcodeados */
+background: var(--gradient-card);    /* sutil oscuro → más oscuro */
+background: var(--gradient-accent);  /* azul → azul claro */
+background: var(--gradient-ice);     /* overlay frío, 10% opacidad */
+background: var(--gradient-fire);    /* overlay cálido, 10% opacidad */
+```
+
+## Clases Tailwind custom
+
+### `.font-display` y `.font-body`
+
+```tsx
+// Tipografía display: Barlow Condensed — uppercase, tracking-wide
+<h1 className="font-display text-2xl uppercase tracking-widest">SESIONES</h1>
+
+// Tipografía body: DM Sans — uso general
+<p className="font-body text-sm text-muted-foreground">Descripción</p>
+```
+
+### `.card-body`
+
+Clase utilitaria para contenido interno de cards con padding y gap estándar.
+
+```tsx
+// ✅ CORRECTO
+<div className="card-body">
+  <h3>Título</h3>
+  <p>Contenido</p>
+</div>
+
+// ❌ EVITAR — padding manual inconsistente
+<div className="p-4 space-y-2">...</div>
+```
+
+### `.stagger-children`
+
+Aplica animación escalonada a los hijos directos con `stagger-in`.
+
+```tsx
+// ✅ En listas o grids de cards
+<div className="stagger-children grid gap-3">
+  {items.map(item => <Card key={item.id} />)}
+</div>
+```
+
+### `.breathing-circle` / animación `breathe-ring`
+
+Para el componente de respiración guiada en `/respirar`.
+
+```tsx
+<div className="breathing-circle animate-[breathe-ring_4s_ease-in-out_infinite]" />
+```
+
+## Animaciones disponibles
+
+| Clase | Descripción |
+|---|---|
+| `animate-fade-slide-in` | Entrada suave 200ms — usado en PageTransition |
+| `animate-pulse-cta` | Pulso 3s para botones CTA |
+| `animate-[breathe-ring_...]` | Expansión rítmica para círculo respiración |
+
+## Sombras y bordes
+
+```tsx
+// Borde sutil entre elementos
+className="border-[hsl(0_0%_100%/0.06)]"
+
+// Sombra de card estándar
+style={{ boxShadow: 'var(--shadow-card)' }}
+
+// Glow de acento azul
+style={{ boxShadow: 'var(--shadow-accent-glow)' }}
+```

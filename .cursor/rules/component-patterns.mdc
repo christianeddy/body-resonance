@@ -1,0 +1,125 @@
+---
+description: Patrones de componentes React — PageTransition, MobileShell y estructura de páginas
+globs: src/**/*.tsx
+alwaysApply: false
+---
+
+# Patrones de Componentes — Body Resonance
+
+## Estructura de una página
+
+Toda página en `src/pages/` sigue esta estructura:
+
+```tsx
+// ✅ PATRÓN CORRECTO
+export default function MiPagina() {
+  return (
+    <PageTransition>
+      <header className="pt-safe px-5 pb-4">
+        <h1 className="font-display text-2xl uppercase tracking-widest">
+          TÍTULO
+        </h1>
+      </header>
+
+      <section className="space-y-3 px-5">
+        {/* contenido */}
+      </section>
+    </PageTransition>
+  );
+}
+```
+
+### `PageTransition` — siempre como wrapper de página
+
+- Aplica `animate-fade-slide-in` (200ms) + `px-5` padding horizontal
+- **Siempre** wrappear el contenido completo de cada página
+- No añadir `px-5` extra al hijo directo si ya lo provee `PageTransition`
+
+```tsx
+import { PageTransition } from "@/components/layout/PageTransition";
+
+// ✅ CORRECTO — PageTransition es el root del return
+return (
+  <PageTransition>
+    <div>...</div>
+  </PageTransition>
+);
+
+// ❌ INCORRECTO — sin PageTransition no hay transición de entrada
+return (
+  <div className="px-5">...</div>
+);
+```
+
+### `MobileShell` — solo en el Router, nunca dentro de páginas
+
+`MobileShell` es el layout shell del router (`Outlet` + `BottomNav`). No importarlo dentro de páginas.
+
+```tsx
+// src/App.tsx — uso correcto en el router
+<Route element={<MobileShell />}>
+  <Route path="/" element={<Index />} />
+  <Route path="/sesion" element={<Sesion />} />
+</Route>
+```
+
+## Estructura de componentes UI
+
+### Cards
+
+```tsx
+// ✅ Usa bg-card con bordes sutiles y rounded-xl estándar
+<div className="bg-card rounded-xl border border-[hsl(0_0%_100%/0.06)]">
+  <div className="card-body">
+    <h3 className="font-display uppercase tracking-wide text-sm">
+      CATEGORÍA
+    </h3>
+    <p className="font-body text-muted-foreground text-sm">Descripción</p>
+  </div>
+</div>
+```
+
+### Botones CTA principales
+
+```tsx
+// ✅ Botón primario con gradiente de acento
+<button className="w-full rounded-xl bg-gradient-to-r from-primary to-accent
+  py-4 font-display uppercase tracking-widest text-primary-foreground
+  animate-pulse-cta">
+  INICIAR
+</button>
+```
+
+### Listas con stagger
+
+```tsx
+// ✅ Lista animada de cards
+<div className="stagger-children flex flex-col gap-3">
+  {items.map((item) => (
+    <PracticeCard key={item.id} practice={item} />
+  ))}
+</div>
+```
+
+## Navegación
+
+La `BottomNav` gestiona las 4 rutas principales: `/`, `/respirar`, `/sesion`, `/perfil`.
+- Usar `useNavigate` o `<Link>` de `react-router-dom`
+- Los labels de nav usan `font-display uppercase`
+- El punto indicador activo usa `bg-primary`
+
+## Iconos
+
+Usar exclusivamente `lucide-react`. Tamaño estándar: `size={20}` o `size={24}`.
+
+```tsx
+import { Play, Heart, ChevronRight } from "lucide-react";
+
+<Play size={20} className="text-primary" />
+```
+
+## Accesibilidad mobile
+
+- Área táctil mínima: `min-h-[44px]` en elementos interactivos
+- `pb-24` en el contenido de páginas ya está gestionado por `MobileShell`
+- Usar `scrollbar-hide` en listas de scroll horizontal

@@ -277,13 +277,13 @@ const Index = () => {
           ].map(({ value, label, icon: Icon, highlight }, i) => (
             <div
               key={i}
-              className="card-body rounded-xl px-4 py-5 flex flex-col items-center text-center border border-border/50"
+              className="card-body rounded-xl px-3 py-3 flex flex-col items-center text-center border border-border/50"
             >
-              <Icon size={20} weight="duotone" className="text-accent mb-3" />
-              <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-3xl font-light" : "font-display text-3xl text-foreground font-light"}>
+              <Icon size={16} weight="duotone" className="text-accent mb-2" />
+              <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-xl font-light" : "font-display text-xl text-foreground font-light"}>
                 {value}
               </p>
-              <p className="font-display text-sm text-muted-foreground mt-1.5 tracking-wide">{label}</p>
+              <p className="font-display text-[11px] text-muted-foreground mt-1 tracking-wide">{label}</p>
             </div>
           ))}
         </div>

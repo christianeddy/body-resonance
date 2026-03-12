@@ -128,8 +128,8 @@ const Index = () => {
         {[
           { value: String(totalSessions), label: "Sesiones", icon: Heartbeat },
           { value: String(totalMinutes), label: "Minutos", icon: Timer },
-          { value: String(streak), label: "Racha", unit: "días", icon: Lightning, highlight: streak > 0 },
-        ].map(({ value, label, unit, icon: Icon, highlight }, i) => (
+          { value: String(streak), label: "Días seguidos", icon: Lightning, highlight: streak > 0 },
+        ].map(({ value, label, icon: Icon, highlight }, i) => (
           <div
             key={i}
             className="card-body flex-1 rounded-xl px-4 py-5 flex flex-col items-center text-center"
@@ -141,8 +141,7 @@ const Index = () => {
             <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-3xl font-light" : "font-display text-3xl text-foreground font-light"}>
               {value}
             </p>
-            <p className="font-display text-xs text-muted-foreground mt-1.5 tracking-wide">{label}</p>
-            {unit && <p className="font-body text-[10px] text-muted-foreground/60 mt-0.5">{unit}</p>}
+            <p className="font-display text-sm text-muted-foreground mt-1.5 tracking-wide">{label}</p>
           </div>
         ))}
       </div>

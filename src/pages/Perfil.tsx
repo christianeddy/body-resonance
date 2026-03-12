@@ -147,17 +147,6 @@ const Perfil = () => {
         )}
       </section>
 
-      {/* Settings */}
-      <section className="mb-6">
-        <h3 className="font-display text-base text-muted-foreground mb-4">Ajustes</h3>
-        <div className="card-body rounded-xl p-4 flex items-center justify-between">
-          <span className="font-body text-sm text-foreground">Modo oscuro</span>
-          <Switch
-            checked={theme === "dark"}
-            onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
-          />
-        </div>
-      </section>
 
       {/* Logout */}
       <button

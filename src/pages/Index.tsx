@@ -103,11 +103,23 @@ const Index = () => {
           <p className="font-body text-sm text-muted-foreground">Hola, {displayName}</p>
           <h1 className="font-display text-3xl text-foreground mt-1">Vuelve a tu centro</h1>
         </div>
-        <Link to="/perfil">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-card transition-all duration-200 hover:scale-105 active:scale-95">
-            <GearSix size={18} weight="duotone" className="text-muted-foreground" />
-          </div>
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-card transition-all duration-200 hover:scale-105 active:scale-95"
+          >
+            {theme === "dark" ? (
+              <Sun size={18} weight="duotone" className="text-muted-foreground" />
+            ) : (
+              <Moon size={18} weight="duotone" className="text-muted-foreground" />
+            )}
+          </button>
+          <Link to="/perfil">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-card transition-all duration-200 hover:scale-105 active:scale-95">
+              <GearSix size={18} weight="duotone" className="text-muted-foreground" />
+            </div>
+          </Link>
+        </div>
       </div>
 
       {/* Stats */}

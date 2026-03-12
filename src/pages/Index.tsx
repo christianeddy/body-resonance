@@ -179,7 +179,7 @@ const Index = () => {
 
       {/* ¿Cómo te sientes hoy? */}
       <section className="mb-8">
-        <h3 className="font-display text-xs uppercase tracking-widest text-muted-foreground mb-4">Cómo te sientes hoy</h3>
+        <h3 className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">Cómo te sientes hoy</h3>
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {[
             { id: "energia", label: "Necesito energía", icon: Lightning, iconBg: "bg-amber-500/20", iconCls: "text-amber-400" },

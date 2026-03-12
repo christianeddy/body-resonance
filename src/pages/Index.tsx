@@ -212,7 +212,7 @@ const Index = () => {
 
       {/* Programs */}
       <section className="mb-8">
-        <h3 className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">Programas</h3>
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">Programas</h3>
         {programs && programs.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-thin stagger-children">
             {programs.map((prog) => {

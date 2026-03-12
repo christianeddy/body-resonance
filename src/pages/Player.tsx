@@ -13,6 +13,7 @@ const Player = () => {
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [exiting, setExiting] = useState(false);
   const [feeling, setFeeling] = useState<string | null>(null);
   const [elapsed, setElapsed] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -69,7 +70,11 @@ const Player = () => {
 
   const handleComplete = () => {
     setIsPlaying(false);
-    setCompleted(true);
+    setExiting(true);
+    setTimeout(() => {
+      setExiting(false);
+      setCompleted(true);
+    }, 300);
   };
 
   const handleSaveAndBack = async () => {
@@ -136,7 +141,7 @@ const Player = () => {
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background px-5">
+    <div className="animate-player-enter min-h-screen w-full flex flex-col items-center justify-center bg-background px-5">
       {/* Practice name */}
       <p className="font-display text-lg text-foreground mb-1">
         {practice?.display_name || "Práctica"}
@@ -145,7 +150,7 @@ const Player = () => {
 
       {/* Breathing Circle — THE STAR */}
       <div
-        className={`breathing-circle mb-8 ${phaseClass}`}
+        className={`breathing-circle mb-8 transition-all duration-300 ${phaseClass} ${exiting ? "opacity-0 scale-95" : ""}`}
         style={{
           "--cycle-duration": `${cycleDuration}s`,
           "--phase-duration": `${currentPhaseDuration}s`,

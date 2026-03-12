@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,11 +13,18 @@ const Auth = () => {
   const { signIn, signUp, signInWithGoogle, user } = useAuth();
   const navigate = useNavigate();
 
-  // If already logged in, redirect
-  if (user) {
-    navigate("/", { replace: true });
-    return null;
-  }
+  useEffect(() => {
+    if (user) navigate("/", { replace: true });
+  }, [user, navigate]);
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      toast.error("Ingresa tu email primero");
+      return;
+    }
+    await supabase.auth.resetPasswordForEmail(email);
+    toast.success("Revisa tu email para restablecer tu contraseña");
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,10 +50,13 @@ const Auth = () => {
         <div className="w-full max-w-sm animate-fade-slide-in">
           {/* Logo */}
           <div className="text-center mb-12">
-            <h1 className="font-display text-3xl text-foreground tracking-[0.2em] mb-3">
-              B·O·D·H·I
-            </h1>
-            <p className="font-body text-sm text-muted-foreground">
+            <div className="animate-fade-slide-in">
+              <h1 className="font-display text-3xl text-foreground tracking-[0.2em] mb-3">
+                B·O·D·H·I
+              </h1>
+            </div>
+            <div className="mx-auto mt-2 h-px w-32 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+            <p className="font-body text-sm text-muted-foreground mt-3">
               RESPIRA. ENFRÍA. TRANSFORMA.
             </p>
           </div>
@@ -90,6 +101,18 @@ const Auth = () => {
             </button>
           </form>
 
+          {/* Olvidé mi contraseña */}
+          {isLogin && (
+            <div className="flex justify-center mt-2">
+              <button
+                onClick={handleForgotPassword}
+                className="font-body text-xs text-muted-foreground hover:text-accent transition-colors mt-2"
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
+            </div>
+          )}
+
           {/* Divider */}
           <div className="flex items-center gap-4 my-6">
             <div className="flex-1 h-px bg-[hsl(0_0%_100%/0.06)]" />
@@ -107,7 +130,7 @@ const Auth = () => {
           </button>
 
           {/* Links */}
-          <div className="flex justify-between mt-6">
+          <div className="flex justify-center mt-6">
             <button
               onClick={() => setIsLogin(!isLogin)}
               className="font-body text-sm text-accent hover:underline"

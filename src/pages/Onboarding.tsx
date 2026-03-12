@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Check } from "lucide-react";
+import { Check, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -30,6 +30,8 @@ const Onboarding = () => {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<(string | null)[]>([null, null, null, null]);
   const [saving, setSaving] = useState(false);
+  const [direction, setDirection] = useState<"forward" | "back">("forward");
+  const [showSummary, setShowSummary] = useState(false);
 
   const current = steps[step];
   const selected = answers[step];
@@ -41,49 +43,122 @@ const Onboarding = () => {
     setAnswers(next);
   };
 
-  const advance = async () => {
+  const saveProfile = async () => {
+    setSaving(true);
+    try {
+      const userProfile = answers[1] === "Mejorar mi rendimiento deportivo" ? "deportivo" : "bienestar";
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          onboarding_answers: answers,
+          user_profile: userProfile,
+          onboarding_completed: true,
+        })
+        .eq("user_id", user!.id);
+      if (error) throw error;
+      await refreshProfile();
+      navigate("/");
+    } catch (err: any) {
+      toast.error("Error guardando respuestas");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const advance = () => {
     if (isLast) {
-      setSaving(true);
-      try {
-        const userProfile = answers[1] === "Mejorar mi rendimiento deportivo" ? "deportivo" : "bienestar";
-        const { error } = await supabase
-          .from("profiles")
-          .update({
-            onboarding_answers: answers,
-            user_profile: userProfile,
-            onboarding_completed: true,
-          })
-          .eq("user_id", user!.id);
-        if (error) throw error;
-        await refreshProfile();
-        navigate("/");
-      } catch (err: any) {
-        toast.error("Error guardando respuestas");
-      } finally {
-        setSaving(false);
-      }
+      setShowSummary(true);
     } else {
+      setDirection("forward");
       setStep(step + 1);
     }
   };
 
+  const goBack = () => {
+    setDirection("back");
+    setStep(step - 1);
+  };
+
+  const animClass =
+    direction === "forward"
+      ? "animate-fade-slide-in"
+      : "animate-fade-slide-in [animation-direction:reverse]";
+
+  if (showSummary) {
+    return (
+      <div className="min-h-screen w-full bg-background">
+        <div className="flex min-h-screen flex-col px-5">
+          <div className="pt-14 pb-10">
+            <h1 className="font-display text-2xl text-foreground">TU PERFIL</h1>
+          </div>
+
+          <div className="flex-1 animate-fade-slide-in">
+            {steps.map((s, i) => (
+              <div key={i} className="card-body rounded-xl p-3 mb-2">
+                <p className="text-xs text-muted-foreground mb-1">{s.question}</p>
+                <p className="text-sm text-foreground">{answers[i] ?? "—"}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="pb-10 pt-6 space-y-3">
+            <button
+              onClick={saveProfile}
+              disabled={saving}
+              className="w-full rounded-xl py-4 font-display text-sm bg-primary text-primary-foreground animate-pulse-cta transition-all duration-200"
+            >
+              {saving ? (
+                <div className="h-4 w-4 mx-auto rounded-full border-2 border-primary-foreground border-t-transparent animate-spin" />
+              ) : (
+                "COMENZAR"
+              )}
+            </button>
+            <button
+              onClick={() => {
+                setShowSummary(false);
+                setDirection("back");
+                setStep(0);
+              }}
+              className="w-full py-2 font-display text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              EDITAR
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen w-full bg-background">
       <div className="flex min-h-screen flex-col px-5">
-        {/* Progress dots */}
-        <div className="flex justify-center gap-2 pt-14 pb-10">
-          {steps.map((_, i) => (
+        {/* Header: back button + progress bar */}
+        <div className="pt-14 pb-10 flex flex-col gap-4">
+          <div className="flex items-center">
+            {step > 0 ? (
+              <button
+                onClick={goBack}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Volver"
+              >
+                <ArrowLeft size={20} strokeWidth={1.5} />
+              </button>
+            ) : (
+              <div className="w-5 h-5" />
+            )}
+          </div>
+
+          {/* Progress bar */}
+          <div className="h-1 w-full max-w-xs mx-auto rounded-full bg-[hsl(0_0%_100%/0.08)]">
             <div
-              key={i}
-              className={`h-2 w-2 rounded-full transition-all duration-200 ${
-                i === step ? "bg-primary" : "bg-[hsl(0_0%_100%/0.12)]"
-              }`}
+              className="h-full rounded-full bg-primary transition-all duration-500"
+              style={{ width: `${((step + 1) / steps.length) * 100}%` }}
             />
-          ))}
+          </div>
         </div>
 
         {/* Question */}
-        <div className="animate-fade-slide-in flex-1" key={step}>
+        <div className={`${animClass} flex-1`} key={step}>
           <h1 className="font-display text-2xl text-foreground mb-8">{current.question}</h1>
 
           <div className="space-y-3">
@@ -102,7 +177,7 @@ const Onboarding = () => {
                 {selected === option && (
                   <Check
                     size={16}
-                    strokeWidth={2}
+                    strokeWidth={1.5}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-primary"
                   />
                 )}
@@ -115,18 +190,14 @@ const Onboarding = () => {
         <div className="pb-10 pt-6">
           <button
             onClick={advance}
-            disabled={!selected || saving}
+            disabled={!selected}
             className={`w-full rounded-xl py-4 font-display text-sm transition-all duration-200 ${
               selected
                 ? "bg-primary text-primary-foreground animate-pulse-cta"
                 : "bg-muted text-muted-foreground cursor-not-allowed"
             }`}
           >
-            {saving ? (
-              <div className="h-4 w-4 mx-auto rounded-full border-2 border-primary-foreground border-t-transparent animate-spin" />
-            ) : (
-              isLast ? "COMENZAR" : "SIGUIENTE"
-            )}
+            {isLast ? "VER RESUMEN" : "SIGUIENTE"}
           </button>
         </div>
       </div>

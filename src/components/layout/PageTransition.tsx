@@ -7,7 +7,7 @@ interface PageTransitionProps {
 
 export const PageTransition = ({ children, className = "" }: PageTransitionProps) => {
   return (
-    <div className={`animate-fade-slide-in px-5 ${className}`}>
+    <div className={`animate-page-enter px-5 ${className}`}>
       {children}
     </div>
   );

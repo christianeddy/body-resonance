@@ -1,6 +1,6 @@
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { PageTransition } from "@/components/layout/PageTransition";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Clock, Zap, Layers } from "lucide-react";
 import { usePractice } from "@/hooks/usePractices";
 
 const Practica = () => {
@@ -30,6 +30,8 @@ const Practica = () => {
 
   const phases = Array.isArray(practice.phases) ? practice.phases : [];
   const tags = Array.isArray(practice.tags) ? practice.tags : [];
+  const maxDuration = phases.length > 0 ? Math.max(...phases.map((p: any) => p.duration)) : 1;
+  const totalDuration = phases.reduce((acc: number, p: any) => acc + p.duration, 0);
   const intentionLabel = practice.intention
     ? practice.intention.charAt(0).toUpperCase() + practice.intention.slice(1)
     : practice.category.toUpperCase();
@@ -49,6 +51,22 @@ const Practica = () => {
         {intentionLabel.toUpperCase()}
       </span>
 
+      {/* Quick info */}
+      <div className="flex gap-6 mb-8">
+        <div className="flex items-center gap-2">
+          <Clock size={16} className="text-muted-foreground" />
+          <span className="font-body text-sm text-muted-foreground">{practice.duration_estimated}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Zap size={16} className="text-muted-foreground" />
+          <span className="font-body text-sm text-muted-foreground">{practice.intensity}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Layers size={16} className="text-muted-foreground" />
+          <span className="font-body text-sm text-muted-foreground">{phases.length} fases</span>
+        </div>
+      </div>
+
       {practice.technique && (
         <p className="font-body text-base text-muted-foreground mb-8 leading-relaxed">
           {practice.technique}
@@ -67,10 +85,14 @@ const Practica = () => {
                   <div className="absolute -left-[18px] top-1.5 h-2 w-2 rounded-full bg-primary" />
                   <p className="font-body text-sm font-medium text-foreground">{phase.name}</p>
                   <p className="font-body text-xs text-muted-foreground mt-0.5">{phase.duration}s</p>
+                  <div className="mt-1.5 h-1 rounded-full bg-primary/20" style={{ width: `${Math.min((phase.duration / maxDuration) * 100, 100)}%` }}>
+                    <div className="h-full rounded-full bg-primary" style={{ width: '100%' }} />
+                  </div>
                 </div>
               ))}
             </div>
           </div>
+          <p className="font-body text-xs text-muted-foreground text-right mb-8">Duración total: {totalDuration}s</p>
         </>
       )}
 
@@ -89,7 +111,7 @@ const Practica = () => {
       )}
 
       {/* Fixed CTA */}
-      <div className="fixed bottom-0 left-1/2 w-full max-w-4xl -translate-x-1/2 p-5 bg-background/90 backdrop-blur-md">
+      <div className="fixed bottom-[72px] left-1/2 w-full max-w-4xl -translate-x-1/2 p-5 bg-background/90 backdrop-blur-md border-t border-[hsl(0_0%_100%/0.06)]">
         <Link
           to={`/player/${practice.id}`}
           className="animate-pulse-cta flex w-full items-center justify-center rounded-xl bg-primary py-4 font-display text-sm text-primary-foreground"

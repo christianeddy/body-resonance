@@ -101,6 +101,15 @@ const Index = () => {
     reset: "bg-emerald-400/10 text-emerald-400",
   };
 
+  const intentionImages: Record<string, string> = {
+    energia: ritualEnergia,
+    reset: ritualReset,
+    calma: ritualCalma,
+    dormir: ritualDormir,
+  };
+
+  const ritualImage = intentionImages[recommendedIntention] ?? ritualEnergia;
+
   return (
     <PageTransition>
       {/* Header */}

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Play, Pause, ArrowCounterClockwise, Check } from "@phosphor-icons/react";
+import { Play, Pause, ArrowCounterClockwise, Check, ArrowClockwise, House } from "@phosphor-icons/react";
 
 const BreathingSphere3D = lazy(() => import("@/components/BreathingSphere3D"));
 import { usePractice } from "@/hooks/usePractices";

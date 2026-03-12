@@ -36,10 +36,11 @@ export const BottomNav = () => {
                   <div className="absolute -top-1 h-8 w-8 rounded-full bg-primary/15 blur-lg" />
                 )}
                 <Icon
+                  key={isActive ? `${to}-active-${location.pathname}` : to}
                   size={22}
                   weight={isActive ? "fill" : "duotone"}
                   className={`relative z-10 transition-colors duration-200 ${
-                    isActive ? "text-accent" : "text-muted-foreground group-hover:text-foreground/70"
+                    isActive ? "text-accent animate-[wiggle_0.5s_ease-in-out]" : "text-muted-foreground group-hover:text-foreground/70"
                   }`}
                 />
                 <span

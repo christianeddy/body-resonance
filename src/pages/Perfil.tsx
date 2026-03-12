@@ -7,8 +7,6 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
-import { useTheme } from "next-themes";
-import { Switch } from "@/components/ui/switch";
 
 const Perfil = () => {
   const { profile, signOut } = useAuth();

@@ -92,7 +92,7 @@ const Sesion = () => {
         </div>
       )}
 
-      <h2 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">
+      <h2 className="font-display text-base text-foreground mb-4">
         Protocolo Bodhi para {activeTab === "hielo" ? "frío" : "sauna"}
       </h2>
 

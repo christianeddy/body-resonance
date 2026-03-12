@@ -372,7 +372,7 @@
 .card-body {
   background: var(--gradient-card);
   box-shadow: var(--shadow-inner-glow);
-  border: 1px solid hsl(0 0% 100% / 0.06);
+  border: 1px solid transparent;
   transition: all 300ms ease;
 }
 

@@ -14,7 +14,203 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      practices: {
+        Row: {
+          category: string
+          display_name: string
+          duration_estimated: string | null
+          for_profile: string
+          id: string
+          intensity: string | null
+          intention: string | null
+          media_mode: string
+          media_url: string | null
+          name: string
+          phases: Json | null
+          sort_order: number
+          tags: Json | null
+          technique: string | null
+        }
+        Insert: {
+          category: string
+          display_name: string
+          duration_estimated?: string | null
+          for_profile?: string
+          id: string
+          intensity?: string | null
+          intention?: string | null
+          media_mode?: string
+          media_url?: string | null
+          name: string
+          phases?: Json | null
+          sort_order?: number
+          tags?: Json | null
+          technique?: string | null
+        }
+        Update: {
+          category?: string
+          display_name?: string
+          duration_estimated?: string | null
+          for_profile?: string
+          id?: string
+          intensity?: string | null
+          intention?: string | null
+          media_mode?: string
+          media_url?: string | null
+          name?: string
+          phases?: Json | null
+          sort_order?: number
+          tags?: Json | null
+          technique?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          onboarding_answers: Json | null
+          onboarding_completed: boolean
+          user_id: string
+          user_profile: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          onboarding_answers?: Json | null
+          onboarding_completed?: boolean
+          user_id: string
+          user_profile?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          onboarding_answers?: Json | null
+          onboarding_completed?: boolean
+          user_id?: string
+          user_profile?: string
+        }
+        Relationships: []
+      }
+      programs: {
+        Row: {
+          days: Json
+          description: string | null
+          id: string
+          max_days: number
+          name: string
+          target_profile: string
+        }
+        Insert: {
+          days?: Json
+          description?: string | null
+          id: string
+          max_days?: number
+          name: string
+          target_profile?: string
+        }
+        Update: {
+          days?: Json
+          description?: string | null
+          id?: string
+          max_days?: number
+          name?: string
+          target_profile?: string
+        }
+        Relationships: []
+      }
+      saved_practices: {
+        Row: {
+          practice_id: string
+          saved_at: string
+          user_id: string
+        }
+        Insert: {
+          practice_id: string
+          saved_at?: string
+          user_id: string
+        }
+        Update: {
+          practice_id?: string
+          saved_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      sessions: {
+        Row: {
+          completed_at: string
+          duration_seconds: number | null
+          feeling: string | null
+          ice_duration_minutes: number | null
+          id: string
+          practice_id: string | null
+          practice_name: string | null
+          temperature: string | null
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string
+          duration_seconds?: number | null
+          feeling?: string | null
+          ice_duration_minutes?: number | null
+          id?: string
+          practice_id?: string | null
+          practice_name?: string | null
+          temperature?: string | null
+          user_id: string
+        }
+        Update: {
+          completed_at?: string
+          duration_seconds?: number | null
+          feeling?: string | null
+          ice_duration_minutes?: number | null
+          id?: string
+          practice_id?: string | null
+          practice_name?: string | null
+          temperature?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_program_progress: {
+        Row: {
+          completed_at: string | null
+          completed_days: Json
+          current_day: number
+          id: string
+          program_id: string
+          started_at: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          completed_days?: Json
+          current_day?: number
+          id?: string
+          program_id: string
+          started_at?: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          completed_days?: Json
+          current_day?: number
+          id?: string
+          program_id?: string
+          started_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_program_progress_program_id_fkey"
+            columns: ["program_id"]
+            isOneToOne: false
+            referencedRelation: "programs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

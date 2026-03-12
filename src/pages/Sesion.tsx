@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { usePractices } from "@/hooks/usePractices";
 import type { Practice } from "@/hooks/usePractices";
+import heroFrio from "@/assets/hero-frio.png";
 
 type Tab = "hielo" | "calor";
 

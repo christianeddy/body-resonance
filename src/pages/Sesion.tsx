@@ -52,8 +52,18 @@ const Sesion = () => {
 
   return (
     <PageTransition>
-      <h1 className="font-display text-2xl text-foreground pt-14 pb-6">
-        {activeTab === "hielo" ? "Frío" : "Calor"}
+      <h1 className="font-display text-2xl text-foreground pt-14 pb-6 flex items-center gap-2.5">
+        {activeTab === "hielo" ? (
+          <>
+            <Snowflake size={24} weight="duotone" className="text-cyan-400" />
+            Frío
+          </>
+        ) : (
+          <>
+            <Fire size={24} weight="duotone" className="text-orange-400" />
+            Calor
+          </>
+        )}
       </h1>
 
       {/* Hero image */}

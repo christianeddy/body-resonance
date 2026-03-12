@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { House, Wind, Thermometer, UserCircle } from "@phosphor-icons/react";
+import { House, Wind, Thermometer, UserCircle, Sun, Moon } from "@phosphor-icons/react";
+import { useTheme } from "next-themes";
 
 const tabs = [
   { to: "/", label: "Inicio", icon: House },

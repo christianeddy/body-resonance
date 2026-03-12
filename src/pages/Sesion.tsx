@@ -117,15 +117,15 @@ const Sesion = () => {
                 key={p.id}
                 {...(wrapperProps as any)}
               >
-                <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl font-display text-xs ${isFrio ? "bg-cyan-500/20 text-cyan-400" : "bg-orange-500/20 text-foreground"}`}>
+                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-display text-xs ${isFrio ? "bg-cyan-500/20 text-cyan-400" : "bg-orange-500/20 text-foreground"}`}>
                   {num}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-body text-base font-medium text-foreground truncate flex items-center gap-1.5">
+                  <h3 className="font-body text-sm font-medium text-foreground truncate flex items-center gap-1.5">
                     {p.display_name}
-                    {isPremium && <Lock size={14} weight="fill" className="text-muted-foreground flex-shrink-0" />}
+                    {isPremium && <Lock size={12} weight="fill" className="text-muted-foreground flex-shrink-0" />}
                   </h3>
-                  <p className="font-body text-sm text-muted-foreground mt-0.5">
+                  <p className="font-body text-xs text-muted-foreground mt-0.5">
                     {label} · {p.duration_estimated}
                   </p>
                 </div>

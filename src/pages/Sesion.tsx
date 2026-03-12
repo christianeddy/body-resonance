@@ -149,13 +149,13 @@ const Sesion = () => {
           const Icon = item.icon;
           const isFrio = activeTab === "hielo";
           return (
-            <div key={i} className="card-body rounded-xl p-5 flex gap-4">
-              <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${isFrio ? "bg-cyan-500/20" : "bg-orange-500/20"}`}>
-                <Icon size={20} weight="duotone" className={isFrio ? "text-cyan-400" : "text-foreground"} />
+            <div key={i} className="group flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60">
+              <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 ${isFrio ? "bg-cyan-500/20" : "bg-orange-500/20"}`}>
+                <Icon size={18} weight="duotone" className={`transition-all duration-300 ${isFrio ? "text-cyan-400 group-hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.5)]" : "text-orange-400 group-hover:drop-shadow-[0_0_6px_rgba(245,158,11,0.5)]"}`} />
               </div>
-              <div>
-                <h3 className="font-display text-base text-foreground">{item.title}</h3>
-                <p className="font-body text-sm text-muted-foreground mt-1 leading-relaxed">{item.text}</p>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-body text-base font-medium text-foreground">{item.title}</h3>
+                <p className="font-body text-sm text-muted-foreground mt-0.5 leading-relaxed">{item.text}</p>
               </div>
             </div>
           );

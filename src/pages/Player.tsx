@@ -86,6 +86,7 @@ const Player = () => {
           practice_id: practice.id,
           practice_name: practice.display_name,
           duration_seconds: elapsed,
+          estimated_duration_seconds: estimatedTotal,
           feeling,
         });
         toast.success("Sesión guardada");

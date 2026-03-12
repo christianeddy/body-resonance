@@ -52,7 +52,7 @@ const Sesion = () => {
 
   return (
     <PageTransition>
-      <h1 className="font-display text-3xl text-foreground pt-14 pb-6">Sesión</h1>
+      <h1 className="font-display text-4xl uppercase tracking-wider text-foreground pt-14 pb-6">Sesión</h1>
 
       {/* Tabs */}
       <div className="flex gap-6 mb-8 border-b border-border">

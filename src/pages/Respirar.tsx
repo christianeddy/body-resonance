@@ -54,7 +54,7 @@ const Respirar = () => {
 
   return (
     <PageTransition>
-      <h1 className="font-display text-4xl uppercase tracking-wider text-foreground pt-14 pb-6">Respirar</h1>
+      <h1 className="font-display text-3xl text-foreground pt-14 pb-6">Respirar</h1>
 
       {/* Hero */}
       <div className="relative rounded-2xl overflow-hidden mb-6">

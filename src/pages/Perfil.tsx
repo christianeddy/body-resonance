@@ -7,7 +7,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
-import { Sliders, Clock, Fire, Heart, Wind, CaretRight, WhatsappLogo } from "@phosphor-icons/react";
+import { Wind, Clock, Fire, Heart, CaretRight, WhatsappLogo } from "@phosphor-icons/react";
 
 const Perfil = () => {
   const { profile, signOut } = useAuth();

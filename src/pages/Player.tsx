@@ -114,15 +114,6 @@ const Player = () => {
   if (completed && !isValidCompletion) {
     return (
       <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background px-5">
-        <div className="mb-8">
-          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-            <ArrowClockwise size={36} weight="duotone" className="text-muted-foreground" />
-          </div>
-        </div>
-        <h1 className="font-display text-2xl text-foreground mb-2">Sesión incompleta</h1>
-        <p className="font-body text-sm text-muted-foreground mb-10 text-center max-w-xs">
-          Completa al menos el 70% para que cuente en tu progreso.
-        </p>
         <div className="flex gap-4">
           <button
             onClick={() => {

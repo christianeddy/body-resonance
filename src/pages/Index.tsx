@@ -174,9 +174,10 @@ const Index = () => {
           >
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
             {/* Background image on the right */}
-            <div className="absolute top-0 right-0 bottom-0 w-3/5 pointer-events-none">
-              <img src={ritualEnergia} alt="" className="h-full w-full object-cover object-center" />
-              <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--card))] via-[hsl(var(--card)/0.8)] via-[15%] via-[hsl(var(--card)/0.4)] via-[35%] via-[hsl(var(--card)/0.1)] via-[55%] to-transparent" />
+            <div className="absolute inset-0 pointer-events-none">
+              <img src={ritualEnergia} alt="" className="absolute right-0 top-0 h-full w-2/3 object-cover object-top" />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to right, hsl(var(--card)) 30%, hsl(var(--card) / 0.85) 42%, hsl(var(--card) / 0.4) 58%, transparent 75%)" }} />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, hsl(var(--card)) 0%, transparent 40%)" }} />
             </div>
             <div className="relative z-10">
               <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-display text-[11px] text-accent mb-3">

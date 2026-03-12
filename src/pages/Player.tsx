@@ -111,6 +111,42 @@ const Player = () => {
     );
   }
 
+  if (completed && !isValidCompletion) {
+    return (
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background px-5">
+        <div className="mb-8">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
+            <ArrowClockwise size={36} weight="duotone" className="text-muted-foreground" />
+          </div>
+        </div>
+        <h1 className="font-display text-2xl text-foreground mb-2">Sesión incompleta</h1>
+        <p className="font-body text-sm text-muted-foreground mb-10 text-center max-w-xs">
+          Completa al menos el 70% para que cuente en tu progreso.
+        </p>
+        <div className="flex gap-4">
+          <button
+            onClick={() => {
+              setCompleted(false);
+              setElapsed(0);
+              setFeeling(null);
+            }}
+            className="flex items-center gap-2 rounded-xl border border-primary bg-primary text-primary-foreground px-5 py-3 font-display text-sm transition-all"
+          >
+            <ArrowClockwise size={18} weight="bold" />
+            Reintentar
+          </button>
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-2 rounded-xl border border-border text-muted-foreground hover:text-foreground px-5 py-3 font-display text-sm transition-all"
+          >
+            <House size={18} weight="duotone" />
+            Inicio
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (completed) {
     return (
       <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background px-5">

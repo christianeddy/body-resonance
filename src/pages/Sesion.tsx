@@ -57,7 +57,7 @@ const Sesion = () => {
       >
         {activeTab === "hielo" ? (
           <>
-            <Snowflake size={24} weight="duotone" className="text-cyan-400 transition-transform duration-500 group-hover:rotate-90 group-hover:scale-110" />
+            <Snowflake size={24} weight="duotone" className="text-sky-400 transition-transform duration-500 group-hover:rotate-90 group-hover:scale-110" />
             <span className="frio-hover-gradient transition-all duration-500">
               Frío
             </span>
@@ -117,7 +117,7 @@ const Sesion = () => {
                 key={p.id}
                 {...(wrapperProps as any)}
               >
-                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-display text-xs ${isFrio ? "bg-cyan-500/20 text-cyan-400" : "bg-orange-500/20 text-foreground"}`}>
+                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-display text-xs ${isFrio ? "bg-sky-500/20 text-sky-400" : "bg-orange-500/20 text-foreground"}`}>
                   {num}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -157,8 +157,8 @@ const Sesion = () => {
           const isFrio = activeTab === "hielo";
           return (
             <div key={i} className="group flex items-center gap-3 rounded-xl bg-card/40 border border-border p-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60">
-              <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 ${isFrio ? "bg-cyan-500/20" : "bg-orange-500/20"}`}>
-                <Icon size={16} weight="duotone" className={`transition-all duration-300 ${isFrio ? "text-cyan-400 group-hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.5)]" : "text-orange-400 group-hover:drop-shadow-[0_0_6px_rgba(245,158,11,0.5)]"}`} />
+              <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 ${isFrio ? "bg-sky-500/20" : "bg-orange-500/20"}`}>
+                <Icon size={16} weight="duotone" className={`transition-all duration-300 ${isFrio ? "text-sky-400 group-hover:drop-shadow-[0_0_6px_rgba(56,189,248,0.5)]" : "text-orange-400 group-hover:drop-shadow-[0_0_6px_rgba(245,158,11,0.5)]"}`} />
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-body text-sm font-medium text-foreground">{item.title}</h3>

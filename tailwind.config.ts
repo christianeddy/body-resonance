@@ -95,6 +95,20 @@ export default {
           "0%, 100%": { transform: "scale(1)" },
           "50%": { transform: "scale(1.03)" },
         },
+        wiggle: {
+          "0%": { transform: "rotate(0deg)" },
+          "20%": { transform: "rotate(-12deg)" },
+          "40%": { transform: "rotate(10deg)" },
+          "60%": { transform: "rotate(-6deg)" },
+          "80%": { transform: "rotate(4deg)" },
+          "100%": { transform: "rotate(0deg)" },
+        },
+        flicker: {
+          "0%, 100%": { transform: "scale(1)", opacity: "1" },
+          "25%": { transform: "scale(1.3)", opacity: "0.7" },
+          "50%": { transform: "scale(0.9)", opacity: "1" },
+          "75%": { transform: "scale(1.2)", opacity: "0.8" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

@@ -4,6 +4,7 @@ import { Heart, CaretRight } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { usePractices } from "@/hooks/usePractices";
 import { useFavorites, useToggleFavorite } from "@/hooks/useFavorites";
+import heroRespiracion from "@/assets/hero-respiracion.png";
 
 const filters = ["Todas", "Energía", "Calma", "Reset", "Dormir"];
 const filterToIntention: Record<string, string | undefined> = {

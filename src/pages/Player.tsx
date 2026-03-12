@@ -101,8 +101,6 @@ const Player = () => {
     navigate(-1);
   };
 
-  // Estimate total duration for progress bar
-  const estimatedTotal = totalPhaseDuration > 0 ? totalPhaseDuration * 3 : 300; // 3 cycles or 5 min
   const progress = Math.min((elapsed / estimatedTotal) * 100, 100);
 
   if (isLoading) {

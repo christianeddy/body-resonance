@@ -2,6 +2,7 @@ import { PageTransition } from "@/components/layout/PageTransition";
 import { useState } from "react";
 import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed } from "@phosphor-icons/react";
 import heroHome from "@/assets/hero-home.png";
+import ritualEnergia from "@/assets/ritual-energia.png";
 import { Link } from "react-router-dom";
 
 import { useAuth } from "@/hooks/useAuth";
@@ -172,25 +173,32 @@ const Index = () => {
             style={{ background: "var(--gradient-card)" }}
           >
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-            <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-display text-[11px] text-accent mb-3">
-              {timeLabel}
-            </span>
-            <h2 className="font-display text-2xl text-foreground mb-2">{recommended.display_name}</h2>
-            {recommended.intention && (
-              <span className={`inline-block rounded-full px-3 py-1 font-display text-[11px] mb-3 ${intentionColors[recommended.intention] ?? "bg-accent/10 text-accent"}`}>
-                {intentionLabel[recommended.intention] ?? recommended.intention}
+            {/* Background image on the right */}
+            <div className="absolute top-0 right-0 bottom-0 w-1/2 pointer-events-none">
+              <img src={ritualEnergia} alt="" className="h-full w-full object-cover object-center" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--card))] via-[hsl(var(--card)/0.6)] to-transparent" />
+            </div>
+            <div className="relative z-10">
+              <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-display text-[11px] text-accent mb-3">
+                {timeLabel}
               </span>
-            )}
-            <p className="font-body text-sm text-muted-foreground mb-6">
-              {recommended.duration_estimated} · Intensidad {recommended.intensity}
-            </p>
-            <div className="flex justify-end">
-              <Link
-                to={`/player/${recommended.id}`}
-                className="animate-pulse-cta inline-flex items-center rounded-full bg-gradient-to-r from-primary to-accent shadow-[0_0_20px_-4px_hsl(var(--primary)/0.4)] px-6 py-2.5 font-display text-sm text-primary-foreground"
-              >
-                Comenzar
-              </Link>
+              <h2 className="font-display text-2xl text-foreground mb-2">{recommended.display_name}</h2>
+              {recommended.intention && (
+                <span className={`inline-block rounded-full px-3 py-1 font-display text-[11px] mb-3 ${intentionColors[recommended.intention] ?? "bg-accent/10 text-accent"}`}>
+                  {intentionLabel[recommended.intention] ?? recommended.intention}
+                </span>
+              )}
+              <p className="font-body text-sm text-muted-foreground mb-6">
+                {recommended.duration_estimated} · Intensidad {recommended.intensity}
+              </p>
+              <div className="flex justify-end">
+                <Link
+                  to={`/player/${recommended.id}`}
+                  className="animate-pulse-cta inline-flex items-center rounded-full bg-gradient-to-r from-primary to-accent shadow-[0_0_20px_-4px_hsl(var(--primary)/0.4)] px-6 py-2.5 font-display text-sm text-primary-foreground"
+                >
+                  Comenzar
+                </Link>
+              </div>
             </div>
           </div>
         </section>

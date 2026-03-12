@@ -7,10 +7,11 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
+import { Sliders, Clock, Fire, Heart, Wind, CaretRight, WhatsappLogo } from "@phosphor-icons/react";
 
 const Perfil = () => {
   const { profile, signOut } = useAuth();
-  
+
   const { totalSessions, totalMinutes, streak, mostUsed } = useSessionStats();
   const { data: sessions } = useSessions();
   const { data: favoriteIds } = useFavorites();
@@ -18,28 +19,14 @@ const Perfil = () => {
 
   const displayName = profile?.display_name || "Usuario";
   const initials = displayName.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2);
-  
-
-  // Heatmap data: last 12 weeks (84 days)
-  const heatmapData = useMemo(() => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const dayMs = 86400000;
-    const counts: Record<number, number> = {};
-
-    sessions?.forEach((s) => {
-      const d = new Date(s.completed_at);
-      d.setHours(0, 0, 0, 0);
-      const dayIndex = Math.floor((today.getTime() - d.getTime()) / dayMs);
-      if (dayIndex >= 0 && dayIndex < 84) {
-        counts[dayIndex] = (counts[dayIndex] || 0) + 1;
-      }
-    });
-
-    return Array.from({ length: 84 }).map((_, i) => counts[83 - i] || 0);
-  }, [sessions]);
 
   const favoritePractices = allPractices?.filter((p) => favoriteIds?.includes(p.id)) ?? [];
+
+  // Most used practice name from stats
+  const mostUsedPractice = useMemo(() => {
+    if (!mostUsed || !allPractices) return null;
+    return allPractices.find((p) => p.display_name === mostUsed) ?? null;
+  }, [mostUsed, allPractices]);
 
   return (
     <PageTransition>
@@ -53,43 +40,109 @@ const Perfil = () => {
         </div>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 gap-3 mb-8 stagger-children">
-        {[
-          { value: String(totalSessions), label: "Sesiones" },
-          { value: String(totalMinutes), label: "Minutos" },
-          { value: String(streak), label: "Días de racha", highlight: streak > 0 },
-          { value: mostUsed || "—", label: "Más usada" },
-        ].map((s, i) => (
-          <div key={i} className="card-body rounded-xl p-4">
-            <p className={`font-display-semi text-2xl ${s.highlight ? "text-success" : "text-foreground"}`}>
-              {s.value}
-            </p>
-            <p className="font-body text-[11px] text-muted-foreground mt-1">{s.label}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Recientes */}
+      {/* Tu Camino — Stats */}
       <section className="mb-8">
-        <h3 className="font-display text-base text-muted-foreground mb-4">Recientes</h3>
-        {!sessions || sessions.length === 0 ? (
-          <p className="font-body text-sm text-muted-foreground">Aún no tienes sesiones</p>
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">TU CAMINO</h3>
+        <div className="grid grid-cols-3 gap-3 stagger-children">
+          {[
+            { value: String(totalSessions), label: "Sesiones", icon: Sliders, color: "text-accent" },
+            { value: String(totalMinutes), label: "Minutos", icon: Clock, color: "text-primary" },
+            { value: String(streak), label: "Racha", icon: Fire, color: "text-orange-400" },
+          ].map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <div
+                key={i}
+                className="flex flex-col items-center gap-2 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]"
+              >
+                <Icon size={20} weight="duotone" className={s.color} />
+                <p className="font-display text-2xl text-foreground">{s.value}</p>
+                <p className="font-body text-[11px] text-muted-foreground">{s.label}</p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Respiración más usada */}
+      {mostUsedPractice && (
+        <section className="mb-8">
+          <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">RESPIRACIÓN MÁS USADA</h3>
+          <Link
+            to={`/practica/${mostUsedPractice.id}`}
+            className="flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60"
+          >
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+              <Wind size={18} weight="duotone" className="text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-body text-base font-medium text-foreground truncate">{mostUsedPractice.display_name}</p>
+              <p className="font-body text-sm text-muted-foreground mt-0.5">{mostUsedPractice.duration_estimated}</p>
+            </div>
+            <CaretRight size={18} weight="regular" className="text-muted-foreground flex-shrink-0" />
+          </Link>
+        </section>
+      )}
+
+      {/* Tus Respiraciones Favoritas */}
+      <section className="mb-8">
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">TUS RESPIRACIONES FAVORITAS</h3>
+        {favoritePractices.length === 0 ? (
+          <div className="flex flex-col items-center gap-3 rounded-2xl bg-card/40 border border-white/[0.06] p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]">
+            <Heart size={28} weight="duotone" className="text-muted-foreground" />
+            <p className="font-body text-sm text-muted-foreground text-center">Aún no tienes favoritas.</p>
+            <p className="font-body text-xs text-muted-foreground text-center">Guarda prácticas desde las sesiones para verlas aquí.</p>
+          </div>
         ) : (
-          <div className="space-y-2">
-            {sessions.slice(0, 3).map((s) => {
+          <div className="space-y-3">
+            {favoritePractices.map((p) => (
+              <Link
+                key={p.id}
+                to={`/practica/${p.id}`}
+                className="flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60"
+              >
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                  <Wind size={18} weight="duotone" className="text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-body text-base font-medium text-foreground truncate">{p.display_name}</p>
+                  <p className="font-body text-sm text-muted-foreground mt-0.5">{p.duration_estimated}</p>
+                </div>
+                <CaretRight size={18} weight="regular" className="text-muted-foreground flex-shrink-0" />
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* Sesiones Recientes */}
+      <section className="mb-8">
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">SESIONES RECIENTES</h3>
+        {!sessions || sessions.length === 0 ? (
+          <p className="font-body text-sm text-muted-foreground text-center py-6">
+            Aún no has completado ninguna sesión.
+          </p>
+        ) : (
+          <div className="space-y-3">
+            {sessions.slice(0, 5).map((s) => {
               const totalSecs = s.duration_seconds ?? 0;
               const mins = Math.floor(totalSecs / 60);
               const secs = totalSecs % 60;
               return (
-                <div key={s.id} className="card-body rounded-xl p-3 flex items-center justify-between">
-                  <div>
-                    <p className="font-body text-sm text-foreground">{s.practice_name}</p>
-                    <p className="font-body text-xs text-muted-foreground">
+                <div
+                  key={s.id}
+                  className="flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]"
+                >
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent/10">
+                    <Wind size={18} weight="duotone" className="text-accent" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-body text-base font-medium text-foreground truncate">{s.practice_name}</p>
+                    <p className="font-body text-sm text-muted-foreground mt-0.5">
                       {formatDistanceToNow(new Date(s.completed_at), { addSuffix: true, locale: es })}
                     </p>
                   </div>
-                  <span className="font-body text-xs text-muted-foreground shrink-0 ml-3">
+                  <span className="font-body text-xs text-muted-foreground shrink-0">
                     {mins}m {secs}s
                   </span>
                 </div>
@@ -99,59 +152,30 @@ const Perfil = () => {
         )}
       </section>
 
-      {/* Heatmap */}
+      {/* Comunidad Bodhi */}
       <section className="mb-8">
-        <h3 className="font-display text-base text-muted-foreground mb-4">Actividad</h3>
-        <div className="grid grid-cols-12 gap-1">
-          {heatmapData.map((count, i) => {
-            let bg = "bg-card";
-            if (count >= 3) bg = "bg-accent";
-            else if (count === 2) bg = "bg-primary";
-            else if (count === 1) bg = "bg-primary/50";
-            return (
-              <div key={i} className={`aspect-square rounded-sm ${bg}`} />
-            );
-          })}
-        </div>
-        <div className="flex gap-3 justify-end mt-2 items-center">
-          {[
-            { bg: "bg-card", label: "0" },
-            { bg: "bg-primary/50", label: "1" },
-            { bg: "bg-primary", label: "2" },
-            { bg: "bg-accent", label: "3+" },
-          ].map(({ bg, label }) => (
-            <div key={label} className="flex items-center gap-1">
-              <div className={`w-2 h-2 rounded-sm ${bg}`} />
-              <span className="font-body text-[10px] text-muted-foreground">{label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Favorites */}
-      <section className="mb-8">
-        <h3 className="font-display text-base text-muted-foreground mb-4">Mis favoritos</h3>
-        {favoritePractices.length === 0 ? (
-          <p className="font-body text-sm text-muted-foreground">Aún no tienes favoritos guardados</p>
-        ) : (
-          <div className="space-y-2">
-            {favoritePractices.map((p) => (
-              <Link key={p.id} to={`/practica/${p.id}`}>
-                <div className="card-body rounded-xl p-3">
-                  <p className="font-body text-sm text-foreground">{p.display_name}</p>
-                  <p className="font-body text-xs text-muted-foreground">{p.duration_estimated}</p>
-                </div>
-              </Link>
-            ))}
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">COMUNIDAD BODHI</h3>
+        <a
+          href="https://chat.whatsapp.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60"
+        >
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-500/20">
+            <WhatsappLogo size={18} weight="duotone" className="text-green-400" />
           </div>
-        )}
+          <div className="flex-1 min-w-0">
+            <p className="font-body text-base font-medium text-foreground">Únete a la comunidad</p>
+            <p className="font-body text-sm text-muted-foreground mt-0.5">Respiración en WhatsApp</p>
+          </div>
+          <CaretRight size={18} weight="regular" className="text-muted-foreground flex-shrink-0" />
+        </a>
       </section>
-
 
       {/* Logout */}
       <button
         onClick={() => signOut()}
-        className="w-full py-4 font-body text-sm text-destructive/70 hover:text-destructive transition-colors border border-input rounded-xl"
+        className="w-full py-4 font-body text-sm text-destructive/70 hover:text-destructive transition-colors border border-white/[0.06] rounded-2xl mb-4"
       >
         Cerrar sesión
       </button>

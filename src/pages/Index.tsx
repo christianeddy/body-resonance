@@ -151,24 +151,24 @@ const Index = () => {
         <img
           src={heroHome}
           alt="Bodhi ice bath"
-          className="w-full h-56 sm:h-72 object-cover object-center"
+          className="w-full h-56 sm:h-72 object-cover object-center animate-[heroZoom_1.2s_cubic-bezier(0.22,1,0.36,1)_forwards]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
         <div className="absolute inset-0">
           <span
-            className="absolute left-[10%] top-[32%] font-display text-base sm:text-lg font-semibold tracking-[0.12em]"
+            className="absolute left-[10%] top-[32%] font-display text-base sm:text-lg font-semibold tracking-[0.12em] animate-[fadeSlideRight_0.8s_cubic-bezier(0.22,1,0.36,1)_0.3s_both]"
             style={{ background: "linear-gradient(90deg, #ffffff 40%, #38bdf8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 12px rgba(0,0,0,0.9)) drop-shadow(0 0 4px rgba(0,0,0,0.6))" }}
           >
             Regulación
           </span>
           <span
-            className="absolute left-1/2 -translate-x-1/2 top-[28%] font-display text-base sm:text-lg font-semibold tracking-[0.12em]"
+            className="absolute left-1/2 -translate-x-1/2 top-[28%] font-display text-base sm:text-lg font-semibold tracking-[0.12em] animate-[fadeSlideDown_0.8s_cubic-bezier(0.22,1,0.36,1)_0.5s_both]"
             style={{ background: "linear-gradient(90deg, #ffffff 30%, #a78bfa 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.8))" }}
           >
             Recuperación
           </span>
           <span
-            className="absolute right-[8%] top-[38%] font-display text-base sm:text-lg font-semibold tracking-[0.12em]"
+            className="absolute right-[8%] top-[38%] font-display text-base sm:text-lg font-semibold tracking-[0.12em] animate-[fadeSlideLeft_0.8s_cubic-bezier(0.22,1,0.36,1)_0.7s_both]"
             style={{ background: "linear-gradient(90deg, #ffffff 30%, #fb923c 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.8))" }}
           >
             Bienestar

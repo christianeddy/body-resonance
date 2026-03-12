@@ -70,6 +70,9 @@ const Player = () => {
   const isVisualPlaying = practice?.media_mode === "visual" && isPlaying;
   const phaseClass = isVisualPlaying && currentPhaseName ? getPhaseClass(currentPhaseName) : "";
 
+  const completionPercent = estimatedTotal > 0 ? (elapsed / estimatedTotal) * 100 : 100;
+  const isValidCompletion = completionPercent >= 70;
+
   const handleComplete = () => {
     setIsPlaying(false);
     setExiting(true);

@@ -109,6 +109,13 @@ export default {
           "50%": { transform: "scale(0.9)", opacity: "1" },
           "75%": { transform: "scale(1.2)", opacity: "0.8" },
         },
+        "bounce-pop": {
+          "0%": { transform: "scale(1)" },
+          "30%": { transform: "scale(1.35)" },
+          "60%": { transform: "scale(0.85)" },
+          "80%": { transform: "scale(1.1)" },
+          "100%": { transform: "scale(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

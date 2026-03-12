@@ -20,7 +20,7 @@ const Perfil = () => {
 
   const displayName = profile?.display_name || "Usuario";
   const initials = displayName.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2);
-  const profileLabel = profile?.user_profile === "deportivo" ? "Deportivo" : "Bienestar";
+  
 
   // Heatmap data: last 12 weeks (84 days)
   const heatmapData = useMemo(() => {

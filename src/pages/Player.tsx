@@ -70,9 +70,10 @@ const Player = () => {
   const isVisualPlaying = practice?.media_mode === "visual" && isPlaying;
   const phaseClass = isVisualPlaying && currentPhaseName ? getPhaseClass(currentPhaseName) : "";
 
+  // Estimate total duration for progress bar
+  const estimatedTotal = totalPhaseDuration > 0 ? totalPhaseDuration * 3 : 300;
   const completionPercent = estimatedTotal > 0 ? (elapsed / estimatedTotal) * 100 : 100;
   const isValidCompletion = completionPercent >= 70;
-
   const handleComplete = () => {
     setIsPlaying(false);
     setExiting(true);

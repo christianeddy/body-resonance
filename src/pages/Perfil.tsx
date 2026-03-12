@@ -161,16 +161,19 @@ const Perfil = () => {
           href="https://chat.whatsapp.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60"
+          className="group relative flex items-center gap-4 rounded-2xl border border-green-500/20 p-4 overflow-hidden transition-all duration-500 hover:border-green-500/40 hover:shadow-[0_0_24px_-4px_rgba(34,197,94,0.25)]"
+          style={{ background: "linear-gradient(135deg, hsl(0 0% 12%) 0%, hsl(142 40% 8%) 100%)" }}
         >
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-500/20">
-            <WhatsappLogo size={18} weight="duotone" className="text-green-400" />
+          {/* Glow pulse bg */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(circle_at_30%_50%,rgba(34,197,94,0.12),transparent_70%)]" />
+          <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-green-500/20 transition-all duration-500 group-hover:bg-green-500/30 group-hover:scale-110 group-hover:rotate-3">
+            <WhatsappLogo size={18} weight="fill" className="text-green-400 transition-all duration-500 group-hover:text-green-300 group-hover:drop-shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-body text-base font-medium text-foreground">Únete a la comunidad</p>
+          <div className="relative flex-1 min-w-0">
+            <p className="font-body text-base font-medium text-foreground transition-colors duration-300 group-hover:text-green-100">Únete a la comunidad</p>
             <p className="font-body text-sm text-muted-foreground mt-0.5">Respiración en WhatsApp</p>
           </div>
-          <CaretRight size={18} weight="regular" className="text-muted-foreground flex-shrink-0" />
+          <CaretRight size={18} weight="regular" className="relative text-muted-foreground flex-shrink-0 transition-all duration-300 group-hover:text-green-400 group-hover:translate-x-1" />
         </a>
       </section>
 

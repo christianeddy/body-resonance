@@ -57,7 +57,7 @@ const Sesion = () => {
       >
         {activeTab === "hielo" ? (
           <>
-            <Snowflake size={24} weight="duotone" className="text-cyan-400 transition-transform duration-500 group-hover:rotate-90 group-hover:scale-110" />
+            <Snowflake size={24} weight="duotone" className="text-sky-400 transition-transform duration-500 group-hover:rotate-90 group-hover:scale-110" />
             <span className="frio-hover-gradient transition-all duration-500">
               Frío
             </span>

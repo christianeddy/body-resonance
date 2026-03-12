@@ -112,12 +112,12 @@ const Respirar = () => {
       </div>
 
       {/* Intention filters */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide mb-3">
+      <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-2.5">
         {intentionFilters.map((f) => (
           <button
             key={f}
             onClick={() => setActiveFilter(f)}
-            className={`flex-shrink-0 rounded-full px-4 py-2 font-display text-xs transition-all duration-200 ${
+            className={`flex-shrink-0 rounded-full px-3 py-1 font-display text-[11px] transition-all duration-200 ${
               activeFilter === f
                 ? "bg-primary text-primary-foreground"
                 : "border border-border/40 text-muted-foreground hover:text-foreground"
@@ -129,12 +129,12 @@ const Respirar = () => {
       </div>
 
       {/* Duration filters */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide mb-6">
+      <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-5">
         {durationFilters.map((f) => (
           <button
             key={f}
             onClick={() => setActiveDuration(f === activeDuration ? "Duración" : f)}
-            className={`flex-shrink-0 rounded-full px-4 py-2 font-display text-xs transition-all duration-200 ${
+            className={`flex-shrink-0 rounded-full px-3 py-1 font-display text-[11px] transition-all duration-200 ${
               activeDuration === f
                 ? "bg-primary text-primary-foreground"
                 : "border border-border/40 text-muted-foreground hover:text-foreground"

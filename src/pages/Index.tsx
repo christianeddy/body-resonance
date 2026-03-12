@@ -145,10 +145,10 @@ const Index = () => {
   return (
     <PageTransition>
       {/* 1. Header */}
-      <div className="flex items-center justify-between pt-14 pb-2 mb-8">
+      <div className="flex items-center justify-between pt-14 pb-2 mb-6">
         <div>
           <p className="font-body text-sm text-muted-foreground">Hola, {displayName}</p>
-          <h1 className="font-display text-3xl text-foreground mt-1 tracking-wide">Vuelve a tu centro</h1>
+          <h1 className="font-display text-2xl text-foreground mt-1 tracking-wide">Vuelve a tu centro</h1>
         </div>
         <Link to="/perfil">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-card transition-all duration-200 hover:scale-105 active:scale-95">
@@ -187,12 +187,12 @@ const Index = () => {
               </p>
               <Link
                 to={`/player/${recommended.id}`}
-                className="inline-flex items-center gap-3"
+                className="inline-flex items-center gap-2"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent">
-                  <svg width="14" height="16" viewBox="0 0 14 16" fill="none"><polygon points="2,0 14,8 2,16" fill="hsl(var(--accent-foreground))" /></svg>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent">
+                  <svg width="12" height="14" viewBox="0 0 14 16" fill="none"><polygon points="2,0 14,8 2,16" fill="hsl(var(--accent-foreground))" /></svg>
                 </div>
-                <span className="font-display text-base text-white">Empezar</span>
+                <span className="font-display text-sm text-white">Empezar</span>
               </Link>
             </div>
           </div>

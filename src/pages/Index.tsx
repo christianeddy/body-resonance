@@ -97,14 +97,14 @@ const Index = () => {
   return (
     <PageTransition>
       {/* Header */}
-      <div className="flex items-center justify-between pt-14 pb-2 mb-6">
+      <div className="flex items-center justify-between pt-14 pb-2 mb-8">
         <div>
           <p className="font-body text-sm text-muted-foreground">Hola, {displayName}</p>
-          <h1 className="font-display text-3xl text-foreground mt-1">Vuelve a tu centro</h1>
+          <h1 className="font-display text-4xl uppercase tracking-wider text-foreground mt-1">Vuelve a tu centro</h1>
         </div>
         <Link to="/perfil">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-card border border-border transition-colors hover:border-muted-foreground/20">
-            <GearSix size={16} weight="duotone" className="text-muted-foreground" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-card transition-all duration-200 hover:scale-105 active:scale-95">
+            <GearSix size={18} weight="duotone" className="text-muted-foreground" />
           </div>
         </Link>
       </div>
@@ -124,7 +124,7 @@ const Index = () => {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 mb-2">
               <Icon size={16} weight="duotone" className="text-accent" />
             </div>
-            <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display-semi text-3xl" : "font-display-semi text-3xl text-foreground"}>
+            <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-4xl" : "font-display text-4xl text-foreground"}>
               {value}
             </p>
             <p className="font-body text-[11px] text-muted-foreground mt-1">{label}</p>
@@ -156,7 +156,7 @@ const Index = () => {
             <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-display text-[11px] text-accent mb-3">
               {timeLabel}
             </span>
-            <h2 className="font-display text-xl text-foreground mb-2">{recommended.display_name}</h2>
+            <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-2">{recommended.display_name}</h2>
             {recommended.intention && (
               <span className={`inline-block rounded-full px-3 py-1 font-display text-[11px] mb-3 ${intentionColors[recommended.intention] ?? "bg-accent/10 text-accent"}`}>
                 {intentionLabel[recommended.intention] ?? recommended.intention}
@@ -179,7 +179,7 @@ const Index = () => {
 
       {/* ¿Cómo te sientes hoy? */}
       <section className="mb-8">
-        <h3 className="font-display text-xs uppercase tracking-widest text-muted-foreground mb-4">Cómo te sientes hoy</h3>
+        <h3 className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">Cómo te sientes hoy</h3>
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {[
             { id: "energia", label: "Necesito energía", icon: Lightning, iconBg: "bg-amber-500/20", iconCls: "text-amber-400" },
@@ -212,7 +212,7 @@ const Index = () => {
 
       {/* Programs */}
       <section className="mb-8">
-        <h3 className="font-display text-base text-muted-foreground mb-4">Programas</h3>
+        <h3 className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">Programas</h3>
         {programs && programs.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-thin stagger-children">
             {programs.map((prog) => {
@@ -245,7 +245,7 @@ const Index = () => {
 
       {/* Explore */}
       <section className="mb-8">
-        <h3 className="font-display text-base text-muted-foreground mb-4">Explora</h3>
+        <h3 className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">Explora</h3>
         <div className="stagger-children space-y-3">
           {[
             { name: "Respiración", description: "Técnicas guiadas", icon: Wind, gradient: "var(--gradient-ice)", to: "/respirar", isHeat: false },

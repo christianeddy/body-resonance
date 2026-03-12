@@ -12,7 +12,7 @@ export const BottomNav = () => {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-md -translate-x-1/2 border-t border-[hsl(0_0%_100%/0.06)] bg-background/95 backdrop-blur-md">
+    <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-2xl -translate-x-1/2 border-t border-[hsl(0_0%_100%/0.06)] bg-background/95 backdrop-blur-md">
       <div className="flex items-center justify-around px-2 py-2">
         {tabs.map(({ to, label, icon: Icon }) => {
           const isActive =

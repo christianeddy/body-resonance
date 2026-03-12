@@ -89,7 +89,7 @@ const Practica = () => {
       )}
 
       {/* Fixed CTA */}
-      <div className="fixed bottom-0 left-1/2 w-full max-w-md -translate-x-1/2 p-5 bg-background/90 backdrop-blur-md">
+      <div className="fixed bottom-0 left-1/2 w-full max-w-2xl -translate-x-1/2 p-5 bg-background/90 backdrop-blur-md">
         <Link
           to={`/player/${practice.id}`}
           className="animate-pulse-cta flex w-full items-center justify-center rounded-xl bg-primary py-4 font-display text-sm text-primary-foreground"

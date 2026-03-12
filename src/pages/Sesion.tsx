@@ -1,5 +1,5 @@
 import { PageTransition } from "@/components/layout/PageTransition";
-import { CaretRight, Thermometer, Fire, Heart, Clock } from "@phosphor-icons/react";
+import { CaretRight, Thermometer, Fire, Heart, Clock, Snowflake } from "@phosphor-icons/react";
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { usePractices } from "@/hooks/usePractices";
@@ -57,19 +57,42 @@ const Sesion = () => {
       {/* Tabs */}
       <div className="flex gap-6 mb-8 border-b border-border">
         {(["hielo", "calor"] as Tab[]).map((tab) => {
-          const count = tab === "hielo" ? (iceProtocols?.length ?? 0) : (heatProtocols?.length ?? 0);
+          const isFrio = tab === "hielo";
+          const Icon = isFrio ? Snowflake : Fire;
           return (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`pb-3 font-display text-sm relative ${
+              className={`pb-3 font-display text-sm relative flex items-center gap-2 ${
                 activeTab === tab ? "text-foreground" : "text-muted-foreground"
               }`}
             >
-              {tab === "hielo" ? "Frío" : "Calor"}{" "}
-              <span className="text-muted-foreground text-[11px]">({count})</span>
+              <span
+                className="inline-block font-semibold"
+                style={{
+                  background: isFrio
+                    ? "linear-gradient(90deg, #22d3ee, #818cf8)"
+                    : "linear-gradient(90deg, #f59e0b, #ef4444)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: activeTab === tab ? "transparent" : undefined,
+                }}
+              >
+                {isFrio ? "Frío" : "Calor"}
+              </span>
+              <Icon
+                size={16}
+                weight="duotone"
+                className={isFrio ? "text-cyan-400" : "text-orange-400"}
+              />
               {activeTab === tab && (
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
+                <div
+                  className="absolute bottom-0 left-0 right-0 h-0.5"
+                  style={{
+                    background: isFrio
+                      ? "linear-gradient(90deg, #22d3ee, #818cf8)"
+                      : "linear-gradient(90deg, #f59e0b, #ef4444)",
+                  }}
+                />
               )}
             </button>
           );

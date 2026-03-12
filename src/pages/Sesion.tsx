@@ -88,7 +88,7 @@ const Sesion = () => {
       )}
       {activeTab === "calor" && (
         <div className="relative rounded-2xl overflow-hidden mb-6">
-          <img src={heroCalor} alt="Sauna infrarrojo Bodhi" className="w-full h-52 object-cover" style={{ objectPosition: '50% 40%' }} />
+          <img src={heroCalor} alt="Sauna infrarrojo Bodhi" className="w-full h-52 object-cover" style={{ objectPosition: '50% 25%' }} />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
           <p className="absolute bottom-3 left-4 right-4 font-body text-sm text-foreground/90">
             El calor ayuda a liberar tensión profunda y relajar el sistema nervioso.

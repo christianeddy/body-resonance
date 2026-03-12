@@ -128,7 +128,7 @@ const Index = () => {
         {[
           { value: String(totalSessions), label: "Sesiones", icon: Heartbeat },
           { value: String(totalMinutes), label: "Minutos", icon: Timer },
-          { value: String(streak), label: "Racha", unit: "días", icon: Lightning, highlight: streak > 0 },
+          { value: String(streak), label: "Días seguidos", icon: Lightning, highlight: streak > 0 },
         ].map(({ value, label, unit, icon: Icon, highlight }, i) => (
           <div
             key={i}

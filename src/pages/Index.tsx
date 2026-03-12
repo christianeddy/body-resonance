@@ -277,13 +277,13 @@ const Index = () => {
           ].map(({ value, label, icon: Icon, highlight }, i) => (
             <div
               key={i}
-              className="card-body rounded-xl px-4 py-5 flex flex-col items-center text-center border border-border/50"
+              className="card-body rounded-xl px-3 py-3 flex flex-col items-center text-center border border-border/50"
             >
-              <Icon size={20} weight="duotone" className="text-accent mb-3" />
-              <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-3xl font-light" : "font-display text-3xl text-foreground font-light"}>
+              <Icon size={16} weight="duotone" className="text-accent mb-2" />
+              <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-xl font-light" : "font-display text-xl text-foreground font-light"}>
                 {value}
               </p>
-              <p className="font-display text-sm text-muted-foreground mt-1.5 tracking-wide">{label}</p>
+              <p className="font-display text-[11px] text-muted-foreground mt-1 tracking-wide">{label}</p>
             </div>
           ))}
         </div>
@@ -322,12 +322,12 @@ const Index = () => {
                 <Link
                   to={`/programa/${prog.id}`}
                   key={prog.id}
-                  className="card-body flex-shrink-0 w-60 rounded-2xl p-5 transition-all duration-300 hover:-translate-y-0.5 relative overflow-hidden"
+                  className="card-body flex-shrink-0 w-52 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-0.5 relative overflow-hidden"
                 >
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-                  <h4 className="font-display text-lg text-foreground mb-1">{prog.name}</h4>
-                  <p className="font-body text-[13px] text-muted-foreground line-clamp-2 mb-3">{prog.description}</p>
-                  <span className="inline-block rounded-full bg-primary/10 px-3 py-1 font-display text-[11px] text-accent">
+                  <h4 className="font-display text-sm text-foreground mb-1">{prog.name}</h4>
+                  <p className="font-body text-xs text-muted-foreground line-clamp-2 mb-2">{prog.description}</p>
+                  <span className="inline-block rounded-full bg-primary/10 px-2.5 py-0.5 font-display text-[10px] text-accent">
                     {progressLabel}
                   </span>
                 </Link>

@@ -156,20 +156,20 @@ const Index = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
         <div className="absolute inset-0">
           <span
-            className="absolute left-[8%] top-[38%] font-display text-base sm:text-lg tracking-[0.12em] drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]"
-            style={{ background: "linear-gradient(90deg, #ffffff 0%, #7dd3fc 50%, #38bdf8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+            className="absolute left-[8%] top-[38%] font-display text-base sm:text-lg font-semibold tracking-[0.12em]"
+            style={{ background: "linear-gradient(90deg, #ffffff 30%, #38bdf8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.8))" }}
           >
             Regulación
           </span>
           <span
-            className="absolute left-1/2 -translate-x-1/2 top-[28%] font-display text-base sm:text-lg tracking-[0.12em] drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]"
-            style={{ background: "linear-gradient(90deg, #ffffff 0%, #a78bfa 50%, #c084fc 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+            className="absolute left-1/2 -translate-x-1/2 top-[28%] font-display text-base sm:text-lg font-semibold tracking-[0.12em]"
+            style={{ background: "linear-gradient(90deg, #ffffff 30%, #a78bfa 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.8))" }}
           >
             Recuperación
           </span>
           <span
-            className="absolute right-[8%] top-[38%] font-display text-base sm:text-lg tracking-[0.12em] drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]"
-            style={{ background: "linear-gradient(90deg, #ffffff 0%, #fb923c 50%, #f97316 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+            className="absolute right-[8%] top-[38%] font-display text-base sm:text-lg font-semibold tracking-[0.12em]"
+            style={{ background: "linear-gradient(90deg, #ffffff 30%, #fb923c 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.8))" }}
           >
             Bienestar
           </span>

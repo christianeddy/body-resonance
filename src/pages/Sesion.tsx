@@ -52,16 +52,26 @@ const Sesion = () => {
 
   return (
     <PageTransition>
-      <h1 className="font-display text-2xl text-foreground pt-14 pb-6 flex items-center gap-2.5">
+      <h1
+        className="group font-display text-2xl pt-14 pb-6 flex items-center gap-2.5 cursor-default transition-all duration-500"
+      >
         {activeTab === "hielo" ? (
           <>
-            <Snowflake size={24} weight="duotone" className="text-cyan-400" />
-            Frío
+            <Snowflake size={24} weight="duotone" className="text-cyan-400 transition-transform duration-500 group-hover:rotate-90 group-hover:scale-110" />
+            <span
+              className="transition-all duration-500 text-foreground group-hover:[background:linear-gradient(90deg,#22d3ee,#818cf8)] group-hover:bg-clip-text group-hover:[-webkit-text-fill-color:transparent]"
+            >
+              Frío
+            </span>
           </>
         ) : (
           <>
-            <Fire size={24} weight="duotone" className="text-orange-400" />
-            Calor
+            <Fire size={24} weight="duotone" className="text-orange-400 transition-transform duration-500 group-hover:scale-125" />
+            <span
+              className="transition-all duration-500 text-foreground group-hover:[background:linear-gradient(90deg,#f59e0b,#ef4444)] group-hover:bg-clip-text group-hover:[-webkit-text-fill-color:transparent]"
+            >
+              Calor
+            </span>
           </>
         )}
       </h1>

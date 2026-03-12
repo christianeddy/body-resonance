@@ -79,7 +79,7 @@ const Sesion = () => {
       {/* Hero image */}
       {activeTab === "hielo" && (
         <div className="relative rounded-2xl overflow-hidden mb-6">
-          <img src={heroFrio} alt="Ice bath Bodhi" className="w-full h-52 object-cover" style={{ objectPosition: '50% 35%' }} />
+          <img src={heroFrio} alt="Ice bath Bodhi" className="w-full h-52 object-cover animate-[heroZoom_1.2s_cubic-bezier(0.22,1,0.36,1)_forwards]" style={{ objectPosition: '50% 35%' }} />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
           <p className="absolute bottom-3 left-4 right-4 font-body text-sm text-foreground/90">
             El frío es una herramienta poderosa para regular tu sistema nervioso.

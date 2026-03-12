@@ -57,7 +57,7 @@ const Auth = () => {
             </div>
             <div className="mx-auto mt-2 h-px w-32 bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
             <p className="font-body text-sm text-muted-foreground mt-3">
-              Comienza tu viaje de transformación
+              Frío, Calor y Respiración para desbloquear tu potencial
             </p>
           </div>
 

@@ -1,4 +1,6 @@
 import { PageTransition } from "@/components/layout/PageTransition";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
 import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed, Snowflake, Sun } from "@phosphor-icons/react";
 import ritualEnergia from "@/assets/ritual-energia.png";
@@ -140,7 +142,17 @@ const Index = () => {
   };
 
   const ritualImage = intentionImages[recommendedIntention] ?? ritualEnergia;
-  const practiceCount = practices?.length ?? 0;
+  const { data: allPracticesCount } = useQuery({
+    queryKey: ["all-practices-count"],
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from("practices")
+        .select("*", { count: "exact", head: true });
+      if (error) throw error;
+      return count ?? 0;
+    },
+  });
+  const practiceCount = allPracticesCount ?? 0;
 
   return (
     <PageTransition>

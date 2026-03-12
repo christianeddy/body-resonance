@@ -5,6 +5,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { usePractices } from "@/hooks/usePractices";
 import type { Practice } from "@/hooks/usePractices";
 import heroFrio from "@/assets/hero-frio.png";
+import heroCalor from "@/assets/hero-calor.png";
 
 type Tab = "hielo" | "calor";
 
@@ -86,9 +87,13 @@ const Sesion = () => {
         </div>
       )}
       {activeTab === "calor" && (
-        <p className="font-body text-sm text-muted-foreground mb-6">
-          El calor ayuda a liberar tensión profunda y relajar el sistema nervioso.
-        </p>
+        <div className="relative rounded-2xl overflow-hidden mb-6">
+          <img src={heroCalor} alt="Sauna infrarrojo Bodhi" className="w-full h-52 object-cover" style={{ objectPosition: '50% 20%' }} />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+          <p className="absolute bottom-3 left-4 right-4 font-body text-sm text-foreground/90">
+            El calor ayuda a liberar tensión profunda y relajar el sistema nervioso.
+          </p>
+        </div>
       )}
 
       <h2 className="font-display text-base text-muted-foreground mb-4">

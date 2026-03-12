@@ -60,8 +60,19 @@ export const BottomNav = () => {
                 />
                 <span
                   className={`relative z-10 font-body text-[10px] tracking-wide transition-colors duration-200 ${
-                    isActive ? "text-foreground" : "text-muted-foreground group-hover:text-foreground/70"
+                    isActive && !accentColor ? "text-foreground" : !isActive ? "text-muted-foreground group-hover:text-foreground/70" : ""
                   }`}
+                  style={
+                    isActive && accentColor
+                      ? {
+                          background: label === "Frío"
+                            ? "linear-gradient(90deg, #22d3ee, #818cf8)"
+                            : "linear-gradient(90deg, #f59e0b, #ef4444)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "transparent",
+                        }
+                      : undefined
+                  }
                 >
                   {label}
                 </span>

@@ -65,23 +65,27 @@ className="bg-gradient-to-r from-[hsl(221,83%,48%)] to-[hsl(213,94%,63%)] shadow
 ### Íconos con fondo circular + color sutil
 
 ```tsx
+import { Activity } from '@phosphor-icons/react';
+
 // ❌ Genérico
 <Activity size={16} className="text-muted-foreground" />
 
 // ✅ Con presencia
 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-  <Activity size={16} strokeWidth={1.5} className="text-accent" />
+  <Activity size={16} weight="duotone" className="text-accent" />
 </div>
 ```
 
 ### Íconos de categoría con glow
 
 ```tsx
+import { Wind } from '@phosphor-icons/react';
+
 // Para íconos destacados (hero cards, explore)
 <div className="relative">
   <div className="absolute inset-0 rounded-full bg-primary/20 blur-md" />
   <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-    <Wind size={20} strokeWidth={1.5} className="text-accent" />
+    <Wind size={20} weight="duotone" className="text-accent" />
   </div>
 </div>
 ```

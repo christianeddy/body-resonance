@@ -36,10 +36,10 @@ background: var(--gradient-fire);    /* overlay cálido, 10% opacidad */
 ### `.font-display` y `.font-body`
 
 ```tsx
-// Tipografía display: Barlow Condensed — uppercase, tracking-wide
+// Tipografía display: Clash Display — uppercase, tracking-wide
 <h1 className="font-display text-2xl uppercase tracking-widest">SESIONES</h1>
 
-// Tipografía body: DM Sans — uso general
+// Tipografía body: Satoshi — uso general
 <p className="font-body text-sm text-muted-foreground">Descripción</p>
 ```
 

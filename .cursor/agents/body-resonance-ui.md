@@ -54,19 +54,19 @@ Todos los tokens usan valores HSL sin `hsl()` envuelto (patrón shadcn/ui). Apli
 
 ## Tipografía
 
-**Fuentes**: cargadas desde Google Fonts en `index.html`.
+**Fuentes**: cargadas desde Google Fonts / Fontshare en `index.html`.
 
 | Fuente | Pesos | Uso |
 |---|---|---|
-| **Barlow Condensed** | 400, 600, 700 | Headings, labels, botones, navegación |
-| **DM Sans** | 400, 500, 600 | Body text, descripciones, texto corriente |
+| **Clash Display** | 400, 600, 700 | Headings, labels, botones, navegación |
+| **Satoshi** | 400, 500, 600 | Body text, descripciones, texto corriente |
 
 ```css
 /* Reglas globales en index.css */
-body { font-family: 'DM Sans', sans-serif; }
+body { font-family: 'Satoshi', sans-serif; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Clash Display', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -76,9 +76,9 @@ h1, h2, h3, h4, h5, h6 {
 **Clases de utilidad disponibles:**
 
 ```
-.font-display       → Barlow Condensed 700, uppercase, letter-spacing 0.08em
-.font-display-semi  → Barlow Condensed 600, uppercase, letter-spacing 0.04em
-.font-body          → DM Sans
+.font-display       → Clash Display 700, uppercase, letter-spacing 0.08em
+.font-display-semi  → Clash Display 600, uppercase, letter-spacing 0.04em
+.font-body          → Satoshi
 ```
 
 **En Tailwind:** `font-display` y `font-body` están registrados como `fontFamily`.
@@ -182,11 +182,11 @@ animation: breathe-ring 8s ease-in-out infinite;
 
 ## Iconos
 
-Exclusivamente `lucide-react`. Siempre con `strokeWidth={1.5}`.
+Exclusivamente `@phosphor-icons/react`. Siempre con `weight="duotone"` (nunca usar `strokeWidth`).
 
 ```tsx
-import { Heart } from 'lucide-react';
-<Heart className="w-5 h-5" strokeWidth={1.5} />
+import { Heart } from '@phosphor-icons/react';
+<Heart className="w-5 h-5" weight="duotone" />
 ```
 
 ---
@@ -237,9 +237,9 @@ src/
 ## Patrones a evitar
 
 - ❌ No uses modo claro ni variables `dark:` en componentes nuevos
-- ❌ No uses fuentes distintas a Barlow Condensed / DM Sans
+- ❌ No uses fuentes distintas a Clash Display / Satoshi
 - ❌ No apliques `background-color` directamente — usa los tokens CSS
-- ❌ No uses `lucide-react` con `strokeWidth` distinto de `1.5`
+- ❌ No uses otra librería de íconos que no sea `@phosphor-icons/react`, ni uses `strokeWidth`
 - ❌ No crees cards sin la clase `.card-body` o el gradient equivalente
 - ❌ No uses colores hardcodeados (hex o rgb) — siempre `hsl(var(--token))`
 - ❌ No uses `rounded-full` en cards (solo en avatares/badges circulares)
@@ -249,9 +249,9 @@ src/
 ## Checklist antes de entregar un componente
 
 - [ ] Usa tokens CSS (`hsl(var(--token))`), no colores hardcodeados
-- [ ] Tipografía: headings con `font-display`, body con `font-body` o DM Sans por defecto
+- [ ] Tipografía: headings con `font-display`, body con `font-body` o Satoshi por defecto
 - [ ] Cards usan `.card-body` o `--gradient-card` + `--shadow-inner-glow`
-- [ ] Iconos de `lucide-react` con `strokeWidth={1.5}`
+- [ ] Iconos de `@phosphor-icons/react` con `weight="duotone"`
 - [ ] Border radius coherente: `rounded-xl` para listas, `rounded-2xl` para hero
 - [ ] Animaciones de entrada usan `animate-fade-slide-in` o `.stagger-children`
 - [ ] Import paths con alias `@/`

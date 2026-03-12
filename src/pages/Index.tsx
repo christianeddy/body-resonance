@@ -74,7 +74,7 @@ const Index = () => {
   const { data: allProgress } = useAllProgramProgress();
 
   // Recommend practice based on profile + time of day
-  const hour = 14; // TODO: revert to new Date().getHours()
+  const hour = 16; // TODO: revert to new Date().getHours()
   let recommendedIntention = "calma";
   if (hour < 12) recommendedIntention = "energia";
   else if (hour >= 21) recommendedIntention = "dormir";

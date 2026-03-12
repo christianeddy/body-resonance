@@ -156,7 +156,7 @@ const Index = () => {
             <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-display text-[11px] text-accent mb-3">
               {timeLabel}
             </span>
-            <h2 className="font-display text-xl text-foreground mb-2">{recommended.display_name}</h2>
+            <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-2">{recommended.display_name}</h2>
             {recommended.intention && (
               <span className={`inline-block rounded-full px-3 py-1 font-display text-[11px] mb-3 ${intentionColors[recommended.intention] ?? "bg-accent/10 text-accent"}`}>
                 {intentionLabel[recommended.intention] ?? recommended.intention}

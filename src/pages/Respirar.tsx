@@ -95,9 +95,18 @@ const Respirar = () => {
 
   return (
     <PageTransition>
-      {/* Header */}
-      <h1 className="font-display text-3xl text-foreground pt-14">Respirar</h1>
-      <p className="font-body text-sm text-muted-foreground mt-1 mb-5">Descubre tu práctica ideal</p>
+      <h1 className="font-display text-3xl text-foreground pt-14 pb-6">Respirar</h1>
+
+      {/* Hero */}
+      <div className="relative rounded-2xl overflow-hidden mb-6">
+        <img src={heroRespiracion} alt="Respiración guiada Bodhi" className="w-full h-52 object-cover" style={{ objectPosition: '50% 30%' }} />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <p className="absolute bottom-3 left-4 right-4 font-body text-sm text-foreground/90">
+          La respiración es tu herramienta más accesible para regular tu estado interno.
+        </p>
+      </div>
+
+      <p className="font-body text-sm text-muted-foreground mb-4">Descubre tu práctica ideal</p>
 
       {/* Search */}
       <div className="relative mb-5">

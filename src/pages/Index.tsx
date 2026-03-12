@@ -188,15 +188,15 @@ const Index = () => {
       {recommended && (
         <section className="mb-8">
           <div
-            className="card-body relative overflow-hidden rounded-2xl p-6"
-            style={{ background: "var(--gradient-card)" }}
+            className="relative overflow-hidden rounded-2xl p-6"
+            style={{ background: "linear-gradient(180deg, hsl(240 12% 5%) 0%, hsl(240 18% 8%) 100%)" }}
           >
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
             {/* Background image on the right */}
             <div className="absolute inset-0 pointer-events-none">
               <img src={ritualImage} alt="" className="absolute right-0 top-0 h-full w-3/4 object-cover object-[center_20%]" />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to right, hsl(var(--card)) 25%, hsl(var(--card) / 0.85) 38%, hsl(var(--card) / 0.3) 55%, transparent 70%)" }} />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, hsl(var(--card)) 0%, transparent 35%)" }} />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to right, hsl(240 12% 5%) 25%, hsl(240 12% 5% / 0.85) 38%, hsl(240 12% 5% / 0.3) 55%, transparent 70%)" }} />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(to top, hsl(240 12% 5%) 0%, transparent 35%)" }} />
             </div>
             <div className="relative z-10">
               <span
@@ -209,8 +209,8 @@ const Index = () => {
               >
                 {timeLabel} · {intentionLabel[recommendedIntention] ?? recommendedIntention}
               </span>
-              <h2 className="font-display text-2xl text-foreground mb-2">{recommended.display_name}</h2>
-              <p className="font-body text-sm text-muted-foreground mb-6">
+              <h2 className="font-display text-2xl text-white mb-2">{recommended.display_name}</h2>
+              <p className="font-body text-sm text-white/60 mb-6">
                 {recommended.duration_estimated} · Intensidad {recommended.intensity}
               </p>
               <div className="flex justify-end">

@@ -442,3 +442,23 @@
   from { opacity: 0; transform: translateX(20px); }
   to { opacity: 1; transform: translateX(0); }
 }
+
+.frio-hover-gradient,
+.calor-hover-gradient {
+  color: hsl(var(--foreground));
+  transition: all 0.5s ease;
+}
+
+.group:hover .frio-hover-gradient {
+  background: linear-gradient(90deg, #22d3ee, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.group:hover .calor-hover-gradient {
+  background: linear-gradient(90deg, #f59e0b, #ef4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

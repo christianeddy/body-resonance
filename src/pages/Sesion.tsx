@@ -58,18 +58,14 @@ const Sesion = () => {
         {activeTab === "hielo" ? (
           <>
             <Snowflake size={24} weight="duotone" className="text-cyan-400 transition-transform duration-500 group-hover:rotate-90 group-hover:scale-110" />
-            <span
-              className="transition-all duration-500 text-foreground group-hover:[background:linear-gradient(90deg,#22d3ee,#818cf8)] group-hover:bg-clip-text group-hover:[-webkit-text-fill-color:transparent]"
-            >
+            <span className="frio-hover-gradient transition-all duration-500">
               Frío
             </span>
           </>
         ) : (
           <>
             <Fire size={24} weight="duotone" className="text-orange-400 transition-transform duration-500 group-hover:scale-125" />
-            <span
-              className="transition-all duration-500 text-foreground group-hover:[background:linear-gradient(90deg,#f59e0b,#ef4444)] group-hover:bg-clip-text group-hover:[-webkit-text-fill-color:transparent]"
-            >
+            <span className="calor-hover-gradient transition-all duration-500">
               Calor
             </span>
           </>

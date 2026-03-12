@@ -45,17 +45,19 @@ const Perfil = () => {
         <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">TU CAMINO</h3>
         <div className="grid grid-cols-3 gap-3 stagger-children">
           {[
-            { value: String(totalSessions), label: "Sesiones", icon: Sliders, color: "text-accent" },
-            { value: String(totalMinutes), label: "Minutos", icon: Clock, color: "text-primary" },
-            { value: String(streak), label: "Racha", icon: Fire, color: "text-orange-400" },
+            { value: String(totalSessions), label: "Sesiones", icon: Wind, color: "text-accent", glow: "group-hover:drop-shadow-[0_0_6px_rgba(96,165,250,0.5)]" },
+            { value: String(totalMinutes), label: "Minutos", icon: Clock, color: "text-primary", glow: "group-hover:drop-shadow-[0_0_6px_rgba(59,130,246,0.5)]" },
+            { value: String(streak), label: "Racha", icon: Fire, color: "text-orange-400", glow: "group-hover:drop-shadow-[0_0_6px_rgba(245,158,11,0.5)]" },
           ].map((s, i) => {
             const Icon = s.icon;
             return (
               <div
                 key={i}
-                className="flex flex-col items-center gap-2 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]"
+                className="group flex flex-col items-center gap-2 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60"
               >
-                <Icon size={20} weight="duotone" className={s.color} />
+                <div className="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
+                  <Icon size={20} weight="duotone" className={`${s.color} transition-all duration-300 ${s.glow}`} />
+                </div>
                 <p className="font-display text-2xl text-foreground">{s.value}</p>
                 <p className="font-body text-[11px] text-muted-foreground">{s.label}</p>
               </div>

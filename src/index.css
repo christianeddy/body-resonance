@@ -338,13 +338,13 @@
    ============================================ */
 
 .font-display {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
 }
 
 .font-display-semi {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
   letter-spacing: 0.04em;
 }

@@ -62,6 +62,20 @@ export const BottomNav = () => {
               </NavLink>
             );
           })}
+          {/* Theme toggle */}
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="group relative flex flex-col items-center gap-1 px-4 py-1.5 transition-all duration-200"
+          >
+            {theme === "dark" ? (
+              <Sun size={22} weight="duotone" className="text-muted-foreground group-hover:text-foreground/70 transition-colors duration-200" />
+            ) : (
+              <Moon size={22} weight="duotone" className="text-muted-foreground group-hover:text-foreground/70 transition-colors duration-200" />
+            )}
+            <span className="font-body text-[10px] tracking-wide text-muted-foreground group-hover:text-foreground/70 transition-colors duration-200">
+              {theme === "dark" ? "Claro" : "Oscuro"}
+            </span>
+          </button>
         </div>
       </div>
     </nav>

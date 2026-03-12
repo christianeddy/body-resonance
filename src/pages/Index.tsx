@@ -132,19 +132,6 @@ const Index = () => {
         ))}
       </div>
 
-      {/* Hero */}
-      <div className="relative -mx-5 mb-8 overflow-hidden">
-        <img
-          src={heroHome}
-          alt="Bodhi ice bath"
-          className="w-full h-56 sm:h-72 object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-        <div className="absolute bottom-4 left-5 right-5">
-          <p className="font-display text-lg text-foreground">Regulación · Recuperación · Bienestar</p>
-          <p className="font-body text-sm text-muted-foreground mt-1">Herramientas prácticas para tu estado interno</p>
-        </div>
-      </div>
 
       {/* Daily Ritual */}
       {recommended && (

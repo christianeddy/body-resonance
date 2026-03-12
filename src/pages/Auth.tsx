@@ -53,7 +53,7 @@ const Auth = () => {
           <img
             src={logoSymbol}
             alt="BODHI"
-            className="h-16 mx-auto mb-6 brightness-0 invert"
+            className="h-12 mx-auto mb-6 brightness-0 invert"
           />
           <h1 className="font-display text-3xl font-bold text-foreground mb-2">
             BODHI Lab

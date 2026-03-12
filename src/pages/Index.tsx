@@ -137,13 +137,13 @@ const Index = () => {
         <img
           src={heroHome}
           alt="Bodhi ice bath"
-          className="w-full h-64 object-cover"
-          style={{ objectPosition: '50% 25%' }}
+          className="w-full h-72 object-cover"
+          style={{ objectPosition: '50% 45%' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         <div className="absolute bottom-4 left-5 right-5">
-          <p className="font-display text-lg text-foreground">Tu cuerpo es tu templo</p>
-          <p className="font-body text-sm text-muted-foreground mt-1">Entrená tu resistencia al frío con Bodhi</p>
+          <p className="font-display text-lg text-foreground">Regulación · Recuperación · Bienestar</p>
+          <p className="font-body text-sm text-muted-foreground mt-1">Herramientas prácticas para tu estado interno</p>
         </div>
       </div>
 

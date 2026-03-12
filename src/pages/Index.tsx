@@ -63,6 +63,7 @@ const MoodPractices = ({ intention }: { intention: string }) => {
 const Index = () => {
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const { profile } = useAuth();
+  const { theme, setTheme } = useTheme();
   const { totalSessions, totalMinutes, streak } = useSessionStats();
   const { data: practices } = usePractices("respiracion");
   const { data: programs } = usePrograms();

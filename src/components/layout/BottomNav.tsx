@@ -13,15 +13,13 @@ export const BottomNav = () => {
 
   return (
     <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-6xl -translate-x-1/2">
-      {/* Glassmorphism bar */}
       <div
-        className="mx-3 mb-3 rounded-2xl border border-white/[0.06] px-2 py-2.5"
+        className="mx-3 mb-3 rounded-2xl border border-border/40 bg-card/90 px-2 py-2.5"
         style={{
-          background: "hsla(0, 0%, 6%, 0.85)",
           backdropFilter: "blur(24px) saturate(1.4)",
           WebkitBackdropFilter: "blur(24px) saturate(1.4)",
           boxShadow:
-            "0 -4px 30px -8px hsla(0, 0%, 0%, 0.5), inset 0 1px 0 0 hsla(0, 0%, 100%, 0.04)",
+            "var(--shadow-card), var(--shadow-inner-glow)",
         }}
       >
         <div className="flex items-center justify-around">
@@ -37,7 +35,6 @@ export const BottomNav = () => {
                 to={to}
                 className="group relative flex flex-col items-center gap-1 px-4 py-1.5 transition-all duration-200"
               >
-                {/* Active glow behind icon */}
                 {isActive && (
                   <div className="absolute -top-1 h-8 w-8 rounded-full bg-primary/15 blur-lg" />
                 )}
@@ -55,7 +52,6 @@ export const BottomNav = () => {
                 >
                   {label}
                 </span>
-                {/* Active dot */}
                 <div
                   className={`h-1 w-1 rounded-full transition-all duration-300 ${
                     isActive ? "bg-accent scale-100" : "bg-transparent scale-0"

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Check } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const steps = [
   {
@@ -23,8 +26,10 @@ const steps = [
 
 const Onboarding = () => {
   const navigate = useNavigate();
+  const { user, refreshProfile } = useAuth();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<(string | null)[]>([null, null, null, null]);
+  const [saving, setSaving] = useState(false);
 
   const current = steps[step];
   const selected = answers[step];
@@ -36,9 +41,27 @@ const Onboarding = () => {
     setAnswers(next);
   };
 
-  const advance = () => {
+  const advance = async () => {
     if (isLast) {
-      navigate("/");
+      setSaving(true);
+      try {
+        const userProfile = answers[1] === "Mejorar mi rendimiento deportivo" ? "deportivo" : "bienestar";
+        const { error } = await supabase
+          .from("profiles")
+          .update({
+            onboarding_answers: answers,
+            user_profile: userProfile,
+            onboarding_completed: true,
+          })
+          .eq("user_id", user!.id);
+        if (error) throw error;
+        await refreshProfile();
+        navigate("/");
+      } catch (err: any) {
+        toast.error("Error guardando respuestas");
+      } finally {
+        setSaving(false);
+      }
     } else {
       setStep(step + 1);
     }
@@ -91,14 +114,18 @@ const Onboarding = () => {
       <div className="mt-auto pb-10">
         <button
           onClick={advance}
-          disabled={!selected}
+          disabled={!selected || saving}
           className={`w-full rounded-xl py-4 font-display text-sm transition-all duration-200 ${
             selected
               ? "bg-primary text-primary-foreground animate-pulse-cta"
               : "bg-muted text-muted-foreground cursor-not-allowed"
           }`}
         >
-          {isLast ? "COMENZAR" : "SIGUIENTE"}
+          {saving ? (
+            <div className="h-4 w-4 mx-auto rounded-full border-2 border-primary-foreground border-t-transparent animate-spin" />
+          ) : (
+            isLast ? "COMENZAR" : "SIGUIENTE"
+          )}
         </button>
       </div>
     </div>

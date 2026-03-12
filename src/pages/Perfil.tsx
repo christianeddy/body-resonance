@@ -1,7 +1,41 @@
 import { PageTransition } from "@/components/layout/PageTransition";
+import { useAuth } from "@/hooks/useAuth";
+import { useSessionStats, useSessions } from "@/hooks/useSessions";
+import { useFavorites } from "@/hooks/useFavorites";
+import { usePractices } from "@/hooks/usePractices";
+import { useMemo } from "react";
 
 const Perfil = () => {
-  const initials = "JD";
+  const { profile, signOut } = useAuth();
+  const { totalSessions, totalMinutes, streak, mostUsed } = useSessionStats();
+  const { data: sessions } = useSessions();
+  const { data: favoriteIds } = useFavorites();
+  const { data: allPractices } = usePractices();
+
+  const displayName = profile?.display_name || "Usuario";
+  const initials = displayName.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2);
+  const profileLabel = profile?.user_profile === "deportivo" ? "DEPORTIVO" : "BIENESTAR";
+
+  // Heatmap data: last 12 weeks (84 days)
+  const heatmapData = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const dayMs = 86400000;
+    const counts: Record<number, number> = {};
+
+    sessions?.forEach((s) => {
+      const d = new Date(s.completed_at);
+      d.setHours(0, 0, 0, 0);
+      const dayIndex = Math.floor((today.getTime() - d.getTime()) / dayMs);
+      if (dayIndex >= 0 && dayIndex < 84) {
+        counts[dayIndex] = (counts[dayIndex] || 0) + 1;
+      }
+    });
+
+    return Array.from({ length: 84 }).map((_, i) => counts[83 - i] || 0);
+  }, [sessions]);
+
+  const favoritePractices = allPractices?.filter((p) => favoriteIds?.includes(p.id)) ?? [];
 
   return (
     <PageTransition>
@@ -11,9 +45,9 @@ const Perfil = () => {
           <span className="font-display text-lg text-foreground">{initials}</span>
         </div>
         <div>
-          <h1 className="font-display text-xl text-foreground">Juan Deportista</h1>
+          <h1 className="font-display text-xl text-foreground">{displayName}</h1>
           <span className="inline-block rounded-full bg-primary/10 px-3 py-0.5 font-display text-[11px] text-accent mt-1">
-            DEPORTIVO
+            {profileLabel}
           </span>
         </div>
       </div>
@@ -21,10 +55,10 @@ const Perfil = () => {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 mb-8 stagger-children">
         {[
-          { value: "12", label: "SESIONES" },
-          { value: "86", label: "MINUTOS" },
-          { value: "3", label: "DÍAS DE RACHA", highlight: true },
-          { value: "Calma", label: "MÁS USADA" },
+          { value: String(totalSessions), label: "SESIONES" },
+          { value: String(totalMinutes), label: "MINUTOS" },
+          { value: String(streak), label: "DÍAS DE RACHA", highlight: streak > 0 },
+          { value: mostUsed || "—", label: "MÁS USADA" },
         ].map((s, i) => (
           <div key={i} className="card-body rounded-xl p-4">
             <p className={`font-display-semi text-2xl ${s.highlight ? "text-success" : "text-foreground"}`}>
@@ -35,16 +69,15 @@ const Perfil = () => {
         ))}
       </div>
 
-      {/* Heatmap placeholder */}
+      {/* Heatmap */}
       <section className="mb-8">
         <h3 className="font-display text-base text-muted-foreground mb-4">ACTIVIDAD</h3>
         <div className="grid grid-cols-12 gap-1">
-          {Array.from({ length: 84 }).map((_, i) => {
-            const intensity = Math.random();
+          {heatmapData.map((count, i) => {
             let bg = "bg-card";
-            if (intensity > 0.8) bg = "bg-accent";
-            else if (intensity > 0.6) bg = "bg-primary";
-            else if (intensity > 0.4) bg = "bg-primary/50";
+            if (count >= 3) bg = "bg-accent";
+            else if (count === 2) bg = "bg-primary";
+            else if (count === 1) bg = "bg-primary/50";
             return (
               <div key={i} className={`aspect-square rounded-sm ${bg}`} />
             );
@@ -52,14 +85,28 @@ const Perfil = () => {
         </div>
       </section>
 
-      {/* Favorites placeholder */}
+      {/* Favorites */}
       <section className="mb-8">
         <h3 className="font-display text-base text-muted-foreground mb-4">MIS FAVORITOS</h3>
-        <p className="font-body text-sm text-muted-foreground">Aún no tienes favoritos guardados</p>
+        {favoritePractices.length === 0 ? (
+          <p className="font-body text-sm text-muted-foreground">Aún no tienes favoritos guardados</p>
+        ) : (
+          <div className="space-y-2">
+            {favoritePractices.map((p) => (
+              <div key={p.id} className="card-body rounded-xl p-3">
+                <p className="font-body text-sm text-foreground">{p.display_name}</p>
+                <p className="font-body text-xs text-muted-foreground">{p.duration_estimated}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Logout */}
-      <button className="w-full py-4 font-body text-sm text-muted-foreground hover:text-foreground transition-colors">
+      <button
+        onClick={() => signOut()}
+        className="w-full py-4 font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
         Cerrar sesión
       </button>
     </PageTransition>

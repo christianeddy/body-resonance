@@ -1,15 +1,91 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Play, Pause, RotateCcw, Check } from "lucide-react";
+import { usePractice } from "@/hooks/usePractices";
+import { useSaveSession } from "@/hooks/useSessions";
+import { toast } from "sonner";
 
 const Player = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { data: practice, isLoading } = usePractice(id);
+  const saveSession = useSaveSession();
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [feeling, setFeeling] = useState<string | null>(null);
+  const [elapsed, setElapsed] = useState(0);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const feelings = ["Poderoso", "Orgulloso", "En calma", "Energizado"];
+
+  // Timer
+  useEffect(() => {
+    if (isPlaying) {
+      intervalRef.current = setInterval(() => setElapsed((e) => e + 1), 1000);
+    } else if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [isPlaying]);
+
+  // Visual mode: cycle through phases
+  const phases = practice?.phases && Array.isArray(practice.phases) ? practice.phases : [];
+  let totalPhaseDuration = 0;
+  phases.forEach((p: any) => { totalPhaseDuration += p.duration || 0; });
+  const cycleDuration = totalPhaseDuration || 16; // fallback 16s cycle
+
+  const cycleElapsed = elapsed % cycleDuration;
+  let currentPhaseName = "";
+  let phaseTimeLeft = 0;
+  let accumulated = 0;
+  for (const phase of phases) {
+    const dur = phase.duration || 4;
+    if (cycleElapsed < accumulated + dur) {
+      currentPhaseName = phase.name || "";
+      phaseTimeLeft = dur - (cycleElapsed - accumulated);
+      break;
+    }
+    accumulated += dur;
+  }
+  if (!currentPhaseName && phases.length > 0) {
+    currentPhaseName = phases[0].name;
+    phaseTimeLeft = phases[0].duration || 4;
+  }
+
+  const handleComplete = () => {
+    setIsPlaying(false);
+    setCompleted(true);
+  };
+
+  const handleSaveAndBack = async () => {
+    if (practice && feeling) {
+      try {
+        await saveSession.mutateAsync({
+          practice_id: practice.id,
+          practice_name: practice.display_name,
+          duration_seconds: elapsed,
+          feeling,
+        });
+        toast.success("Sesión guardada");
+      } catch {
+        toast.error("Error guardando sesión");
+      }
+    }
+    navigate(-1);
+  };
+
+  // Estimate total duration for progress bar
+  const estimatedTotal = totalPhaseDuration > 0 ? totalPhaseDuration * 3 : 300; // 3 cycles or 5 min
+  const progress = Math.min((elapsed / estimatedTotal) * 100, 100);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="h-6 w-6 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+      </div>
+    );
+  }
 
   if (completed) {
     return (
@@ -36,7 +112,7 @@ const Player = () => {
           ))}
         </div>
         <button
-          onClick={() => navigate(-1)}
+          onClick={handleSaveAndBack}
           className="font-display text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           VOLVER
@@ -48,30 +124,42 @@ const Player = () => {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-5">
       {/* Practice name */}
-      <p className="font-display text-lg text-foreground mb-1">Arrancar con energía</p>
+      <p className="font-display text-lg text-foreground mb-1">
+        {practice?.display_name || "Práctica"}
+      </p>
       <p className="font-body text-sm text-muted-foreground mb-12">Respira con Lore</p>
 
       {/* Breathing Circle — THE STAR */}
-      <div className="breathing-circle mb-12">
+      <div className="breathing-circle mb-8">
         <div className="breathing-ring breathing-ring--outer" />
         <div className="breathing-ring breathing-ring--middle" />
         <div className="breathing-ring breathing-ring--inner" />
         <div className="breathing-glow" />
+        {/* Visual mode: phase text inside circle */}
+        {practice?.media_mode === "visual" && isPlaying && currentPhaseName && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
+            <p className="font-display text-base text-foreground mb-1">{currentPhaseName.toUpperCase()}</p>
+            <p className="font-display-semi text-3xl text-foreground">{Math.ceil(phaseTimeLeft)}</p>
+          </div>
+        )}
       </div>
 
       {/* Progress bar */}
       <div className="w-full max-w-xs mb-8">
         <div className="h-0.5 w-full rounded-full bg-[hsl(0_0%_100%/0.06)]">
           <div
-            className="h-full rounded-full bg-primary animate-progress-fill transition-all"
-            style={{ width: isPlaying ? "65%" : "0%" }}
+            className="h-full rounded-full bg-primary transition-all duration-1000"
+            style={{ width: `${progress}%` }}
           />
         </div>
       </div>
 
       {/* Controls */}
       <div className="flex items-center gap-10">
-        <button className="text-muted-foreground hover:text-foreground transition-colors">
+        <button
+          onClick={() => setElapsed(Math.max(0, elapsed - 15))}
+          className="text-muted-foreground hover:text-foreground transition-colors"
+        >
           <RotateCcw size={24} strokeWidth={1.5} />
         </button>
         <button
@@ -80,16 +168,15 @@ const Player = () => {
         >
           {isPlaying ? <Pause size={24} /> : <Play size={24} className="ml-0.5" />}
         </button>
-        {/* Spacer for symmetry */}
         <div className="w-6" />
       </div>
 
-      {/* Dev: complete button */}
+      {/* Complete button */}
       <button
-        onClick={() => setCompleted(true)}
+        onClick={handleComplete}
         className="mt-16 font-body text-xs text-muted-foreground/40 hover:text-muted-foreground transition-colors"
       >
-        [dev] completar
+        TERMINAR SESIÓN
       </button>
     </div>
   );

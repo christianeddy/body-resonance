@@ -2,6 +2,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/hooks/useAuth";
+import { AuthGuard } from "@/components/AuthGuard";
 import { MobileShell } from "@/components/layout/MobileShell";
 import Index from "./pages/Index";
 import Respirar from "./pages/Respirar";
@@ -21,24 +23,28 @@ const App = () => (
     <TooltipProvider>
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          {/* Full-screen routes (no bottom nav) */}
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/player/:id" element={<Player />} />
+        <AuthProvider>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/auth" element={<Auth />} />
 
-          {/* Routes with bottom nav */}
-          <Route element={<MobileShell />}>
-            <Route path="/" element={<Index />} />
-            <Route path="/respirar" element={<Respirar />} />
-            <Route path="/sesion" element={<Sesion />} />
-            <Route path="/perfil" element={<Perfil />} />
-            <Route path="/practica/:id" element={<Practica />} />
-            <Route path="/programa/:id" element={<Programa />} />
-          </Route>
+            {/* Protected: onboarding */}
+            <Route path="/onboarding" element={<AuthGuard><Onboarding /></AuthGuard>} />
+            <Route path="/player/:id" element={<AuthGuard><Player /></AuthGuard>} />
 
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            {/* Protected routes with bottom nav */}
+            <Route element={<AuthGuard><MobileShell /></AuthGuard>}>
+              <Route path="/" element={<Index />} />
+              <Route path="/respirar" element={<Respirar />} />
+              <Route path="/sesion" element={<Sesion />} />
+              <Route path="/perfil" element={<Perfil />} />
+              <Route path="/practica/:id" element={<Practica />} />
+              <Route path="/programa/:id" element={<Programa />} />
+            </Route>
+
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

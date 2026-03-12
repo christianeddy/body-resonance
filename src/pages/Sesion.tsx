@@ -1,5 +1,5 @@
 import { PageTransition } from "@/components/layout/PageTransition";
-import { CaretRight, Thermometer, Fire, Heart, Clock, Snowflake } from "@phosphor-icons/react";
+import { CaretRight, Thermometer, Fire, Heart, Clock, Snowflake, Lock } from "@phosphor-icons/react";
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { usePractices } from "@/hooks/usePractices";
@@ -107,23 +107,30 @@ const Sesion = () => {
           {protocols.map((p) => {
             const { num, label } = getPhase(p, activeTab === "hielo");
             const isFrio = activeTab === "hielo";
+            const isPremium = p.premium;
+            const Wrapper = isPremium ? 'div' : Link;
+            const wrapperProps = isPremium
+              ? { className: "flex items-center gap-4 rounded-2xl bg-card/40 border border-border p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] opacity-70 cursor-not-allowed" }
+              : { to: `/practica/${p.id}`, className: "flex items-center gap-4 rounded-2xl bg-card/40 border border-border p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60" };
             return (
-              <Link
-                to={`/practica/${p.id}`}
+              <Wrapper
                 key={p.id}
-                className="flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60"
+                {...(wrapperProps as any)}
               >
                 <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl font-display text-xs ${isFrio ? "bg-cyan-500/20 text-cyan-400" : "bg-orange-500/20 text-foreground"}`}>
                   {num}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-body text-base font-medium text-foreground truncate">{p.display_name}</h3>
+                  <h3 className="font-body text-base font-medium text-foreground truncate flex items-center gap-1.5">
+                    {p.display_name}
+                    {isPremium && <Lock size={14} weight="fill" className="text-muted-foreground flex-shrink-0" />}
+                  </h3>
                   <p className="font-body text-sm text-muted-foreground mt-0.5">
                     {label} · {p.duration_estimated}
                   </p>
                 </div>
                 <CaretRight size={18} weight="regular" className="text-muted-foreground flex-shrink-0" />
-              </Link>
+              </Wrapper>
             );
           })}
         </div>

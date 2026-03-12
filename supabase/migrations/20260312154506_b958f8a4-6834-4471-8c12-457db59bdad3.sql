@@ -1,0 +1,1 @@
+ALTER TABLE public.practices ADD COLUMN premium boolean NOT NULL DEFAULT false;

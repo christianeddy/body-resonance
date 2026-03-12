@@ -2,7 +2,7 @@ import { PageTransition } from "@/components/layout/PageTransition";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
-import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed, Snowflake, Sun } from "@phosphor-icons/react";
+import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed, Snowflake, Sun, Lock } from "@phosphor-icons/react";
 import ritualEnergia from "@/assets/ritual-energia.png";
 import ritualReset from "@/assets/ritual-reset.png";
 import ritualCalma from "@/assets/ritual-calma.png";
@@ -81,21 +81,27 @@ const MoodPractices = ({ intention }: { intention: string }) => {
 
   return (
     <div className="mt-4 space-y-2 stagger-children">
-      {practices.map((p) => (
-        <Link
-          to={`/practica/${p.id}`}
-          key={p.id}
-          className="card-body flex items-center gap-4 rounded-xl px-5 py-4"
-        >
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-            <ArrowsClockwise size={16} weight="duotone" className="text-accent" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h4 className="font-display text-base text-foreground">{p.display_name}</h4>
-            <p className="font-body text-xs text-muted-foreground mt-0.5">{p.duration_estimated}</p>
-          </div>
-        </Link>
-      ))}
+      {practices.map((p) => {
+        const isPremium = p.premium;
+        const Wrapper = isPremium ? 'div' : Link;
+        const wrapperProps = isPremium
+          ? { className: "card-body flex items-center gap-4 rounded-xl px-5 py-4 opacity-70 cursor-not-allowed" }
+          : { to: `/practica/${p.id}`, className: "card-body flex items-center gap-4 rounded-xl px-5 py-4" };
+        return (
+          <Wrapper key={p.id} {...(wrapperProps as any)}>
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+              <ArrowsClockwise size={16} weight="duotone" className="text-accent" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="font-display text-base text-foreground flex items-center gap-1.5">
+                {p.display_name}
+                {isPremium && <Lock size={14} weight="fill" className="text-muted-foreground flex-shrink-0" />}
+              </h4>
+              <p className="font-body text-xs text-muted-foreground mt-0.5">{p.duration_estimated}</p>
+            </div>
+          </Wrapper>
+        );
+      })}
     </div>
   );
 };

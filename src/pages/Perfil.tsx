@@ -7,12 +7,10 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
-import { useTheme } from "next-themes";
-import { Switch } from "@/components/ui/switch";
 
 const Perfil = () => {
   const { profile, signOut } = useAuth();
-  const { theme, setTheme } = useTheme();
+  
   const { totalSessions, totalMinutes, streak, mostUsed } = useSessionStats();
   const { data: sessions } = useSessions();
   const { data: favoriteIds } = useFavorites();
@@ -149,17 +147,6 @@ const Perfil = () => {
         )}
       </section>
 
-      {/* Settings */}
-      <section className="mb-6">
-        <h3 className="font-display text-base text-muted-foreground mb-4">Ajustes</h3>
-        <div className="card-body rounded-xl p-4 flex items-center justify-between">
-          <span className="font-body text-sm text-foreground">Modo oscuro</span>
-          <Switch
-            checked={theme === "dark"}
-            onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
-          />
-        </div>
-      </section>
 
       {/* Logout */}
       <button

@@ -1,8 +1,9 @@
 import { PageTransition } from "@/components/layout/PageTransition";
 import { useState } from "react";
-import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed } from "@phosphor-icons/react";
+import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed, Sun, Moon } from "@phosphor-icons/react";
 import heroHome from "@/assets/hero-home.png";
 import { Link } from "react-router-dom";
+import { useTheme } from "next-themes";
 import { useAuth } from "@/hooks/useAuth";
 import { useSessionStats } from "@/hooks/useSessions";
 import { usePractices } from "@/hooks/usePractices";
@@ -62,6 +63,7 @@ const MoodPractices = ({ intention }: { intention: string }) => {
 const Index = () => {
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const { profile } = useAuth();
+  const { theme, setTheme } = useTheme();
   const { totalSessions, totalMinutes, streak } = useSessionStats();
   const { data: practices } = usePractices("respiracion");
   const { data: programs } = usePrograms();
@@ -102,11 +104,23 @@ const Index = () => {
           <p className="font-body text-sm text-muted-foreground">Hola, {displayName}</p>
           <h1 className="font-display text-3xl text-foreground mt-1">Vuelve a tu centro</h1>
         </div>
-        <Link to="/perfil">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-card transition-all duration-200 hover:scale-105 active:scale-95">
-            <GearSix size={18} weight="duotone" className="text-muted-foreground" />
-          </div>
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-card transition-all duration-200 hover:scale-105 active:scale-95"
+          >
+            {theme === "dark" ? (
+              <Sun size={18} weight="duotone" className="text-muted-foreground" />
+            ) : (
+              <Moon size={18} weight="duotone" className="text-muted-foreground" />
+            )}
+          </button>
+          <Link to="/perfil">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-card transition-all duration-200 hover:scale-105 active:scale-95">
+              <GearSix size={18} weight="duotone" className="text-muted-foreground" />
+            </div>
+          </Link>
+        </div>
       </div>
 
       {/* Stats */}

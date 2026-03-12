@@ -188,8 +188,8 @@ const Index = () => {
       {recommended && (
         <section className="mb-8">
           <div
-            className="card-body relative overflow-hidden rounded-2xl p-6"
-            style={{ background: "var(--gradient-card)" }}
+            className="relative overflow-hidden rounded-2xl p-6"
+            style={{ background: "linear-gradient(180deg, hsl(240 12% 5%) 0%, hsl(240 18% 8%) 100%)" }}
           >
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
             {/* Background image on the right */}

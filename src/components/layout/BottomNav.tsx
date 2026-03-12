@@ -10,6 +10,7 @@ const tabs = [
 ];
 
 export const BottomNav = () => {
+  const { theme, setTheme } = useTheme();
   const location = useLocation();
 
   return (

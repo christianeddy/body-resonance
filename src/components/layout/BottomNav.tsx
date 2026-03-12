@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { House, Wind, Thermometer, UserCircle } from "@phosphor-icons/react";
+import { House, Wind, Thermometer, UserCircle, Sun, Moon } from "@phosphor-icons/react";
+import { useTheme } from "next-themes";
 
 const tabs = [
   { to: "/", label: "Inicio", icon: House },
@@ -9,6 +10,7 @@ const tabs = [
 ];
 
 export const BottomNav = () => {
+  const { theme, setTheme } = useTheme();
   const location = useLocation();
 
   return (
@@ -60,6 +62,20 @@ export const BottomNav = () => {
               </NavLink>
             );
           })}
+          {/* Theme toggle */}
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="group relative flex flex-col items-center gap-1 px-4 py-1.5 transition-all duration-200"
+          >
+            {theme === "dark" ? (
+              <Sun size={22} weight="duotone" className="text-muted-foreground group-hover:text-foreground/70 transition-colors duration-200" />
+            ) : (
+              <Moon size={22} weight="duotone" className="text-muted-foreground group-hover:text-foreground/70 transition-colors duration-200" />
+            )}
+            <span className="font-body text-[10px] tracking-wide text-muted-foreground group-hover:text-foreground/70 transition-colors duration-200">
+              {theme === "dark" ? "Claro" : "Oscuro"}
+            </span>
+          </button>
         </div>
       </div>
     </nav>

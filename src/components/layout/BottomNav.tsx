@@ -1,15 +1,17 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { House, Wind, Thermometer, UserCircle } from "@phosphor-icons/react";
+import { House, Wind, Snowflake, Fire, UserCircle } from "@phosphor-icons/react";
 
 const tabs = [
   { to: "/", label: "Inicio", icon: House },
   { to: "/respirar", label: "Respirar", icon: Wind },
-  { to: "/sesion", label: "Sesión", icon: Thermometer },
+  { to: "/sesion?tab=hielo", label: "Frío", icon: Snowflake, match: "/sesion", matchParam: "hielo" },
+  { to: "/sesion?tab=calor", label: "Calor", icon: Fire, match: "/sesion", matchParam: "calor" },
   { to: "/perfil", label: "Perfil", icon: UserCircle },
 ];
 
 export const BottomNav = () => {
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
 
   return (
     <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-6xl -translate-x-1/2">
@@ -22,25 +24,38 @@ export const BottomNav = () => {
         }}
       >
         <div className="flex items-center justify-around">
-          {tabs.map(({ to, label, icon: Icon }) => {
-            const isActive =
-              to === "/" ? location.pathname === "/" : location.pathname.startsWith(to);
+          {tabs.map(({ to, label, icon: Icon, match, matchParam }) => {
+            let isActive: boolean;
+            if (match && matchParam) {
+              isActive = location.pathname.startsWith(match) && searchParams.get("tab") === matchParam;
+            } else if (to === "/") {
+              isActive = location.pathname === "/";
+            } else {
+              isActive = location.pathname.startsWith(to);
+            }
+
+            const accentColor =
+              label === "Frío" ? "text-cyan-400" : label === "Calor" ? "text-orange-400" : undefined;
+            const dotColor =
+              label === "Frío" ? "bg-cyan-400" : label === "Calor" ? "bg-orange-400" : "bg-accent";
 
             return (
               <NavLink
                 key={to}
                 to={to}
-                className="group relative flex flex-col items-center gap-1 px-4 py-1.5 transition-all duration-200"
+                className="group relative flex flex-col items-center gap-1 px-3 py-1.5 transition-all duration-200"
               >
                 {isActive && (
                   <div className="absolute -top-1 h-8 w-8 rounded-full bg-primary/15 blur-lg" />
                 )}
                 <Icon
-                  key={isActive ? `${to}-active-${location.pathname}` : to}
+                  key={isActive ? `${to}-active` : to}
                   size={22}
                   weight={isActive ? "fill" : "duotone"}
                   className={`relative z-10 transition-colors duration-200 ${
-                    isActive ? "text-accent animate-[bounce-pop_0.4s_ease-out]" : "text-muted-foreground group-hover:text-foreground/70"
+                    isActive
+                      ? `${accentColor || "text-accent"} animate-[bounce-pop_0.4s_ease-out]`
+                      : "text-muted-foreground group-hover:text-foreground/70"
                   }`}
                 />
                 <span
@@ -52,7 +67,7 @@ export const BottomNav = () => {
                 </span>
                 <div
                   className={`h-1 w-1 rounded-full transition-all duration-300 ${
-                    isActive ? "bg-accent scale-100" : "bg-transparent scale-0"
+                    isActive ? `${dotColor} scale-100` : "bg-transparent scale-0"
                   }`}
                 />
               </NavLink>

@@ -56,6 +56,15 @@ const Respirar = () => {
     <PageTransition>
       <h1 className="font-display text-3xl text-foreground pt-14 pb-6">Respirar</h1>
 
+      {/* Hero */}
+      <div className="relative rounded-2xl overflow-hidden mb-6">
+        <img src={heroRespiracion} alt="Respiración guiada Bodhi" className="w-full h-52 object-cover" style={{ objectPosition: '50% 25%' }} />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <p className="absolute bottom-3 left-4 right-4 font-body text-sm text-foreground/90">
+          La respiración es tu herramienta más accesible para regular tu estado interno.
+        </p>
+      </div>
+
       {/* Filters */}
       <div className="flex gap-2 overflow-x-auto scrollbar-hide mb-6">
         {filters.map((f) => (

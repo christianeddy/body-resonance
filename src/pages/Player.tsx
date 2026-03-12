@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Play, Pause, RotateCcw, Check } from "lucide-react";
+import { Play, Pause, ArrowCounterClockwise, Check } from "@phosphor-icons/react";
 import { usePractice } from "@/hooks/usePractices";
 import { useSaveSession } from "@/hooks/useSessions";
 import { toast } from "sonner";
@@ -111,7 +111,7 @@ const Player = () => {
       <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background px-5">
         <div className="animate-scale-check mb-8">
           <div className="flex h-20 w-20 items-center justify-center rounded-full bg-success/20">
-            <Check size={40} strokeWidth={1.5} className="text-success" />
+            <Check size={40} weight="duotone" className="text-success" />
           </div>
         </div>
         <h1 className="font-display text-2xl text-foreground mb-8">¡LO LOGRASTE!</h1>
@@ -185,13 +185,13 @@ const Player = () => {
           onClick={() => setElapsed(Math.max(0, elapsed - 15))}
           className="text-muted-foreground hover:text-foreground transition-colors"
         >
-          <RotateCcw size={24} strokeWidth={1.5} />
+          <ArrowCounterClockwise size={24} weight="duotone" />
         </button>
         <button
           onClick={() => setIsPlaying(!isPlaying)}
           className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground"
         >
-          {isPlaying ? <Pause size={24} /> : <Play size={24} className="ml-0.5" />}
+          {isPlaying ? <Pause size={24} weight="duotone" /> : <Play size={24} weight="duotone" className="ml-0.5" />}
         </button>
         <div className="w-6" />
       </div>

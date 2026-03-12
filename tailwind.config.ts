@@ -19,8 +19,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['"Barlow Condensed"', "sans-serif"],
-        body: ['"DM Sans"', "sans-serif"],
+        display: ['"Clash Display"', "sans-serif"],
+        body: ['"Satoshi"', "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

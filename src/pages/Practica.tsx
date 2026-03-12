@@ -1,6 +1,6 @@
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { PageTransition } from "@/components/layout/PageTransition";
-import { ArrowLeft, Clock, Zap, Layers } from "lucide-react";
+import { ArrowLeft, Timer, Lightning, Stack } from "@phosphor-icons/react";
 import { usePractice } from "@/hooks/usePractices";
 
 const Practica = () => {
@@ -43,7 +43,7 @@ const Practica = () => {
         onClick={() => navigate(-1)}
         className="pt-14 pb-6 text-muted-foreground hover:text-foreground transition-colors"
       >
-        <ArrowLeft size={24} strokeWidth={1.5} />
+        <ArrowLeft size={24} weight="duotone" />
       </button>
 
       <h1 className="font-display text-3xl text-foreground mb-3">{practice.display_name}</h1>
@@ -54,15 +54,15 @@ const Practica = () => {
       {/* Quick info */}
       <div className="flex gap-6 mb-8">
         <div className="flex items-center gap-2">
-          <Clock size={16} className="text-muted-foreground" />
+          <Timer size={16} weight="duotone" className="text-muted-foreground" />
           <span className="font-body text-sm text-muted-foreground">{practice.duration_estimated}</span>
         </div>
         <div className="flex items-center gap-2">
-          <Zap size={16} className="text-muted-foreground" />
+          <Lightning size={16} weight="duotone" className="text-muted-foreground" />
           <span className="font-body text-sm text-muted-foreground">{practice.intensity}</span>
         </div>
         <div className="flex items-center gap-2">
-          <Layers size={16} className="text-muted-foreground" />
+          <Stack size={16} weight="duotone" className="text-muted-foreground" />
           <span className="font-body text-sm text-muted-foreground">{phases.length} fases</span>
         </div>
       </div>

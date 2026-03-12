@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { PageTransition } from "@/components/layout/PageTransition";
-import { ArrowLeft, Check, Lock } from "lucide-react";
+import { ArrowLeft, Check, LockSimple } from "@phosphor-icons/react";
 import { useProgram, useProgramProgress } from "@/hooks/usePrograms";
 
 const Programa = () => {
@@ -38,7 +38,7 @@ const Programa = () => {
         onClick={() => navigate(-1)}
         className="pt-14 pb-4 text-muted-foreground hover:text-foreground transition-colors"
       >
-        <ArrowLeft size={24} strokeWidth={1.5} />
+        <ArrowLeft size={24} weight="duotone" />
       </button>
 
       <h1 className="font-display text-3xl text-foreground mb-2">{program.name}</h1>
@@ -64,13 +64,13 @@ const Programa = () => {
               <div className="absolute -left-[22px] top-3">
                 {isCompleted ? (
                   <div className="flex h-5 w-5 items-center justify-center rounded-full bg-success/20">
-                    <Check size={12} className="text-success" />
+                    <Check size={12} weight="duotone" className="text-success" />
                   </div>
                 ) : isCurrent ? (
                   <div className="h-5 w-5 rounded-full border-2 border-primary bg-background" />
                 ) : (
                   <div className="flex h-5 w-5 items-center justify-center rounded-full bg-card">
-                    <Lock size={10} className="text-muted-foreground" />
+                    <LockSimple size={10} weight="duotone" className="text-muted-foreground" />
                   </div>
                 )}
               </div>

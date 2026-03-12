@@ -1,11 +1,11 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { Home, Wind, Snowflake, User } from "lucide-react";
+import { House, Wind, Snowflake, UserCircle } from "@phosphor-icons/react";
 
 const tabs = [
-  { to: "/", label: "INICIO", icon: Home },
+  { to: "/", label: "INICIO", icon: House },
   { to: "/respirar", label: "RESPIRAR", icon: Wind },
   { to: "/sesion", label: "SESIÓN", icon: Snowflake },
-  { to: "/perfil", label: "PERFIL", icon: User },
+  { to: "/perfil", label: "PERFIL", icon: UserCircle },
 ];
 
 export const BottomNav = () => {
@@ -28,7 +28,7 @@ export const BottomNav = () => {
             >
               <Icon
                 size={20}
-                strokeWidth={1.5}
+                weight="duotone"
                 className={isActive ? "text-foreground" : "text-muted-foreground"}
               />
               <span

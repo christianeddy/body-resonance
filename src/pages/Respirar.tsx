@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PageTransition } from "@/components/layout/PageTransition";
-import { Heart, ChevronRight } from "lucide-react";
+import { Heart, CaretRight } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { usePractices } from "@/hooks/usePractices";
 import { useFavorites, useToggleFavorite } from "@/hooks/useFavorites";
@@ -98,12 +98,12 @@ const Respirar = () => {
               >
                 <Heart
                   size={20}
-                  strokeWidth={1.5}
+                  weight="duotone"
                   className={favorites?.includes(p.id) ? "fill-primary text-primary" : "text-muted-foreground"}
                 />
               </button>
               <Link to={`/practica/${p.id}`}>
-                <ChevronRight size={20} strokeWidth={1.5} className="text-muted-foreground" />
+                <CaretRight size={20} weight="duotone" className="text-muted-foreground" />
               </Link>
             </div>
           ))}

@@ -75,14 +75,14 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Satoshi', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Clash Display', sans-serif;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
   }
 }
 
@@ -302,21 +302,21 @@
 
 /* Font utility classes */
 .font-display {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Clash Display', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
 }
 
 .font-display-semi {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Clash Display', sans-serif;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .font-body {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Satoshi', sans-serif;
 }
 
 /* Card hover effect */

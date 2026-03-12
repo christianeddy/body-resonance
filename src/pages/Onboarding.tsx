@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Check, ArrowLeft } from "lucide-react";
+import { Check, ArrowLeft } from "@phosphor-icons/react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -141,7 +141,7 @@ const Onboarding = () => {
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Volver"
               >
-                <ArrowLeft size={20} strokeWidth={1.5} />
+                <ArrowLeft size={20} weight="duotone" />
               </button>
             ) : (
               <div className="w-5 h-5" />
@@ -177,7 +177,7 @@ const Onboarding = () => {
                 {selected === option && (
                   <Check
                     size={16}
-                    strokeWidth={1.5}
+                    weight="duotone"
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-primary"
                   />
                 )}

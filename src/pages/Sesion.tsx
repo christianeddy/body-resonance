@@ -1,5 +1,5 @@
 import { PageTransition } from "@/components/layout/PageTransition";
-import { ChevronRight, Snowflake, Flame } from "lucide-react";
+import { CaretRight, Snowflake, Fire } from "@phosphor-icons/react";
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { usePractices } from "@/hooks/usePractices";
@@ -59,9 +59,9 @@ const Sesion = () => {
       ) : protocols && protocols.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 gap-3">
           {activeTab === "hielo" ? (
-            <Snowflake size={32} className="text-muted-foreground" />
+            <Snowflake size={32} weight="duotone" className="text-muted-foreground" />
           ) : (
-            <Flame size={32} className="text-muted-foreground" />
+            <Fire size={32} weight="duotone" className="text-muted-foreground" />
           )}
           <p className="font-body text-sm text-muted-foreground">
             No hay protocolos de {activeTab} aún
@@ -90,7 +90,7 @@ const Sesion = () => {
                 <p className="font-body text-sm text-muted-foreground">{p.technique ? p.technique.substring(0, 50) + "..." : ""}</p>
                 <p className="font-body text-xs text-muted-foreground mt-1">{p.duration_estimated}</p>
               </div>
-              <ChevronRight size={20} strokeWidth={1.5} className="text-muted-foreground flex-shrink-0" />
+              <CaretRight size={20} weight="duotone" className="text-muted-foreground flex-shrink-0" />
             </Link>
           ))}
         </div>

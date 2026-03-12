@@ -156,8 +156,8 @@ const Index = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
         <div className="absolute inset-0">
           <span
-            className="absolute left-[8%] top-[38%] font-display text-base sm:text-lg font-semibold tracking-[0.12em]"
-            style={{ background: "linear-gradient(90deg, #ffffff 30%, #38bdf8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.8))" }}
+            className="absolute left-[10%] top-[32%] font-display text-base sm:text-lg font-semibold tracking-[0.12em]"
+            style={{ background: "linear-gradient(90deg, #ffffff 40%, #38bdf8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 12px rgba(0,0,0,0.9)) drop-shadow(0 0 4px rgba(0,0,0,0.6))" }}
           >
             Regulación
           </span>

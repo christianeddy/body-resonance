@@ -77,7 +77,7 @@ const BreathingSphere3D = ({ phase, isPlaying, phaseDuration, className = "" }: 
         }}
       />
       <Canvas
-        camera={{ position: [0, 0, 3.2], fov: 45 }}
+        camera={{ position: [0, 0, 4.2], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >

@@ -111,18 +111,18 @@ const Sesion = () => {
               <Link
                 to={`/practica/${p.id}`}
                 key={p.id}
-                className="card-body flex items-center gap-4 rounded-xl p-5"
+                className="flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60"
               >
-                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-display text-sm ${isFrio ? "bg-cyan-500/20 text-cyan-400" : "bg-orange-500/20 text-foreground"}`}>
+                <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl font-display text-xs ${isFrio ? "bg-cyan-500/20 text-cyan-400" : "bg-orange-500/20 text-foreground"}`}>
                   {num}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-display text-lg text-foreground">{p.display_name}</h3>
-                  <p className="font-body text-xs text-muted-foreground mt-0.5">
-                    {label} - {p.duration_estimated}
+                  <h3 className="font-body text-base font-medium text-foreground truncate">{p.display_name}</h3>
+                  <p className="font-body text-sm text-muted-foreground mt-0.5">
+                    {label} · {p.duration_estimated}
                   </p>
                 </div>
-                <CaretRight size={20} weight="duotone" className="text-muted-foreground flex-shrink-0" />
+                <CaretRight size={18} weight="regular" className="text-muted-foreground flex-shrink-0" />
               </Link>
             );
           })}

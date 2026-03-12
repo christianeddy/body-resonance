@@ -92,7 +92,7 @@ const Sesion = () => {
         </div>
       )}
 
-      <h2 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">
+      <h2 className="font-display text-base text-foreground mb-4">
         Protocolo Bodhi para {activeTab === "hielo" ? "frío" : "sauna"}
       </h2>
 
@@ -103,29 +103,29 @@ const Sesion = () => {
           ))}
         </div>
       ) : protocols && protocols.length > 0 ? (
-        <div className="stagger-children space-y-3 mb-12">
+        <div className="stagger-children space-y-2 mb-12">
           {protocols.map((p) => {
             const { num, label } = getPhase(p, activeTab === "hielo");
             const isFrio = activeTab === "hielo";
             const isPremium = p.premium;
             const Wrapper = isPremium ? 'div' : Link;
             const wrapperProps = isPremium
-              ? { className: "flex items-center gap-4 rounded-2xl bg-card/40 border border-border p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] opacity-70 cursor-not-allowed" }
-              : { to: `/practica/${p.id}`, className: "flex items-center gap-4 rounded-2xl bg-card/40 border border-border p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60" };
+              ? { className: "flex items-center gap-3 rounded-xl bg-card/40 border border-border p-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] opacity-70 cursor-not-allowed" }
+              : { to: `/practica/${p.id}`, className: "flex items-center gap-3 rounded-xl bg-card/40 border border-border p-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60" };
             return (
               <Wrapper
                 key={p.id}
                 {...(wrapperProps as any)}
               >
-                <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl font-display text-xs ${isFrio ? "bg-cyan-500/20 text-cyan-400" : "bg-orange-500/20 text-foreground"}`}>
+                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-display text-xs ${isFrio ? "bg-cyan-500/20 text-cyan-400" : "bg-orange-500/20 text-foreground"}`}>
                   {num}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-body text-base font-medium text-foreground truncate flex items-center gap-1.5">
+                  <h3 className="font-body text-sm font-medium text-foreground truncate flex items-center gap-1.5">
                     {p.display_name}
-                    {isPremium && <Lock size={14} weight="fill" className="text-muted-foreground flex-shrink-0" />}
+                    {isPremium && <Lock size={12} weight="fill" className="text-muted-foreground flex-shrink-0" />}
                   </h3>
-                  <p className="font-body text-sm text-muted-foreground mt-0.5">
+                  <p className="font-body text-xs text-muted-foreground mt-0.5">
                     {label} · {p.duration_estimated}
                   </p>
                 </div>
@@ -148,21 +148,21 @@ const Sesion = () => {
       )}
 
       {/* Aprende sobre — siempre visible */}
-      <h2 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">
+      <h2 className="font-display text-base text-foreground mb-4">
         Aprende sobre el {activeTab === "hielo" ? "frío" : "calor"}
       </h2>
-      <div className="space-y-3">
+      <div className="space-y-2">
         {(activeTab === "hielo" ? LEARN_FRIO : LEARN_CALOR).map((item, i) => {
           const Icon = item.icon;
           const isFrio = activeTab === "hielo";
           return (
-            <div key={i} className="group flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60">
-              <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 ${isFrio ? "bg-cyan-500/20" : "bg-orange-500/20"}`}>
-                <Icon size={18} weight="duotone" className={`transition-all duration-300 ${isFrio ? "text-cyan-400 group-hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.5)]" : "text-orange-400 group-hover:drop-shadow-[0_0_6px_rgba(245,158,11,0.5)]"}`} />
+            <div key={i} className="group flex items-center gap-3 rounded-xl bg-card/40 border border-border p-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60">
+              <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 ${isFrio ? "bg-cyan-500/20" : "bg-orange-500/20"}`}>
+                <Icon size={16} weight="duotone" className={`transition-all duration-300 ${isFrio ? "text-cyan-400 group-hover:drop-shadow-[0_0_6px_rgba(34,211,238,0.5)]" : "text-orange-400 group-hover:drop-shadow-[0_0_6px_rgba(245,158,11,0.5)]"}`} />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-body text-base font-medium text-foreground">{item.title}</h3>
-                <p className="font-body text-sm text-muted-foreground mt-0.5 leading-relaxed">{item.text}</p>
+                <h3 className="font-body text-sm font-medium text-foreground">{item.title}</h3>
+                <p className="font-body text-xs text-muted-foreground mt-0.5 leading-relaxed">{item.text}</p>
               </div>
             </div>
           );

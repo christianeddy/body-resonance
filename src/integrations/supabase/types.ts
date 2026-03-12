@@ -27,6 +27,7 @@ export type Database = {
           media_url: string | null
           name: string
           phases: Json | null
+          premium: boolean
           sort_order: number
           tags: Json | null
           technique: string | null
@@ -43,6 +44,7 @@ export type Database = {
           media_url?: string | null
           name: string
           phases?: Json | null
+          premium?: boolean
           sort_order?: number
           tags?: Json | null
           technique?: string | null
@@ -59,6 +61,7 @@ export type Database = {
           media_url?: string | null
           name?: string
           phases?: Json | null
+          premium?: boolean
           sort_order?: number
           tags?: Json | null
           technique?: string | null

@@ -80,6 +80,7 @@ const Sesion = () => {
                 {isFrio ? "Frío" : "Calor"}
               </span>
               <Icon
+                key={activeTab === tab ? `${tab}-active` : tab}
                 size={16}
                 weight="duotone"
                 className={`transition-transform duration-500 ${isFrio ? "text-cyan-400" : "text-orange-400"} ${

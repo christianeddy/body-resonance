@@ -66,7 +66,8 @@ const Index = () => {
         ].map(({ value, label, icon: Icon, highlight }, i) => (
           <div
             key={i}
-            className="card-body flex-1 rounded-xl px-5 py-4"
+            className="flex-1 rounded-xl px-5 py-4 bg-card border border-border"
+            style={{ boxShadow: "var(--shadow-inner-glow)" }}
             style={{ animationDelay: `${i * 50}ms` }}
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 mb-2">

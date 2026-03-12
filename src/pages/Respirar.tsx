@@ -165,7 +165,7 @@ const Respirar = () => {
             <Link
               key={p.id}
               to={`/practica/${p.id}`}
-              className="flex items-center gap-4 rounded-xl bg-card border border-border/20 p-4 transition-colors hover:bg-card/80"
+              className="flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 transition-colors hover:bg-card/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]"
             >
               {/* Breathing icon */}
               <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">

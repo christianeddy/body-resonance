@@ -153,9 +153,11 @@ const Index = () => {
           alt="Bodhi ice bath"
           className="w-full h-56 sm:h-72 object-cover object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
-        <div className="absolute bottom-4 left-5 right-5">
-          <p className="font-display text-lg text-foreground">Regulación · Recuperación · Bienestar</p>
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <p className="font-display text-lg sm:text-xl text-foreground/90 tracking-wide text-center drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] backdrop-blur-[2px] bg-background/10 rounded-full px-6 py-2">
+            Regulación · Recuperación · Bienestar
+          </p>
         </div>
       </div>
 

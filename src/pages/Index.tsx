@@ -140,7 +140,7 @@ const Index = () => {
   };
 
   const ritualImage = intentionImages[recommendedIntention] ?? ritualEnergia;
-  const practiceCount = practices?.length ?? 0;
+  const practiceCount = 19;
 
   return (
     <PageTransition>

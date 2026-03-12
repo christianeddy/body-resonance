@@ -128,20 +128,21 @@ const Index = () => {
         {[
           { value: String(totalSessions), label: "Sesiones", icon: Heartbeat },
           { value: String(totalMinutes), label: "Minutos", icon: Timer },
-          { value: String(streak), label: "Días de racha", icon: Lightning, highlight: streak > 0 },
-        ].map(({ value, label, icon: Icon, highlight }, i) => (
+          { value: String(streak), label: "Racha", unit: "días", icon: Lightning, highlight: streak > 0 },
+        ].map(({ value, label, unit, icon: Icon, highlight }, i) => (
           <div
             key={i}
-            className="card-body flex-1 rounded-xl px-5 py-4"
+            className="card-body flex-1 rounded-xl px-4 py-5 flex flex-col items-center text-center"
             style={{ animationDelay: `${i * 50}ms` }}
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 mb-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 mb-3">
               <Icon size={16} weight="duotone" className="text-accent" />
             </div>
-            <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-4xl font-light" : "font-display text-4xl text-foreground font-light"}>
+            <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-3xl font-light" : "font-display text-3xl text-foreground font-light"}>
               {value}
             </p>
-            <p className="font-body text-[11px] text-muted-foreground mt-1">{label}</p>
+            <p className="font-display text-xs text-muted-foreground mt-1.5 tracking-wide">{label}</p>
+            {unit && <p className="font-body text-[10px] text-muted-foreground/60 mt-0.5">{unit}</p>}
           </div>
         ))}
       </div>

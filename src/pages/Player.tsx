@@ -37,12 +37,14 @@ const Player = () => {
 
   const cycleElapsed = elapsed % cycleDuration;
   let currentPhaseName = "";
+  let currentPhaseDuration = 4;
   let phaseTimeLeft = 0;
   let accumulated = 0;
   for (const phase of phases) {
     const dur = phase.duration || 4;
     if (cycleElapsed < accumulated + dur) {
       currentPhaseName = phase.name || "";
+      currentPhaseDuration = dur;
       phaseTimeLeft = dur - (cycleElapsed - accumulated);
       break;
     }
@@ -50,8 +52,20 @@ const Player = () => {
   }
   if (!currentPhaseName && phases.length > 0) {
     currentPhaseName = phases[0].name;
-    phaseTimeLeft = phases[0].duration || 4;
+    currentPhaseDuration = phases[0].duration || 4;
+    phaseTimeLeft = currentPhaseDuration;
   }
+
+  const getPhaseClass = (name: string): string => {
+    const lower = name.toLowerCase();
+    if (lower.includes("inhal")) return "breathing-phase--inhale";
+    if (lower.includes("exhal")) return "breathing-phase--exhale";
+    if (lower.includes("reten")) return "breathing-phase--hold";
+    return "";
+  };
+
+  const isVisualPlaying = practice?.media_mode === "visual" && isPlaying;
+  const phaseClass = isVisualPlaying && currentPhaseName ? getPhaseClass(currentPhaseName) : "";
 
   const handleComplete = () => {
     setIsPlaying(false);
@@ -130,13 +144,19 @@ const Player = () => {
       <p className="font-body text-sm text-muted-foreground mb-12">Respira con Lore</p>
 
       {/* Breathing Circle — THE STAR */}
-      <div className="breathing-circle mb-8">
+      <div
+        className={`breathing-circle mb-8 ${phaseClass}`}
+        style={{
+          "--cycle-duration": `${cycleDuration}s`,
+          "--phase-duration": `${currentPhaseDuration}s`,
+        } as React.CSSProperties}
+      >
         <div className="breathing-ring breathing-ring--outer" />
         <div className="breathing-ring breathing-ring--middle" />
         <div className="breathing-ring breathing-ring--inner" />
         <div className="breathing-glow" />
         {/* Visual mode: phase text inside circle */}
-        {practice?.media_mode === "visual" && isPlaying && currentPhaseName && (
+        {isVisualPlaying && currentPhaseName && (
           <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
             <p className="font-display text-base text-foreground mb-1">{currentPhaseName.toUpperCase()}</p>
             <p className="font-display-semi text-3xl text-foreground">{Math.ceil(phaseTimeLeft)}</p>
@@ -174,7 +194,7 @@ const Player = () => {
       {/* Complete button */}
       <button
         onClick={handleComplete}
-        className="mt-16 font-body text-xs text-muted-foreground/40 hover:text-muted-foreground transition-colors"
+        className="mt-16 font-body text-xs text-muted-foreground hover:text-foreground transition-colors border border-[hsl(0_0%_100%/0.14)] rounded-lg px-4 py-2.5"
       >
         TERMINAR SESIÓN
       </button>

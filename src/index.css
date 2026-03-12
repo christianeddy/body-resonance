@@ -100,6 +100,20 @@
   }
 }
 
+@keyframes breathe-ring-inhale {
+  from { transform: scale(0.6); }
+  to   { transform: scale(1); }
+}
+
+@keyframes breathe-ring-hold {
+  from, to { transform: scale(1); }
+}
+
+@keyframes breathe-ring-exhale {
+  from { transform: scale(1); }
+  to   { transform: scale(0.6); }
+}
+
 @keyframes breathe-glow {
   0%, 100% {
     opacity: 0.4;
@@ -123,7 +137,7 @@
 .breathing-ring {
   position: absolute;
   border-radius: 50%;
-  animation: breathe-ring 8s ease-in-out infinite;
+  animation: breathe-ring var(--cycle-duration, 8s) ease-in-out infinite;
 }
 
 .breathing-ring--inner {
@@ -154,8 +168,23 @@
   border-radius: 50%;
   background: hsl(221 83% 53%);
   filter: blur(20px);
-  animation: breathe-glow 8s ease-in-out infinite;
+  animation: breathe-glow var(--cycle-duration, 8s) ease-in-out infinite;
 }
+
+/* Phase-specific animation overrides (visual mode + playing) */
+.breathing-phase--inhale .breathing-ring,
+.breathing-phase--exhale .breathing-ring,
+.breathing-phase--hold .breathing-ring {
+  animation-duration: var(--phase-duration, 4s);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 0s;
+}
+
+.breathing-phase--inhale .breathing-ring { animation-name: breathe-ring-inhale; }
+.breathing-phase--hold   .breathing-ring { animation-name: breathe-ring-hold; }
+.breathing-phase--exhale .breathing-ring { animation-name: breathe-ring-exhale; }
 
 /* ============================================
    MICRO-INTERACTIONS

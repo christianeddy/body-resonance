@@ -31,7 +31,9 @@ const Index = () => {
       {/* Header */}
       <div className="flex items-center justify-between pt-14 pb-6">
         <h1 className="font-display text-2xl text-foreground">Hola, {displayName}</h1>
-        <Settings size={20} strokeWidth={1.5} className="text-muted-foreground" />
+        <Link to="/perfil">
+          <Settings size={20} strokeWidth={1.5} className="text-muted-foreground" />
+        </Link>
       </div>
 
       {/* Stats */}
@@ -114,8 +116,8 @@ const Index = () => {
         <div className="stagger-children space-y-3">
           {[
             { name: "RESPIRACIÓN", icon: Wind, gradient: "var(--gradient-ice)", to: "/respirar" },
-            { name: "FRÍO", icon: Snowflake, gradient: "var(--gradient-ice)", to: "/sesion" },
-            { name: "CALOR", icon: Flame, gradient: "var(--gradient-fire)", to: "/sesion" },
+            { name: "FRÍO", icon: Snowflake, gradient: "var(--gradient-ice)", to: "/sesion?tab=hielo" },
+            { name: "CALOR", icon: Flame, gradient: "var(--gradient-fire)", to: "/sesion?tab=calor" },
           ].map(({ name, icon: Icon, gradient, to }, i) => (
             <Link
               to={to}

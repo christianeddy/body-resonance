@@ -1,10 +1,28 @@
 import { PageTransition } from "@/components/layout/PageTransition";
-import { ChevronRight, Flame } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { usePractices } from "@/hooks/usePractices";
 
+type Tab = "hielo" | "calor";
+
 const Sesion = () => {
-  const { data: iceProtocols, isLoading } = usePractices("hielo");
+  const [searchParams] = useSearchParams();
+  const [activeTab, setActiveTab] = useState<Tab>(() => {
+    const tab = searchParams.get("tab");
+    return tab === "calor" ? "calor" : "hielo";
+  });
+
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab === "calor" || tab === "hielo") setActiveTab(tab);
+  }, [searchParams]);
+
+  const { data: iceProtocols, isLoading: loadingIce } = usePractices("hielo");
+  const { data: heatProtocols, isLoading: loadingHeat } = usePractices("calor");
+
+  const isLoading = activeTab === "hielo" ? loadingIce : loadingHeat;
+  const protocols = activeTab === "hielo" ? iceProtocols : heatProtocols;
 
   return (
     <PageTransition>
@@ -12,13 +30,20 @@ const Sesion = () => {
 
       {/* Tabs */}
       <div className="flex gap-6 mb-8 border-b border-[hsl(0_0%_100%/0.06)]">
-        <button className="pb-3 font-display text-sm text-foreground relative">
-          HIELO
-          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
-        </button>
-        <button className="pb-3 font-display text-sm text-muted-foreground">
-          CALOR
-        </button>
+        {(["hielo", "calor"] as Tab[]).map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`pb-3 font-display text-sm relative ${
+              activeTab === tab ? "text-foreground" : "text-muted-foreground"
+            }`}
+          >
+            {tab.toUpperCase()}
+            {activeTab === tab && (
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
+            )}
+          </button>
+        ))}
       </div>
 
       {isLoading ? (
@@ -29,14 +54,11 @@ const Sesion = () => {
         </div>
       ) : (
         <div className="stagger-children space-y-3">
-          {iceProtocols?.map((p) => (
+          {protocols?.map((p) => (
             <Link
               to={`/practica/${p.id}`}
               key={p.id}
-              className={`card-body flex items-center justify-between rounded-xl p-5 ${
-                p.id === "hielo-ritual" ? "min-h-[120px]" : ""
-              }`}
-              style={p.id === "hielo-ritual" ? { background: "linear-gradient(135deg, hsl(221 83% 53% / 0.08) 0%, hsl(190 80% 50% / 0.06) 100%)" } : {}}
+              className="card-body flex items-center justify-between rounded-xl p-5"
             >
               <div>
                 <h3 className="font-display text-lg text-foreground mb-1">{p.display_name}</h3>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { usePractices } from "@/hooks/usePractices";
 import type { Practice } from "@/hooks/usePractices";
+import heroFrio from "@/assets/hero-frio.png";
 
 type Tab = "hielo" | "calor";
 
@@ -74,12 +75,22 @@ const Sesion = () => {
         })}
       </div>
 
-      {/* Intro + Protocol + Aprende — siempre visibles */}
-      <p className="font-body text-sm text-muted-foreground mb-4">
-        {activeTab === "hielo"
-          ? "El frío es una herramienta poderosa para regular tu sistema nervioso."
-          : "El calor ayuda a liberar tensión profunda y relajar el sistema nervioso."}
-      </p>
+      {/* Hero image */}
+      {activeTab === "hielo" && (
+        <div className="relative rounded-2xl overflow-hidden mb-6">
+          <img src={heroFrio} alt="Ice bath Bodhi" className="w-full h-40 object-cover object-center" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+          <p className="absolute bottom-3 left-4 right-4 font-body text-sm text-foreground/90">
+            El frío es una herramienta poderosa para regular tu sistema nervioso.
+          </p>
+        </div>
+      )}
+      {activeTab === "calor" && (
+        <p className="font-body text-sm text-muted-foreground mb-6">
+          El calor ayuda a liberar tensión profunda y relajar el sistema nervioso.
+        </p>
+      )}
+
       <h2 className="font-display text-base text-muted-foreground mb-4">
         Protocolo Bodhi para {activeTab === "hielo" ? "frío" : "sauna"}
       </h2>

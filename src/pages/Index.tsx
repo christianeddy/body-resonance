@@ -1,8 +1,9 @@
 import { PageTransition } from "@/components/layout/PageTransition";
 import { useState } from "react";
-import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed } from "@phosphor-icons/react";
+import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed, Sun, Moon } from "@phosphor-icons/react";
 import heroHome from "@/assets/hero-home.png";
 import { Link } from "react-router-dom";
+import { useTheme } from "next-themes";
 import { useAuth } from "@/hooks/useAuth";
 import { useSessionStats } from "@/hooks/useSessions";
 import { usePractices } from "@/hooks/usePractices";

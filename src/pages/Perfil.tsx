@@ -20,7 +20,7 @@ const Perfil = () => {
 
   const displayName = profile?.display_name || "Usuario";
   const initials = displayName.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2);
-  const profileLabel = profile?.user_profile === "deportivo" ? "Deportivo" : "Bienestar";
+  
 
   // Heatmap data: last 12 weeks (84 days)
   const heatmapData = useMemo(() => {
@@ -52,9 +52,6 @@ const Perfil = () => {
         </div>
         <div>
           <h1 className="font-display text-xl text-foreground">{displayName}</h1>
-          <span className="inline-block rounded-full bg-primary/10 px-3 py-0.5 font-display text-[11px] text-accent mt-1">
-            {profileLabel}
-          </span>
         </div>
       </div>
 

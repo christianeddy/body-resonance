@@ -161,42 +161,53 @@ const Respirar = () => {
         </div>
       ) : (
         <div className="stagger-children space-y-3">
-          {filtered.map((p) => (
-            <Link
-              key={p.id}
-              to={`/practica/${p.id}`}
-              className="flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 transition-colors hover:bg-card/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]"
-            >
-              {/* Breathing icon */}
-              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
-                <Wind size={20} weight="duotone" className="text-primary" />
-              </div>
-
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <p className="font-body text-base font-medium text-foreground truncate">{p.display_name}</p>
-                <p className="font-body text-sm text-muted-foreground mt-0.5">
-                  {labelForPractice(p)} · {p.duration_estimated}
-                </p>
-              </div>
-
-              {/* Favorite */}
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleToggleFav(p.id);
-                }}
-                className={`flex-shrink-0 ${bouncing === p.id ? "animate-bounce-fav" : ""}`}
+          {filtered.map((p) => {
+            const isPremium = p.premium;
+            const Wrapper = isPremium ? 'div' : Link;
+            const wrapperProps = isPremium
+              ? { onClick: () => {}, className: "flex items-center gap-4 rounded-2xl bg-card/40 border border-border p-4 transition-colors opacity-70 cursor-not-allowed shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]" }
+              : { to: `/practica/${p.id}`, className: "flex items-center gap-4 rounded-2xl bg-card/40 border border-border p-4 transition-colors hover:bg-card/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]" };
+            return (
+              <Wrapper
+                key={p.id}
+                {...(wrapperProps as any)}
               >
-                <Heart
-                  size={20}
-                  weight="duotone"
-                  className={favorites?.includes(p.id) ? "fill-primary text-primary" : "text-muted-foreground"}
-                />
-              </button>
-            </Link>
-          ))}
+                {/* Breathing icon */}
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
+                  <Wind size={20} weight="duotone" className="text-primary" />
+                </div>
+
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  <p className="font-body text-base font-medium text-foreground truncate flex items-center gap-1.5">
+                    {p.display_name}
+                    {isPremium && <Lock size={14} weight="fill" className="text-muted-foreground flex-shrink-0" />}
+                  </p>
+                  <p className="font-body text-sm text-muted-foreground mt-0.5">
+                    {labelForPractice(p)} · {p.duration_estimated}
+                  </p>
+                </div>
+
+                {/* Favorite */}
+                {!isPremium && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleToggleFav(p.id);
+                    }}
+                    className={`flex-shrink-0 ${bouncing === p.id ? "animate-bounce-fav" : ""}`}
+                  >
+                    <Heart
+                      size={20}
+                      weight="duotone"
+                      className={favorites?.includes(p.id) ? "fill-primary text-primary" : "text-muted-foreground"}
+                    />
+                  </button>
+                )}
+              </Wrapper>
+            );
+          })}
 
           {filtered.length === 0 && (
             <p className="text-center text-muted-foreground font-body text-sm py-8">

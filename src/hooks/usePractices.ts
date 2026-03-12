@@ -16,6 +16,7 @@ export type Practice = {
   phases: any;
   tags: any;
   sort_order: number;
+  premium: boolean;
 };
 
 export const usePractices = (category?: string, intention?: string) => {

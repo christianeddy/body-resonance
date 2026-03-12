@@ -138,7 +138,7 @@ const Index = () => {
           src={heroHome}
           alt="Bodhi ice bath"
           className="w-full h-72 object-cover"
-          style={{ objectPosition: '50% 45%' }}
+          style={{ objectPosition: '50% 30%' }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         <div className="absolute bottom-4 left-5 right-5">

@@ -129,7 +129,7 @@ const Index = () => {
           { value: String(totalSessions), label: "Sesiones", icon: Heartbeat },
           { value: String(totalMinutes), label: "Minutos", icon: Timer },
           { value: String(streak), label: "Días seguidos", icon: Lightning, highlight: streak > 0 },
-        ].map(({ value, label, unit, icon: Icon, highlight }, i) => (
+        ].map(({ value, label, icon: Icon, highlight }, i) => (
           <div
             key={i}
             className="card-body flex-1 rounded-xl px-4 py-5 flex flex-col items-center text-center"

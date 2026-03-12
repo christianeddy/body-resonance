@@ -58,7 +58,7 @@ const Respirar = () => {
 
       {/* Hero */}
       <div className="relative rounded-2xl overflow-hidden mb-6">
-        <img src={heroRespiracion} alt="Respiración guiada Bodhi" className="w-full h-52 object-cover" style={{ objectPosition: '50% 25%' }} />
+        <img src={heroRespiracion} alt="Respiración guiada Bodhi" className="w-full h-36 sm:h-44 object-cover" style={{ objectPosition: '50% 20%' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
         <p className="absolute bottom-3 left-4 right-4 font-body text-sm text-foreground/90">
           La respiración es tu herramienta más accesible para regular tu estado interno.

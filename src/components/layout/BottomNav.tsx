@@ -40,7 +40,7 @@ export const BottomNav = () => {
                   size={22}
                   weight={isActive ? "fill" : "duotone"}
                   className={`relative z-10 transition-colors duration-200 ${
-                    isActive ? "text-accent animate-[wiggle_0.5s_ease-in-out]" : "text-muted-foreground group-hover:text-foreground/70"
+                    isActive ? "text-accent animate-[bounce-pop_0.4s_ease-out]" : "text-muted-foreground group-hover:text-foreground/70"
                   }`}
                 />
                 <span

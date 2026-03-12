@@ -6,6 +6,7 @@ import { useFavorites, useToggleFavorite } from "@/hooks/useFavorites";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Practice } from "@/hooks/usePractices";
+import heroRespiracion from "@/assets/hero-respiracion.png";
 
 const intentionFilters = ["Todas", "Energía", "Calma", "Enfoque", "Reset", "Dormir", "Hielo", "Sauna"];
 const durationFilters = ["Duración", "3 min", "5 min", "10 min"];

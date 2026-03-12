@@ -10,7 +10,7 @@ import { es } from "date-fns/locale";
 
 const Perfil = () => {
   const { profile, signOut } = useAuth();
-  const { theme, setTheme } = useTheme();
+  
   const { totalSessions, totalMinutes, streak, mostUsed } = useSessionStats();
   const { data: sessions } = useSessions();
   const { data: favoriteIds } = useFavorites();

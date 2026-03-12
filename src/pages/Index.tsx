@@ -142,7 +142,17 @@ const Index = () => {
   };
 
   const ritualImage = intentionImages[recommendedIntention] ?? ritualEnergia;
-  const practiceCount = 19;
+  const { data: allPracticesCount } = useQuery({
+    queryKey: ["all-practices-count"],
+    queryFn: async () => {
+      const { count, error } = await supabase
+        .from("practices")
+        .select("*", { count: "exact", head: true });
+      if (error) throw error;
+      return count ?? 0;
+    },
+  });
+  const practiceCount = allPracticesCount ?? 0;
 
   return (
     <PageTransition>

@@ -141,8 +141,7 @@ const Index = () => {
             <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-3xl font-light" : "font-display text-3xl text-foreground font-light"}>
               {value}
             </p>
-            <p className="font-display text-xs text-muted-foreground mt-1.5 tracking-wide">{label}</p>
-            {unit && <p className="font-body text-[10px] text-muted-foreground/60 mt-0.5">{unit}</p>}
+            <p className="font-display text-sm text-muted-foreground mt-1.5 tracking-wide">{label}</p>
           </div>
         ))}
       </div>

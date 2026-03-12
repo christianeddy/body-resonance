@@ -102,7 +102,7 @@ const Index = () => {
       <div className="flex items-center justify-between pt-14 pb-2 mb-8">
         <div>
           <p className="font-body text-sm text-muted-foreground">Hola, {displayName}</p>
-          <h1 className="font-display text-3xl text-foreground mt-1">Vuelve a tu centro</h1>
+          <h1 className="font-display text-3xl text-foreground mt-1 tracking-wide">Vuelve a tu centro</h1>
         </div>
         <div className="flex items-center gap-2">
           <button

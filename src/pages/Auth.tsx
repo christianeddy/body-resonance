@@ -96,7 +96,7 @@ const Auth = () => {
               {loading ? (
                 <div className="h-4 w-4 rounded-full border-2 border-primary-foreground border-t-transparent animate-spin" />
               ) : (
-                isLogin ? "ENTRAR" : "CREAR CUENTA"
+                isLogin ? "Entrar" : "Crear cuenta"
               )}
             </button>
           </form>

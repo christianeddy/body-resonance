@@ -4,22 +4,81 @@
 
 @layer base {
   :root {
-    --background: 240 10% 2%;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 10%;
+
+    --card: 0 0% 97%;
+    --card-foreground: 240 10% 10%;
+
+    --popover: 0 0% 97%;
+    --popover-foreground: 240 10% 10%;
+
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 94%;
+    --secondary-foreground: 240 10% 10%;
+
+    --muted: 220 14% 94%;
+    --muted-foreground: 220 8% 46%;
+
+    --accent: 213 94% 58%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 160 60% 42%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 221 83% 53%;
+
+    --radius: 1rem;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 240 10% 10%;
+    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 94%;
+    --sidebar-accent-foreground: 240 10% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 221 83% 53%;
+
+    /* Surface tokens */
+    --surface-elevated: 0 0% 95%;
+    --surface-hover: 0 0% 92%;
+
+    /* Gradients */
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 97%) 0%, hsl(220 14% 95%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(221 83% 53%) 0%, hsl(213 94% 68%) 100%);
+    --gradient-ice: linear-gradient(135deg, hsl(221 83% 53% / 0.08) 0%, hsl(190 80% 50% / 0.06) 100%);
+    --gradient-fire: linear-gradient(135deg, hsl(30 90% 50% / 0.08) 0%, hsl(15 85% 55% / 0.06) 100%);
+
+    /* Shadows */
+    --shadow-inner-glow: inset 0 1px 0 hsl(0 0% 100% / 0.7);
+    --shadow-card: 0 2px 12px -2px hsl(220 20% 80% / 0.3);
+    --shadow-accent-glow: 0 0 16px -4px hsl(221 83% 53% / 0.15);
+  }
+
+  .dark {
+    --background: 240 10% 6%;
     --foreground: 240 5% 96%;
 
-    --card: 240 12% 5%;
+    --card: 240 12% 9%;
     --card-foreground: 240 5% 96%;
 
-    --popover: 240 12% 5%;
+    --popover: 240 12% 9%;
     --popover-foreground: 240 5% 96%;
 
     --primary: 221 83% 53%;
     --primary-foreground: 240 5% 96%;
 
-    --secondary: 217 19% 14%;
+    --secondary: 217 19% 16%;
     --secondary-foreground: 240 5% 96%;
 
-    --muted: 240 5% 14%;
+    --muted: 240 5% 16%;
     --muted-foreground: 240 4% 56%;
 
     --accent: 213 94% 68%;
@@ -35,9 +94,7 @@
     --input: 0 0% 100% / 0.08;
     --ring: 221 83% 53%;
 
-    --radius: 1rem;
-
-    --sidebar-background: 240 10% 2%;
+    --sidebar-background: 240 10% 6%;
     --sidebar-foreground: 240 5% 96%;
     --sidebar-primary: 221 83% 53%;
     --sidebar-primary-foreground: 240 5% 96%;
@@ -47,11 +104,11 @@
     --sidebar-ring: 221 83% 53%;
 
     /* Surface tokens */
-    --surface-elevated: 240 15% 6%;
-    --surface-hover: 240 15% 8%;
+    --surface-elevated: 240 15% 10%;
+    --surface-hover: 240 15% 12%;
 
     /* Gradients */
-    --gradient-card: linear-gradient(180deg, hsl(240 12% 5%) 0%, hsl(240 18% 8%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(240 12% 9%) 0%, hsl(240 18% 12%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(221 83% 53%) 0%, hsl(213 94% 68%) 100%);
     --gradient-ice: linear-gradient(135deg, hsl(221 83% 53% / 0.1) 0%, hsl(190 80% 50% / 0.08) 100%);
     --gradient-fire: linear-gradient(135deg, hsl(30 90% 50% / 0.1) 0%, hsl(15 85% 55% / 0.08) 100%);
@@ -60,11 +117,6 @@
     --shadow-inner-glow: inset 0 1px 0 hsl(0 0% 100% / 0.05);
     --shadow-card: 0 4px 24px -4px hsl(0 0% 0% / 0.3);
     --shadow-accent-glow: 0 0 20px -4px hsl(221 83% 53% / 0.3);
-  }
-
-  /* No separate dark mode — the app IS dark */
-  .dark {
-    /* Same as root — always dark */
   }
 }
 
@@ -75,13 +127,12 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Satoshi', sans-serif;
+    font-family: 'Poppins', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Clash Display', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    text-transform: uppercase;
     letter-spacing: 0.04em;
   }
 }
@@ -302,21 +353,19 @@
 
 /* Font utility classes */
 .font-display {
-  font-family: 'Clash Display', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .font-display-semi {
-  font-family: 'Clash Display', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
-  text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .font-body {
-  font-family: 'Satoshi', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Card hover effect */

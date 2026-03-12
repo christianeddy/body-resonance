@@ -43,23 +43,41 @@ const Programa = () => {
 
       <h1 className="font-display text-3xl text-foreground mb-2">{program.name}</h1>
       <span className="inline-block rounded-full bg-primary/10 px-3 py-1 font-display text-[11px] text-accent mb-8">
-        DÍA {currentDay} DE {program.max_days}
+        Día {currentDay} de {program.max_days}
       </span>
 
       {/* Timeline */}
       <div className="relative pl-8 stagger-children">
-        <div className="absolute left-3 top-0 bottom-0 w-px bg-[hsl(0_0%_100%/0.08)]" />
+        <div className="absolute left-3 top-0 bottom-0 w-px bg-border" />
 
         {days.map((d: any) => {
           const dayNum = d.day;
           const isCompleted = completedDays.includes(dayNum);
           const isCurrent = dayNum === currentDay && !isCompleted;
           const isLocked = dayNum > currentDay && !isCompleted;
+          const firstPracticeId = d.practices?.[0];
+
+          const cardContent = (
+            <div
+              className={`card-body rounded-xl p-4 ${isCurrent ? "border-primary" : ""}`}
+              style={isCurrent ? { borderColor: "hsl(221 83% 53%)" } : {}}
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-display text-xs text-muted-foreground mb-1">Día {dayNum}</p>
+                  <p className="font-body text-sm font-medium text-foreground">{d.title}</p>
+                </div>
+                <p className="font-body text-xs text-muted-foreground">
+                  {d.practices?.length || 0} práctica{(d.practices?.length || 0) !== 1 ? "s" : ""}
+                </p>
+              </div>
+            </div>
+          );
 
           return (
             <div
               key={dayNum}
-              className={`relative mb-4 ${isLocked ? "opacity-40" : ""}`}
+              className={`relative mb-4 ${isLocked ? "opacity-40 pointer-events-none" : ""}`}
             >
               <div className="absolute -left-[22px] top-3">
                 {isCompleted ? (
@@ -75,20 +93,16 @@ const Programa = () => {
                 )}
               </div>
 
-              <div
-                className={`card-body rounded-xl p-4 ${isCurrent ? "border-primary" : ""}`}
-                style={isCurrent ? { borderColor: "hsl(221 83% 53%)" } : {}}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-display text-xs text-muted-foreground mb-1">DÍA {dayNum}</p>
-                    <p className="font-body text-sm font-medium text-foreground">{d.title}</p>
-                  </div>
-                  <p className="font-body text-xs text-muted-foreground">
-                    {d.practices?.length || 0} práctica{(d.practices?.length || 0) !== 1 ? "s" : ""}
-                  </p>
-                </div>
-              </div>
+              {(isCurrent || isCompleted) && firstPracticeId ? (
+                <button
+                  onClick={() => navigate(`/player/${firstPracticeId}`)}
+                  className="w-full text-left"
+                >
+                  {cardContent}
+                </button>
+              ) : (
+                cardContent
+              )}
             </div>
           );
         })}

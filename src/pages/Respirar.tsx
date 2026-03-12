@@ -53,7 +53,7 @@ const Respirar = () => {
 
   return (
     <PageTransition>
-      <h1 className="font-display text-3xl text-foreground pt-14 pb-6">RESPIRAR</h1>
+      <h1 className="font-display text-3xl text-foreground pt-14 pb-6">Respirar</h1>
 
       {/* Filters */}
       <div className="flex gap-2 overflow-x-auto scrollbar-hide mb-6">
@@ -67,7 +67,7 @@ const Respirar = () => {
                 : "border border-[hsl(0_0%_100%/0.12)] text-muted-foreground hover:text-foreground"
             }`}
           >
-            {f.toUpperCase()}
+            {f}
           </button>
         ))}
       </div>

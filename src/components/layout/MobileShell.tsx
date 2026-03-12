@@ -3,7 +3,7 @@ import { BottomNav } from "./BottomNav";
 
 export const MobileShell = () => {
   return (
-    <div className="min-h-screen bg-[#020202]">
+    <div className="min-h-screen bg-background">
       <div className="relative mx-auto min-h-screen w-full max-w-4xl bg-background lg:border-x lg:border-[hsl(0_0%_100%/0.04)]">
         <main className="pb-24">
           <Outlet />

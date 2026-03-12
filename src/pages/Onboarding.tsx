@@ -19,8 +19,8 @@ const steps = [
     options: ["Nunca", "A veces", "Regularmente"],
   },
   {
-    question: "¿Tienes acceso a tina de hielo o sauna?",
-    options: ["Tina de hielo", "Sauna", "Ambos", "Ninguno"],
+    question: "¿Tienes acceso a inmersión en frío o sauna?",
+    options: ["Inmersión en frío", "Sauna", "Ambos", "Ninguno"],
   },
 ];
 
@@ -110,7 +110,7 @@ const Onboarding = () => {
               {saving ? (
                 <div className="h-4 w-4 mx-auto rounded-full border-2 border-primary-foreground border-t-transparent animate-spin" />
               ) : (
-                "COMENZAR"
+                "Comenzar"
               )}
             </button>
             <button
@@ -121,7 +121,7 @@ const Onboarding = () => {
               }}
               className="w-full py-2 font-display text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              EDITAR
+              Editar
             </button>
           </div>
         </div>
@@ -197,7 +197,7 @@ const Onboarding = () => {
                 : "bg-muted text-muted-foreground cursor-not-allowed"
             }`}
           >
-            {isLast ? "VER RESUMEN" : "SIGUIENTE"}
+            {isLast ? "Ver resumen" : "Siguiente"}
           </button>
         </div>
       </div>

@@ -1,11 +1,11 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { House, Wind, Snowflake, UserCircle } from "@phosphor-icons/react";
+import { House, Wind, Thermometer, UserCircle } from "@phosphor-icons/react";
 
 const tabs = [
-  { to: "/", label: "INICIO", icon: House },
-  { to: "/respirar", label: "RESPIRAR", icon: Wind },
-  { to: "/sesion", label: "SESIÓN", icon: Snowflake },
-  { to: "/perfil", label: "PERFIL", icon: UserCircle },
+  { to: "/", label: "Inicio", icon: House },
+  { to: "/respirar", label: "Respirar", icon: Wind },
+  { to: "/sesion", label: "Sesión", icon: Thermometer },
+  { to: "/perfil", label: "Perfil", icon: UserCircle },
 ];
 
 export const BottomNav = () => {

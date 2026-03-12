@@ -19,8 +19,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['"Clash Display"', "sans-serif"],
-        body: ['"Satoshi"', "sans-serif"],
+        display: ['"Poppins"', "sans-serif"],
+        body: ['"Poppins"', "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

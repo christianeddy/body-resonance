@@ -114,7 +114,8 @@ const Player = () => {
             <Check size={40} weight="duotone" className="text-success" />
           </div>
         </div>
-        <h1 className="font-display text-2xl text-foreground mb-8">¡LO LOGRASTE!</h1>
+        <h1 className="font-display text-2xl text-foreground mb-2">¡Lo lograste!</h1>
+        <p className="font-body text-sm text-muted-foreground mb-8">¿Cómo te sentiste?</p>
         <div className="grid grid-cols-2 gap-3 w-full max-w-xs mb-10">
           {feelings.map((f) => (
             <button
@@ -123,10 +124,10 @@ const Player = () => {
               className={`rounded-xl border py-3 font-display text-xs transition-all duration-200 ${
                 feeling === f
                   ? "border-primary bg-primary text-primary-foreground"
-                  : "border-[hsl(0_0%_100%/0.12)] text-muted-foreground hover:text-foreground"
+                  : "border-border text-muted-foreground hover:text-foreground"
               }`}
             >
-              {f.toUpperCase()}
+              {f}
             </button>
           ))}
         </div>
@@ -134,7 +135,7 @@ const Player = () => {
           onClick={handleSaveAndBack}
           className="font-display text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
-          VOLVER
+          Volver
         </button>
       </div>
     );
@@ -160,18 +161,11 @@ const Player = () => {
         <div className="breathing-ring breathing-ring--middle" />
         <div className="breathing-ring breathing-ring--inner" />
         <div className="breathing-glow" />
-        {/* Visual mode: phase text inside circle */}
-        {isVisualPlaying && currentPhaseName && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-            <p className="font-display text-base text-foreground mb-1">{currentPhaseName.toUpperCase()}</p>
-            <p className="font-display-semi text-3xl text-foreground">{Math.ceil(phaseTimeLeft)}</p>
-          </div>
-        )}
       </div>
 
       {/* Progress bar */}
       <div className="w-full max-w-xs mb-8">
-        <div className="h-0.5 w-full rounded-full bg-[hsl(0_0%_100%/0.06)]">
+        <div className="h-0.5 w-full rounded-full bg-border">
           <div
             className="h-full rounded-full bg-primary transition-all duration-1000"
             style={{ width: `${progress}%` }}
@@ -199,9 +193,9 @@ const Player = () => {
       {/* Complete button */}
       <button
         onClick={handleComplete}
-        className="mt-16 font-body text-xs text-muted-foreground hover:text-foreground transition-colors border border-[hsl(0_0%_100%/0.14)] rounded-lg px-4 py-2.5"
+        className="mt-16 font-body text-xs text-muted-foreground hover:text-foreground transition-colors border border-border rounded-lg px-4 py-2.5"
       >
-        TERMINAR SESIÓN
+        Terminar sesión
       </button>
     </div>
   );

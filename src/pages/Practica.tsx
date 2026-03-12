@@ -34,7 +34,7 @@ const Practica = () => {
   const totalDuration = phases.reduce((acc: number, p: any) => acc + p.duration, 0);
   const intentionLabel = practice.intention
     ? practice.intention.charAt(0).toUpperCase() + practice.intention.slice(1)
-    : practice.category.toUpperCase();
+    : practice.category.charAt(0).toUpperCase() + practice.category.slice(1);
 
   return (
     <PageTransition className="relative min-h-screen pb-24">
@@ -48,7 +48,7 @@ const Practica = () => {
 
       <h1 className="font-display text-3xl text-foreground mb-3">{practice.display_name}</h1>
       <span className="inline-block rounded-full bg-primary/10 px-3 py-1 font-display text-[11px] text-accent mb-6">
-        {intentionLabel.toUpperCase()}
+        {intentionLabel}
       </span>
 
       {/* Quick info */}
@@ -76,7 +76,7 @@ const Practica = () => {
       {/* Phases */}
       {phases.length > 0 && (
         <>
-          <h3 className="font-display text-base text-muted-foreground mb-4">FASES</h3>
+          <h3 className="font-display text-base text-muted-foreground mb-4">Fases</h3>
           <div className="relative pl-6 mb-8">
             <div className="absolute left-2 top-2 bottom-2 w-px bg-[hsl(0_0%_100%/0.08)]" />
             <div className="space-y-5 stagger-children">
@@ -116,7 +116,7 @@ const Practica = () => {
           to={`/player/${practice.id}`}
           className="animate-pulse-cta flex w-full items-center justify-center rounded-xl bg-primary py-4 font-display text-sm text-primary-foreground"
         >
-          COMENZAR
+          Comenzar
         </Link>
       </div>
     </PageTransition>

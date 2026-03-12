@@ -7,9 +7,12 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
+import { useTheme } from "next-themes";
+import { Switch } from "@/components/ui/switch";
 
 const Perfil = () => {
   const { profile, signOut } = useAuth();
+  const { theme, setTheme } = useTheme();
   const { totalSessions, totalMinutes, streak, mostUsed } = useSessionStats();
   const { data: sessions } = useSessions();
   const { data: favoriteIds } = useFavorites();
@@ -17,7 +20,7 @@ const Perfil = () => {
 
   const displayName = profile?.display_name || "Usuario";
   const initials = displayName.split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2);
-  const profileLabel = profile?.user_profile === "deportivo" ? "DEPORTIVO" : "BIENESTAR";
+  const profileLabel = profile?.user_profile === "deportivo" ? "Deportivo" : "Bienestar";
 
   // Heatmap data: last 12 weeks (84 days)
   const heatmapData = useMemo(() => {
@@ -58,10 +61,10 @@ const Perfil = () => {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 mb-8 stagger-children">
         {[
-          { value: String(totalSessions), label: "SESIONES" },
-          { value: String(totalMinutes), label: "MINUTOS" },
-          { value: String(streak), label: "DÍAS DE RACHA", highlight: streak > 0 },
-          { value: mostUsed || "—", label: "MÁS USADA" },
+          { value: String(totalSessions), label: "Sesiones" },
+          { value: String(totalMinutes), label: "Minutos" },
+          { value: String(streak), label: "Días de racha", highlight: streak > 0 },
+          { value: mostUsed || "—", label: "Más usada" },
         ].map((s, i) => (
           <div key={i} className="card-body rounded-xl p-4">
             <p className={`font-display-semi text-2xl ${s.highlight ? "text-success" : "text-foreground"}`}>
@@ -74,7 +77,7 @@ const Perfil = () => {
 
       {/* Recientes */}
       <section className="mb-8">
-        <h3 className="font-display text-base text-muted-foreground mb-4">RECIENTES</h3>
+        <h3 className="font-display text-base text-muted-foreground mb-4">Recientes</h3>
         {!sessions || sessions.length === 0 ? (
           <p className="font-body text-sm text-muted-foreground">Aún no tienes sesiones</p>
         ) : (
@@ -103,7 +106,7 @@ const Perfil = () => {
 
       {/* Heatmap */}
       <section className="mb-8">
-        <h3 className="font-display text-base text-muted-foreground mb-4">ACTIVIDAD</h3>
+        <h3 className="font-display text-base text-muted-foreground mb-4">Actividad</h3>
         <div className="grid grid-cols-12 gap-1">
           {heatmapData.map((count, i) => {
             let bg = "bg-card";
@@ -132,7 +135,7 @@ const Perfil = () => {
 
       {/* Favorites */}
       <section className="mb-8">
-        <h3 className="font-display text-base text-muted-foreground mb-4">MIS FAVORITOS</h3>
+        <h3 className="font-display text-base text-muted-foreground mb-4">Mis favoritos</h3>
         {favoritePractices.length === 0 ? (
           <p className="font-body text-sm text-muted-foreground">Aún no tienes favoritos guardados</p>
         ) : (
@@ -147,6 +150,18 @@ const Perfil = () => {
             ))}
           </div>
         )}
+      </section>
+
+      {/* Settings */}
+      <section className="mb-6">
+        <h3 className="font-display text-base text-muted-foreground mb-4">Ajustes</h3>
+        <div className="card-body rounded-xl p-4 flex items-center justify-between">
+          <span className="font-body text-sm text-foreground">Modo oscuro</span>
+          <Switch
+            checked={theme === "dark"}
+            onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
+          />
+        </div>
       </section>
 
       {/* Logout */}

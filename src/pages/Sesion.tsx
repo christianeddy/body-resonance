@@ -117,7 +117,7 @@ const Sesion = () => {
                 key={p.id}
                 {...(wrapperProps as any)}
               >
-                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-display text-xs ${isFrio ? "bg-cyan-500/20 text-cyan-400" : "bg-orange-500/20 text-foreground"}`}>
+                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-display text-xs ${isFrio ? "bg-sky-500/20 text-sky-400" : "bg-orange-500/20 text-foreground"}`}>
                   {num}
                 </div>
                 <div className="flex-1 min-w-0">

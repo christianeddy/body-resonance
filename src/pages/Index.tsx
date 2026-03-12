@@ -124,7 +124,7 @@ const Index = () => {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 mb-2">
               <Icon size={16} weight="duotone" className="text-accent" />
             </div>
-            <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display-semi text-3xl" : "font-display-semi text-3xl text-foreground"}>
+            <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-4xl" : "font-display text-4xl text-foreground"}>
               {value}
             </p>
             <p className="font-body text-[11px] text-muted-foreground mt-1">{label}</p>

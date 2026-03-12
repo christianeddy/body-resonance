@@ -166,7 +166,7 @@ const Respirar = () => {
             const Wrapper = isPremium ? 'div' : Link;
             const wrapperProps = isPremium
               ? { onClick: () => {}, className: "flex items-center gap-4 rounded-2xl bg-card/40 border border-border p-4 transition-colors opacity-70 cursor-not-allowed shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]" }
-              : { to: `/practica/${p.id}`, className: "flex items-center gap-4 rounded-2xl bg-card/40 border border-border p-4 transition-colors hover:bg-card/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]" };
+              : { to: `/player/${p.id}`, className: "flex items-center gap-4 rounded-2xl bg-card/40 border border-border p-4 transition-colors hover:bg-card/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)]" };
             return (
               <Wrapper
                 key={p.id}

@@ -199,15 +199,17 @@ const Index = () => {
               <div className="absolute inset-0" style={{ background: "linear-gradient(to top, hsl(var(--card)) 0%, transparent 35%)" }} />
             </div>
             <div className="relative z-10">
-              <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-display text-[11px] text-accent mb-3">
-                {timeLabel}
+              <span
+                className="inline-block rounded-full px-3 py-1 font-display text-[11px] font-semibold mb-3"
+                style={{
+                  background: intentionGradients[recommendedIntention] ?? "linear-gradient(90deg, #60a5fa, #a78bfa)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                {timeLabel} · {intentionLabel[recommendedIntention] ?? recommendedIntention}
               </span>
               <h2 className="font-display text-2xl text-foreground mb-2">{recommended.display_name}</h2>
-              {recommended.intention && (
-                <span className={`inline-block rounded-full px-3 py-1 font-display text-[11px] mb-3 ${intentionColors[recommended.intention] ?? "bg-accent/10 text-accent"}`}>
-                  {intentionLabel[recommended.intention] ?? recommended.intention}
-                </span>
-              )}
               <p className="font-body text-sm text-muted-foreground mb-6">
                 {recommended.duration_estimated} · Intensidad {recommended.intensity}
               </p>

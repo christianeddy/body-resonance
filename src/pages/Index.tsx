@@ -187,12 +187,12 @@ const Index = () => {
               </p>
               <Link
                 to={`/player/${recommended.id}`}
-                className="inline-flex items-center gap-3"
+                className="inline-flex items-center gap-2"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent">
-                  <svg width="14" height="16" viewBox="0 0 14 16" fill="none"><polygon points="2,0 14,8 2,16" fill="hsl(var(--accent-foreground))" /></svg>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent">
+                  <svg width="12" height="14" viewBox="0 0 14 16" fill="none"><polygon points="2,0 14,8 2,16" fill="hsl(var(--accent-foreground))" /></svg>
                 </div>
-                <span className="font-display text-base text-white">Empezar</span>
+                <span className="font-display text-sm text-white">Empezar</span>
               </Link>
             </div>
           </div>

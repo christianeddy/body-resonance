@@ -7,6 +7,57 @@ import { useSessionStats } from "@/hooks/useSessions";
 import { usePractices } from "@/hooks/usePractices";
 import { usePrograms, useAllProgramProgress } from "@/hooks/usePrograms";
 
+const MOOD_TO_INTENTION: Record<string, string> = {
+  energia: "energia",
+  calma: "calma",
+  reset: "reset",
+  enfoque: "energia", // maps to energia until enfoque intention exists
+  dormir: "dormir",
+};
+
+const MoodPractices = ({ intention }: { intention: string }) => {
+  const mappedIntention = MOOD_TO_INTENTION[intention] ?? intention;
+  const { data: practices, isLoading } = usePractices("respiracion", mappedIntention);
+
+  if (isLoading) {
+    return (
+      <div className="mt-4 space-y-2">
+        {[1, 2].map((i) => (
+          <div key={i} className="card-body rounded-xl p-4 h-16 animate-pulse" />
+        ))}
+      </div>
+    );
+  }
+
+  if (!practices || practices.length === 0) {
+    return (
+      <p className="mt-4 font-body text-sm text-muted-foreground text-center py-3">
+        No hay prácticas para esta intención aún
+      </p>
+    );
+  }
+
+  return (
+    <div className="mt-4 space-y-2 stagger-children">
+      {practices.map((p) => (
+        <Link
+          to={`/practica/${p.id}`}
+          key={p.id}
+          className="card-body flex items-center gap-4 rounded-xl px-5 py-4"
+        >
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+            <ArrowsClockwise size={16} weight="duotone" className="text-accent" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h4 className="font-display text-base text-foreground">{p.display_name}</h4>
+            <p className="font-body text-xs text-muted-foreground mt-0.5">{p.duration_estimated}</p>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+};
+
 const Index = () => {
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const { profile } = useAuth();

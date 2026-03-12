@@ -245,7 +245,7 @@ const Index = () => {
 
       {/* Explore */}
       <section className="mb-8">
-        <h3 className="font-display text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4">Explora</h3>
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">Explora</h3>
         <div className="stagger-children space-y-3">
           {[
             { name: "Respiración", description: "Técnicas guiadas", icon: Wind, gradient: "var(--gradient-ice)", to: "/respirar", isHeat: false },

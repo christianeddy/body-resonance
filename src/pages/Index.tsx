@@ -322,12 +322,12 @@ const Index = () => {
                 <Link
                   to={`/programa/${prog.id}`}
                   key={prog.id}
-                  className="card-body flex-shrink-0 w-60 rounded-2xl p-5 transition-all duration-300 hover:-translate-y-0.5 relative overflow-hidden"
+                  className="card-body flex-shrink-0 w-52 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-0.5 relative overflow-hidden"
                 >
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-                  <h4 className="font-display text-lg text-foreground mb-1">{prog.name}</h4>
-                  <p className="font-body text-[13px] text-muted-foreground line-clamp-2 mb-3">{prog.description}</p>
-                  <span className="inline-block rounded-full bg-primary/10 px-3 py-1 font-display text-[11px] text-accent">
+                  <h4 className="font-display text-sm text-foreground mb-1">{prog.name}</h4>
+                  <p className="font-body text-xs text-muted-foreground line-clamp-2 mb-2">{prog.description}</p>
+                  <span className="inline-block rounded-full bg-primary/10 px-2.5 py-0.5 font-display text-[10px] text-accent">
                     {progressLabel}
                   </span>
                 </Link>

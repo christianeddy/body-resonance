@@ -154,18 +154,16 @@ const Index = () => {
           className="w-full h-56 sm:h-72 object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="flex items-center gap-8 sm:gap-12">
-            {["Regulación", "Recuperación", "Bienestar"].map((word, i) => (
-              <span
-                key={word}
-                className="font-display text-base sm:text-lg text-foreground/90 tracking-[0.12em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]"
-                style={{ animationDelay: `${i * 150}ms` }}
-              >
-                {word}
-              </span>
-            ))}
-          </div>
+        <div className="absolute inset-0">
+          <span className="absolute left-[8%] top-[38%] font-display text-base sm:text-lg text-white/90 tracking-[0.12em] drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]">
+            Regulación
+          </span>
+          <span className="absolute left-1/2 -translate-x-1/2 top-[28%] font-display text-base sm:text-lg text-white/90 tracking-[0.12em] drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]">
+            Recuperación
+          </span>
+          <span className="absolute right-[8%] top-[38%] font-display text-base sm:text-lg text-white/90 tracking-[0.12em] drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]">
+            Bienestar
+          </span>
         </div>
       </div>
 

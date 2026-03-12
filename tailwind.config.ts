@@ -19,7 +19,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['"Barlow Condensed"', "sans-serif"],
+        display: ['"Poppins"', "sans-serif"],
         body: ['"DM Sans"', "sans-serif"],
       },
       colors: {

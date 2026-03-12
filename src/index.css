@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Poppins:wght@600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -135,9 +135,9 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Barlow Condensed', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
   }
 }
 
@@ -338,13 +338,13 @@
    ============================================ */
 
 .font-display {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
 }
 
 .font-display-semi {
-  font-family: 'Barlow Condensed', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 600;
   letter-spacing: 0.04em;
 }

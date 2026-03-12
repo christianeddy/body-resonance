@@ -111,7 +111,7 @@ const Sesion = () => {
             const Wrapper = isPremium ? 'div' : Link;
             const wrapperProps = isPremium
               ? { className: "flex items-center gap-3 rounded-xl bg-card/40 border border-border p-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] opacity-70 cursor-not-allowed" }
-              : { to: `/practica/${p.id}`, className: "flex items-center gap-3 rounded-xl bg-card/40 border border-border p-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60" };
+              : { to: `/player/${p.id}`, className: "flex items-center gap-3 rounded-xl bg-card/40 border border-border p-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60" };
             return (
               <Wrapper
                 key={p.id}

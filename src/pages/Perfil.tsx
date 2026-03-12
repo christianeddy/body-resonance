@@ -71,7 +71,7 @@ const Perfil = () => {
         <section className="mb-8">
           <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">RESPIRACIÓN MÁS USADA</h3>
           <Link
-            to={`/practica/${mostUsedPractice.id}`}
+            to={`/player/${mostUsedPractice.id}`}
             className="flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60"
           >
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10">
@@ -100,7 +100,7 @@ const Perfil = () => {
             {favoritePractices.map((p) => (
               <Link
                 key={p.id}
-                to={`/practica/${p.id}`}
+                to={`/player/${p.id}`}
                 className="flex items-center gap-4 rounded-2xl bg-card/40 border border-white/[0.06] p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.03)] transition-colors hover:bg-card/60"
               >
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10">

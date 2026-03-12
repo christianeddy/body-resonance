@@ -86,7 +86,7 @@ const MoodPractices = ({ intention }: { intention: string }) => {
         const Wrapper = isPremium ? 'div' : Link;
         const wrapperProps = isPremium
           ? { className: "card-body flex items-center gap-4 rounded-xl px-5 py-4 opacity-70 cursor-not-allowed" }
-          : { to: `/practica/${p.id}`, className: "card-body flex items-center gap-4 rounded-xl px-5 py-4" };
+          : { to: `/player/${p.id}`, className: "card-body flex items-center gap-4 rounded-xl px-5 py-4" };
         return (
           <Wrapper key={p.id} {...(wrapperProps as any)}>
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">

@@ -4,6 +4,9 @@ import { useSessionStats, useSessions } from "@/hooks/useSessions";
 import { useFavorites } from "@/hooks/useFavorites";
 import { usePractices } from "@/hooks/usePractices";
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns";
+import { es } from "date-fns/locale";
 
 const Perfil = () => {
   const { profile, signOut } = useAuth();
@@ -69,6 +72,35 @@ const Perfil = () => {
         ))}
       </div>
 
+      {/* Recientes */}
+      <section className="mb-8">
+        <h3 className="font-display text-base text-muted-foreground mb-4">RECIENTES</h3>
+        {!sessions || sessions.length === 0 ? (
+          <p className="font-body text-sm text-muted-foreground">Aún no tienes sesiones</p>
+        ) : (
+          <div className="space-y-2">
+            {sessions.slice(0, 3).map((s) => {
+              const totalSecs = s.duration_seconds ?? 0;
+              const mins = Math.floor(totalSecs / 60);
+              const secs = totalSecs % 60;
+              return (
+                <div key={s.id} className="card-body rounded-xl p-3 flex items-center justify-between">
+                  <div>
+                    <p className="font-body text-sm text-foreground">{s.practice_name}</p>
+                    <p className="font-body text-xs text-muted-foreground">
+                      {formatDistanceToNow(new Date(s.completed_at), { addSuffix: true, locale: es })}
+                    </p>
+                  </div>
+                  <span className="font-body text-xs text-muted-foreground shrink-0 ml-3">
+                    {mins}m {secs}s
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
       {/* Heatmap */}
       <section className="mb-8">
         <h3 className="font-display text-base text-muted-foreground mb-4">ACTIVIDAD</h3>
@@ -83,6 +115,19 @@ const Perfil = () => {
             );
           })}
         </div>
+        <div className="flex gap-3 justify-end mt-2 items-center">
+          {[
+            { bg: "bg-card", label: "0" },
+            { bg: "bg-primary/50", label: "1" },
+            { bg: "bg-primary", label: "2" },
+            { bg: "bg-accent", label: "3+" },
+          ].map(({ bg, label }) => (
+            <div key={label} className="flex items-center gap-1">
+              <div className={`w-2 h-2 rounded-sm ${bg}`} />
+              <span className="font-body text-[10px] text-muted-foreground">{label}</span>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Favorites */}
@@ -93,10 +138,12 @@ const Perfil = () => {
         ) : (
           <div className="space-y-2">
             {favoritePractices.map((p) => (
-              <div key={p.id} className="card-body rounded-xl p-3">
-                <p className="font-body text-sm text-foreground">{p.display_name}</p>
-                <p className="font-body text-xs text-muted-foreground">{p.duration_estimated}</p>
-              </div>
+              <Link key={p.id} to={`/practica/${p.id}`}>
+                <div className="card-body rounded-xl p-3">
+                  <p className="font-body text-sm text-foreground">{p.display_name}</p>
+                  <p className="font-body text-xs text-muted-foreground">{p.duration_estimated}</p>
+                </div>
+              </Link>
             ))}
           </div>
         )}
@@ -105,7 +152,7 @@ const Perfil = () => {
       {/* Logout */}
       <button
         onClick={() => signOut()}
-        className="w-full py-4 font-body text-sm text-muted-foreground hover:text-foreground transition-colors"
+        className="w-full py-4 font-body text-sm text-destructive/70 hover:text-destructive transition-colors border border-[hsl(0_0%_100%/0.08)] rounded-xl"
       >
         Cerrar sesión
       </button>

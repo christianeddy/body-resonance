@@ -1,5 +1,5 @@
 import { PageTransition } from "@/components/layout/PageTransition";
-import { Wind, Snowflake, Flame, ChevronRight, Settings } from "lucide-react";
+import { Wind, Snowflake, Flame, ChevronRight, Settings, Activity, Clock, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useSessionStats } from "@/hooks/useSessions";
@@ -26,6 +26,13 @@ const Index = () => {
 
   const displayName = profile?.display_name || "Atleta";
 
+  const intentionLabel: Record<string, string> = {
+    energia: "ENERGÍA",
+    calma: "CALMA",
+    dormir: "DORMIR",
+    reset: "RESET",
+  };
+
   return (
     <PageTransition>
       {/* Header */}
@@ -39,19 +46,20 @@ const Index = () => {
       {/* Stats */}
       <div className="mb-8 flex gap-3 overflow-x-auto scrollbar-hide">
         {[
-          { value: String(totalSessions), label: "SESIONES" },
-          { value: String(totalMinutes), label: "MINUTOS" },
-          { value: String(streak), label: "DÍAS DE RACHA", highlight: streak > 0 },
-        ].map((stat, i) => (
+          { value: String(totalSessions), label: "SESIONES", icon: Activity },
+          { value: String(totalMinutes), label: "MINUTOS", icon: Clock },
+          { value: String(streak), label: "DÍAS DE RACHA", icon: Zap, highlight: streak > 0 },
+        ].map(({ value, label, icon: Icon, highlight }, i) => (
           <div
             key={i}
             className="card-body flex-shrink-0 rounded-xl px-5 py-4"
             style={{ animationDelay: `${i * 50}ms` }}
           >
-            <p className={`font-display-semi text-3xl ${stat.highlight ? "text-success" : "text-foreground"}`}>
-              {stat.value}
+            <Icon size={16} strokeWidth={1.5} className="text-muted-foreground mb-2" />
+            <p className={`font-display-semi text-3xl ${highlight ? "text-success" : "text-foreground"}`}>
+              {value}
             </p>
-            <p className="font-body text-[11px] text-muted-foreground mt-1">{stat.label}</p>
+            <p className="font-body text-[11px] text-muted-foreground mt-1">{label}</p>
           </div>
         ))}
       </div>
@@ -66,7 +74,12 @@ const Index = () => {
             <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-display text-[11px] text-accent mb-3">
               {timeLabel}
             </span>
-            <h2 className="font-display text-xl text-foreground mb-1">{recommended.display_name}</h2>
+            <h2 className="font-display text-xl text-foreground mb-2">{recommended.display_name}</h2>
+            {recommended.intention && (
+              <span className="inline-block rounded-full bg-accent/10 px-3 py-1 font-display text-[11px] text-accent mb-3">
+                {intentionLabel[recommended.intention] ?? recommended.intention.toUpperCase()}
+              </span>
+            )}
             <p className="font-body text-sm text-muted-foreground mb-6">
               {recommended.duration_estimated} · Intensidad {recommended.intensity}
             </p>
@@ -83,9 +96,9 @@ const Index = () => {
       )}
 
       {/* Programs */}
-      {programs && programs.length > 0 && (
-        <section className="mb-8">
-          <h3 className="font-display text-base text-muted-foreground mb-4">PROGRAMAS</h3>
+      <section className="mb-8">
+        <h3 className="font-display text-base text-muted-foreground mb-4">PROGRAMAS</h3>
+        {programs && programs.length > 0 ? (
           <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-thin stagger-children">
             {programs.map((prog) => {
               const progress = allProgress?.find((p) => p.program_id === prog.id);
@@ -107,29 +120,36 @@ const Index = () => {
               );
             })}
           </div>
-        </section>
-      )}
+        ) : (
+          <p className="font-body text-sm text-muted-foreground text-center py-4">
+            Aún no hay programas disponibles
+          </p>
+        )}
+      </section>
 
       {/* Explore */}
       <section className="mb-8">
         <h3 className="font-display text-base text-muted-foreground mb-4">EXPLORA</h3>
         <div className="stagger-children space-y-3">
           {[
-            { name: "RESPIRACIÓN", icon: Wind, gradient: "var(--gradient-ice)", to: "/respirar" },
-            { name: "FRÍO", icon: Snowflake, gradient: "var(--gradient-ice)", to: "/sesion?tab=hielo" },
-            { name: "CALOR", icon: Flame, gradient: "var(--gradient-fire)", to: "/sesion?tab=calor" },
-          ].map(({ name, icon: Icon, gradient, to }, i) => (
+            { name: "RESPIRACIÓN", description: "Técnicas guiadas", icon: Wind, gradient: "var(--gradient-ice)", to: "/respirar" },
+            { name: "FRÍO", description: "Protocolos de hielo", icon: Snowflake, gradient: "var(--gradient-ice)", to: "/sesion?tab=hielo" },
+            { name: "CALOR", description: "Protocolos de calor", icon: Flame, gradient: "var(--gradient-fire)", to: "/sesion?tab=calor" },
+          ].map(({ name, description, icon: Icon, gradient, to }, i) => (
             <Link
               to={to}
               key={i}
-              className="card-body flex items-center justify-between rounded-xl p-5"
+              className="card-body flex items-center justify-between rounded-xl px-5 py-6"
               style={{ background: gradient }}
             >
               <div className="flex items-center gap-4">
-                <Icon size={24} strokeWidth={1.5} className="text-foreground" />
-                <span className="font-display text-base text-foreground">{name}</span>
+                <Icon size={28} strokeWidth={1.5} className="text-foreground flex-shrink-0" />
+                <div>
+                  <span className="font-display text-base text-foreground">{name}</span>
+                  <p className="font-body text-xs text-muted-foreground mt-0.5">{description}</p>
+                </div>
               </div>
-              <ChevronRight size={20} strokeWidth={1.5} className="text-muted-foreground" />
+              <ChevronRight size={20} strokeWidth={1.5} className="text-muted-foreground flex-shrink-0" />
             </Link>
           ))}
         </div>

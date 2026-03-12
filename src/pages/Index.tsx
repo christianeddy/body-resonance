@@ -58,7 +58,7 @@ const Index = () => {
       </div>
 
       {/* Stats */}
-      <div className="mb-8 flex gap-3 overflow-x-auto scrollbar-hide pb-2">
+      <div className="mb-8 flex gap-3">
         {[
           { value: String(totalSessions), label: "Sesiones", icon: Heartbeat },
           { value: String(totalMinutes), label: "Minutos", icon: Timer },
@@ -66,7 +66,7 @@ const Index = () => {
         ].map(({ value, label, icon: Icon, highlight }, i) => (
           <div
             key={i}
-            className="card-body flex-shrink-0 rounded-xl px-5 py-4 transition-all duration-300"
+            className="card-body flex-1 rounded-xl px-5 py-4"
             style={{ animationDelay: `${i * 50}ms` }}
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 mb-2">

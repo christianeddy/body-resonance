@@ -155,13 +155,22 @@ const Index = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
         <div className="absolute inset-0">
-          <span className="absolute left-[8%] top-[38%] font-display text-base sm:text-lg text-white/90 tracking-[0.12em] drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]">
+          <span
+            className="absolute left-[8%] top-[38%] font-display text-base sm:text-lg tracking-[0.12em] drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]"
+            style={{ background: "linear-gradient(90deg, #ffffff 0%, #7dd3fc 50%, #38bdf8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+          >
             Regulación
           </span>
-          <span className="absolute left-1/2 -translate-x-1/2 top-[28%] font-display text-base sm:text-lg text-white/90 tracking-[0.12em] drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]">
+          <span
+            className="absolute left-1/2 -translate-x-1/2 top-[28%] font-display text-base sm:text-lg tracking-[0.12em] drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]"
+            style={{ background: "linear-gradient(90deg, #ffffff 0%, #a78bfa 50%, #c084fc 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+          >
             Recuperación
           </span>
-          <span className="absolute right-[8%] top-[38%] font-display text-base sm:text-lg text-white/90 tracking-[0.12em] drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]">
+          <span
+            className="absolute right-[8%] top-[38%] font-display text-base sm:text-lg tracking-[0.12em] drop-shadow-[0_2px_16px_rgba(0,0,0,0.7)]"
+            style={{ background: "linear-gradient(90deg, #ffffff 0%, #fb923c 50%, #f97316 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+          >
             Bienestar
           </span>
         </div>

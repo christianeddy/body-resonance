@@ -66,8 +66,7 @@ const Index = () => {
         ].map(({ value, label, icon: Icon, highlight }, i) => (
           <div
             key={i}
-            className="flex-1 rounded-xl px-5 py-4 bg-card border border-border"
-            style={{ boxShadow: "var(--shadow-inner-glow)" }}
+            className="card-body flex-1 rounded-xl px-5 py-4"
             style={{ animationDelay: `${i * 50}ms` }}
           >
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 mb-2">
@@ -116,27 +115,26 @@ const Index = () => {
       {/* ¿Cómo te sientes hoy? */}
       <section className="mb-8">
         <h3 className="font-display text-base text-muted-foreground mb-4">¿Cómo te sientes hoy?</h3>
-        <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
+        <div className="grid grid-cols-5 gap-2">
           {[
-            { id: "energia", label: "Necesito energía", icon: Lightning, gradient: "linear-gradient(135deg, hsl(30 90% 50% / 0.08) 0%, hsl(15 85% 55% / 0.05) 100%)", iconBg: "bg-amber-500/20", iconCls: "text-amber-400" },
-            { id: "calma", label: "Necesito calma", icon: Heart, gradient: "linear-gradient(135deg, hsl(221 83% 53% / 0.08) 0%, hsl(190 80% 50% / 0.06) 100%)", iconBg: "bg-blue-400/20", iconCls: "text-blue-400" },
-            { id: "reset", label: "Quiero soltar tensión", icon: ArrowsClockwise, gradient: "linear-gradient(135deg, hsl(160 60% 45% / 0.08) 0%, hsl(140 50% 40% / 0.05) 100%)", iconBg: "bg-emerald-500/20", iconCls: "text-emerald-400" },
-            { id: "enfoque", label: "Quiero enfocarme", icon: Brain, gradient: "linear-gradient(135deg, hsl(270 70% 55% / 0.08) 0%, hsl(260 60% 50% / 0.05) 100%)", iconBg: "bg-violet-500/20", iconCls: "text-violet-400" },
-            { id: "dormir", label: "Quiero dormir", icon: Bed, gradient: "linear-gradient(135deg, hsl(240 50% 45% / 0.08) 0%, hsl(250 40% 35% / 0.05) 100%)", iconBg: "bg-indigo-500/20", iconCls: "text-indigo-400" },
-          ].map(({ id, label, icon: Icon, gradient, iconBg, iconCls }) => (
+            { id: "energia", label: "Energía", icon: Lightning, iconBg: "bg-amber-500/20", iconCls: "text-amber-400" },
+            { id: "calma", label: "Calma", icon: Heart, iconBg: "bg-blue-400/20", iconCls: "text-blue-400" },
+            { id: "reset", label: "Soltar", icon: ArrowsClockwise, iconBg: "bg-emerald-500/20", iconCls: "text-emerald-400" },
+            { id: "enfoque", label: "Enfoque", icon: Brain, iconBg: "bg-violet-500/20", iconCls: "text-violet-400" },
+            { id: "dormir", label: "Dormir", icon: Bed, iconBg: "bg-indigo-500/20", iconCls: "text-indigo-400" },
+          ].map(({ id, label, icon: Icon, iconBg, iconCls }) => (
             <button
               key={id}
               type="button"
               onClick={() => setSelectedMood(selectedMood === id ? null : id)}
-              className={`card-body flex-shrink-0 flex flex-col items-center gap-3 rounded-xl px-4 py-4 min-w-[100px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_16px_-4px_hsl(var(--primary)/0.2)] border ${
+              className={`card-body flex flex-col items-center gap-2 rounded-xl px-2 py-3 transition-all duration-200 border ${
                 selectedMood === id ? "border-primary ring-2 ring-primary/20" : "border-border"
               }`}
-              style={{ background: gradient }}
             >
-              <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${iconBg}`}>
-                <Icon size={20} weight="duotone" className={iconCls} />
+              <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${iconBg}`}>
+                <Icon size={18} weight="duotone" className={iconCls} />
               </div>
-              <span className="font-body text-xs text-foreground text-center leading-tight">{label}</span>
+              <span className="font-body text-[11px] text-foreground text-center leading-tight">{label}</span>
             </button>
           ))}
         </div>

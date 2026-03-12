@@ -1,6 +1,7 @@
 import { PageTransition } from "@/components/layout/PageTransition";
 import { useState } from "react";
 import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed } from "@phosphor-icons/react";
+import heroHome from "@/assets/hero-home.png";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useSessionStats } from "@/hooks/useSessions";
@@ -129,6 +130,21 @@ const Index = () => {
             <p className="font-body text-[11px] text-muted-foreground mt-1">{label}</p>
           </div>
         ))}
+      </div>
+
+      {/* Hero */}
+      <div className="relative -mx-5 mb-8 overflow-hidden">
+        <img
+          src={heroHome}
+          alt="Bodhi ice bath"
+          className="w-full h-64 object-cover"
+          style={{ objectPosition: '50% 25%' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+        <div className="absolute bottom-4 left-5 right-5">
+          <p className="font-display text-lg text-foreground">Tu cuerpo es tu templo</p>
+          <p className="font-body text-sm text-muted-foreground mt-1">Entrená tu resistencia al frío con Bodhi</p>
+        </div>
       </div>
 
       {/* Daily Ritual */}

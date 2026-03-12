@@ -6,6 +6,7 @@ import { useFavorites, useToggleFavorite } from "@/hooks/useFavorites";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Practice } from "@/hooks/usePractices";
+import heroRespiracion from "@/assets/hero-respiracion.png";
 
 const intentionFilters = ["Todas", "Energía", "Calma", "Enfoque", "Reset", "Dormir", "Hielo", "Sauna"];
 const durationFilters = ["Duración", "3 min", "5 min", "10 min"];
@@ -95,9 +96,18 @@ const Respirar = () => {
 
   return (
     <PageTransition>
-      {/* Header */}
-      <h1 className="font-display text-3xl text-foreground pt-14">Respirar</h1>
-      <p className="font-body text-sm text-muted-foreground mt-1 mb-5">Descubre tu práctica ideal</p>
+      <h1 className="font-display text-3xl text-foreground pt-14 pb-6">Respirar</h1>
+
+      {/* Hero */}
+      <div className="relative rounded-2xl overflow-hidden mb-6">
+        <img src={heroRespiracion} alt="Respiración guiada Bodhi" className="w-full h-52 object-cover" style={{ objectPosition: '50% 30%' }} />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <p className="absolute bottom-3 left-4 right-4 font-body text-sm text-foreground/90">
+          La respiración es tu herramienta más accesible para regular tu estado interno.
+        </p>
+      </div>
+
+      <p className="font-body text-sm text-muted-foreground mb-4">Descubre tu práctica ideal</p>
 
       {/* Search */}
       <div className="relative mb-5">
@@ -112,12 +122,12 @@ const Respirar = () => {
       </div>
 
       {/* Intention filters */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide mb-3">
+      <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-2.5">
         {intentionFilters.map((f) => (
           <button
             key={f}
             onClick={() => setActiveFilter(f)}
-            className={`flex-shrink-0 rounded-full px-4 py-2 font-display text-xs transition-all duration-200 ${
+            className={`flex-shrink-0 rounded-full px-3 py-1 font-display text-[11px] transition-all duration-200 ${
               activeFilter === f
                 ? "bg-primary text-primary-foreground"
                 : "border border-border/40 text-muted-foreground hover:text-foreground"
@@ -129,12 +139,12 @@ const Respirar = () => {
       </div>
 
       {/* Duration filters */}
-      <div className="flex gap-2 overflow-x-auto scrollbar-hide mb-6">
+      <div className="flex gap-1.5 overflow-x-auto scrollbar-hide mb-5">
         {durationFilters.map((f) => (
           <button
             key={f}
             onClick={() => setActiveDuration(f === activeDuration ? "Duración" : f)}
-            className={`flex-shrink-0 rounded-full px-4 py-2 font-display text-xs transition-all duration-200 ${
+            className={`flex-shrink-0 rounded-full px-3 py-1 font-display text-[11px] transition-all duration-200 ${
               activeDuration === f
                 ? "bg-primary text-primary-foreground"
                 : "border border-border/40 text-muted-foreground hover:text-foreground"

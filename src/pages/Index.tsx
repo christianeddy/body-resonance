@@ -1,7 +1,6 @@
 import { PageTransition } from "@/components/layout/PageTransition";
 import { useState } from "react";
-import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed } from "@phosphor-icons/react";
-import heroHome from "@/assets/hero-home.png";
+import { Wind, Thermometer, Fire, CaretRight, GearSix, Heartbeat, Timer, Lightning, Heart, ArrowsClockwise, Brain, Bed, Snowflake, Sun } from "@phosphor-icons/react";
 import ritualEnergia from "@/assets/ritual-energia.png";
 import ritualReset from "@/assets/ritual-reset.png";
 import ritualCalma from "@/assets/ritual-calma.png";
@@ -13,11 +12,46 @@ import { useSessionStats } from "@/hooks/useSessions";
 import { usePractices } from "@/hooks/usePractices";
 import { usePrograms, useAllProgramProgress } from "@/hooks/usePrograms";
 
+/*
+ * ── HERO SECTION (guardado para re-implementar) ──
+ * 
+ * import heroHome from "@/assets/hero-home.png";
+ *
+ * <div className="relative -mx-5 mb-8 overflow-hidden">
+ *   <img
+ *     src={heroHome}
+ *     alt="Bodhi ice bath"
+ *     className="w-full h-56 sm:h-72 object-cover object-center animate-[heroZoom_1.2s_cubic-bezier(0.22,1,0.36,1)_forwards]"
+ *   />
+ *   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+ *   <div className="absolute inset-0">
+ *     <span
+ *       className="absolute left-[10%] top-[32%] font-display text-base sm:text-lg font-semibold tracking-[0.12em] animate-[fadeSlideRight_0.8s_cubic-bezier(0.22,1,0.36,1)_0.3s_both]"
+ *       style={{ background: "linear-gradient(90deg, #ffffff 40%, #38bdf8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 12px rgba(0,0,0,0.9)) drop-shadow(0 0 4px rgba(0,0,0,0.6))" }}
+ *     >
+ *       Regulación
+ *     </span>
+ *     <span
+ *       className="absolute left-1/2 -translate-x-1/2 top-[28%] font-display text-base sm:text-lg font-semibold tracking-[0.12em] animate-[fadeSlideDown_0.8s_cubic-bezier(0.22,1,0.36,1)_0.5s_both]"
+ *       style={{ background: "linear-gradient(90deg, #ffffff 30%, #a78bfa 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.8))" }}
+ *     >
+ *       Recuperación
+ *     </span>
+ *     <span
+ *       className="absolute right-[8%] top-[38%] font-display text-base sm:text-lg font-semibold tracking-[0.12em] animate-[fadeSlideLeft_0.8s_cubic-bezier(0.22,1,0.36,1)_0.7s_both]"
+ *       style={{ background: "linear-gradient(90deg, #ffffff 30%, #fb923c 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.8))" }}
+ *     >
+ *       Bienestar
+ *     </span>
+ *   </div>
+ * </div>
+ */
+
 const MOOD_TO_INTENTION: Record<string, string> = {
   energia: "energia",
   calma: "calma",
   reset: "reset",
-  enfoque: "energia", // maps to energia until enfoque intention exists
+  enfoque: "energia",
   dormir: "dormir",
 };
 
@@ -73,7 +107,6 @@ const Index = () => {
   const { data: programs } = usePrograms();
   const { data: allProgress } = useAllProgramProgress();
 
-  // Recommend practice based on profile + time of day
   const hour = new Date().getHours();
   let recommendedIntention = "calma";
   if (hour < 12) recommendedIntention = "energia";
@@ -82,7 +115,6 @@ const Index = () => {
   else recommendedIntention = "reset";
 
   const recommended = practices?.find((p) => p.intention === recommendedIntention) ?? practices?.[0];
-  const timeLabel = hour < 12 ? "Mañana" : hour < 18 ? "Tarde" : "Noche";
 
   const displayName = profile?.display_name || "Atleta";
 
@@ -91,13 +123,6 @@ const Index = () => {
     calma: "Calma",
     dormir: "Dormir",
     reset: "Reset",
-  };
-
-  const intentionColors: Record<string, string> = {
-    energia: "bg-amber-500/10 text-amber-400",
-    calma: "bg-blue-400/10 text-blue-400",
-    dormir: "bg-indigo-400/10 text-indigo-400",
-    reset: "bg-emerald-400/10 text-emerald-400",
   };
 
   const intentionGradients: Record<string, string> = {
@@ -115,10 +140,11 @@ const Index = () => {
   };
 
   const ritualImage = intentionImages[recommendedIntention] ?? ritualEnergia;
+  const practiceCount = practices?.length ?? 0;
 
   return (
     <PageTransition>
-      {/* Header */}
+      {/* 1. Header */}
       <div className="flex items-center justify-between pt-14 pb-2 mb-8">
         <div>
           <p className="font-body text-sm text-muted-foreground">Hola, {displayName}</p>
@@ -131,60 +157,7 @@ const Index = () => {
         </Link>
       </div>
 
-      {/* Stats */}
-      <div className="mb-8 flex gap-3">
-        {[
-          { value: String(totalSessions), label: "Sesiones", icon: Heartbeat },
-          { value: String(totalMinutes), label: "Minutos", icon: Timer },
-          { value: String(streak), label: "Días seguidos", icon: Lightning, highlight: streak > 0 },
-        ].map(({ value, label, icon: Icon, highlight }, i) => (
-          <div
-            key={i}
-            className="card-body flex-1 rounded-xl px-4 py-5 flex flex-col items-center text-center"
-            style={{ animationDelay: `${i * 50}ms` }}
-          >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 mb-3">
-              <Icon size={16} weight="duotone" className="text-accent" />
-            </div>
-            <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-3xl font-light" : "font-display text-3xl text-foreground font-light"}>
-              {value}
-            </p>
-            <p className="font-display text-sm text-muted-foreground mt-1.5 tracking-wide">{label}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Hero */}
-      <div className="relative -mx-5 mb-8 overflow-hidden">
-        <img
-          src={heroHome}
-          alt="Bodhi ice bath"
-          className="w-full h-56 sm:h-72 object-cover object-center animate-[heroZoom_1.2s_cubic-bezier(0.22,1,0.36,1)_forwards]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
-        <div className="absolute inset-0">
-          <span
-            className="absolute left-[10%] top-[32%] font-display text-base sm:text-lg font-semibold tracking-[0.12em] animate-[fadeSlideRight_0.8s_cubic-bezier(0.22,1,0.36,1)_0.3s_both]"
-            style={{ background: "linear-gradient(90deg, #ffffff 40%, #38bdf8 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 12px rgba(0,0,0,0.9)) drop-shadow(0 0 4px rgba(0,0,0,0.6))" }}
-          >
-            Regulación
-          </span>
-          <span
-            className="absolute left-1/2 -translate-x-1/2 top-[28%] font-display text-base sm:text-lg font-semibold tracking-[0.12em] animate-[fadeSlideDown_0.8s_cubic-bezier(0.22,1,0.36,1)_0.5s_both]"
-            style={{ background: "linear-gradient(90deg, #ffffff 30%, #a78bfa 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.8))" }}
-          >
-            Recuperación
-          </span>
-          <span
-            className="absolute right-[8%] top-[38%] font-display text-base sm:text-lg font-semibold tracking-[0.12em] animate-[fadeSlideLeft_0.8s_cubic-bezier(0.22,1,0.36,1)_0.7s_both]"
-            style={{ background: "linear-gradient(90deg, #ffffff 30%, #fb923c 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.8))" }}
-          >
-            Bienestar
-          </span>
-        </div>
-      </div>
-
-      {/* Daily Ritual */}
+      {/* 2. Ritual de hoy */}
       {recommended && (
         <section className="mb-8">
           <div
@@ -192,7 +165,6 @@ const Index = () => {
             style={{ background: "linear-gradient(180deg, hsl(240 12% 5%) 0%, hsl(240 18% 8%) 100%)" }}
           >
             <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-            {/* Background image on the right */}
             <div className="absolute inset-0 pointer-events-none">
               <img src={ritualImage} alt="" className="absolute right-0 top-0 h-full w-3/4 object-cover object-[center_20%]" />
               <div className="absolute inset-0" style={{ background: "linear-gradient(to right, hsl(240 12% 5%) 25%, hsl(240 12% 5% / 0.85) 38%, hsl(240 12% 5% / 0.3) 55%, transparent 70%)" }} />
@@ -200,35 +172,36 @@ const Index = () => {
             </div>
             <div className="relative z-10">
               <span
-                className="inline-block rounded-full px-3 py-1 font-display text-[11px] font-semibold mb-3"
+                className="inline-block font-display text-[11px] font-semibold tracking-[0.15em] mb-3"
                 style={{
                   background: intentionGradients[recommendedIntention] ?? "linear-gradient(90deg, #60a5fa, #a78bfa)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
               >
-                {timeLabel} · {intentionLabel[recommendedIntention] ?? recommendedIntention}
+                RITUAL DE HOY
               </span>
-              <h2 className="font-display text-2xl text-white mb-2">{recommended.display_name}</h2>
-              <p className="font-body text-sm text-white/60 mb-6">
-                {recommended.duration_estimated} · Intensidad {recommended.intensity}
+              <h2 className="font-display text-2xl text-white mb-1">{recommended.display_name}</h2>
+              <p className="font-body text-sm text-white/50 mb-6">
+                {recommended.duration_estimated} · {recommended.technique ?? `Respiración de ${recommendedIntention}`}
               </p>
-              <div className="flex justify-end">
-                <Link
-                  to={`/player/${recommended.id}`}
-                  className="animate-pulse-cta inline-flex items-center rounded-full bg-gradient-to-r from-primary to-accent shadow-[0_0_20px_-4px_hsl(var(--primary)/0.4)] px-6 py-2.5 font-display text-sm text-primary-foreground"
-                >
-                  Comenzar
-                </Link>
-              </div>
+              <Link
+                to={`/player/${recommended.id}`}
+                className="inline-flex items-center gap-3"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent">
+                  <svg width="14" height="16" viewBox="0 0 14 16" fill="none"><polygon points="2,0 14,8 2,16" fill="hsl(var(--accent-foreground))" /></svg>
+                </div>
+                <span className="font-display text-base text-white">Empezar</span>
+              </Link>
             </div>
           </div>
         </section>
       )}
 
-      {/* ¿Cómo te sientes hoy? */}
+      {/* 3. Cómo te sientes hoy */}
       <section className="mb-8">
-        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">Cómo te sientes hoy</h3>
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">CÓMO TE SIENTES HOY</h3>
         <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {[
             { id: "energia", label: "Necesito energía", icon: Lightning, iconBg: "bg-amber-500/20", iconCls: "text-amber-400" },
@@ -253,16 +226,80 @@ const Index = () => {
           ))}
         </div>
 
-        {/* Mood-filtered practices */}
-        {selectedMood && (
-          <MoodPractices intention={selectedMood} />
-        )}
+        {selectedMood && <MoodPractices intention={selectedMood} />}
       </section>
 
-      {/* Programs */}
+      {/* 4. Protocolos Bodhi */}
       <section className="mb-8">
-        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">Programas</h3>
-        {programs && programs.length > 0 ? (
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">PROTOCOLOS BODHI</h3>
+        <div className="grid grid-cols-2 gap-3">
+          <Link
+            to="/sesion?tab=hielo"
+            className="relative overflow-hidden rounded-2xl p-5 min-h-[120px] flex flex-col justify-end transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
+            style={{ background: "linear-gradient(135deg, hsl(200 30% 12%) 0%, hsl(200 40% 8%) 100%)", border: "1px solid hsl(200 30% 18%)" }}
+          >
+            <Snowflake size={28} weight="duotone" className="text-blue-400 mb-auto" />
+            <h4 className="font-display text-base text-foreground mt-4">Preparación para hielo</h4>
+            <p className="font-body text-xs text-muted-foreground mt-0.5">Protocolo completo</p>
+          </Link>
+          <Link
+            to="/sesion?tab=calor"
+            className="relative overflow-hidden rounded-2xl p-5 min-h-[120px] flex flex-col justify-end transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
+            style={{ background: "linear-gradient(135deg, hsl(30 30% 12%) 0%, hsl(30 40% 8%) 100%)", border: "1px solid hsl(30 30% 18%)" }}
+          >
+            <Sun size={28} weight="duotone" className="text-amber-400 mb-auto" />
+            <h4 className="font-display text-base text-foreground mt-4">Preparación para sauna</h4>
+            <p className="font-body text-xs text-muted-foreground mt-0.5">Protocolo completo</p>
+          </Link>
+        </div>
+      </section>
+
+      {/* 5. Tu Camino (Stats) */}
+      <section className="mb-8">
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">TU CAMINO</h3>
+        <div className="grid grid-cols-3 gap-3">
+          {[
+            { value: String(totalSessions), label: "Sesiones", icon: ArrowsClockwise },
+            { value: String(totalMinutes), label: "Minutos", icon: Timer },
+            { value: String(streak), label: "Racha", icon: Fire, highlight: streak > 0 },
+          ].map(({ value, label, icon: Icon, highlight }, i) => (
+            <div
+              key={i}
+              className="card-body rounded-xl px-4 py-5 flex flex-col items-center text-center border border-border/50"
+            >
+              <Icon size={20} weight="duotone" className="text-accent mb-3" />
+              <p className={highlight ? "bg-gradient-to-r from-emerald-400 to-emerald-300 bg-clip-text text-transparent font-display text-3xl font-light" : "font-display text-3xl text-foreground font-light"}>
+                {value}
+              </p>
+              <p className="font-display text-sm text-muted-foreground mt-1.5 tracking-wide">{label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 6. Explorar respiraciones */}
+      <section className="mb-8">
+        <Link
+          to="/respirar"
+          className="card-body flex items-center justify-between rounded-2xl px-5 py-5 border border-border/50"
+        >
+          <div className="flex items-center gap-4">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10">
+              <Wind size={20} weight="duotone" className="text-accent" />
+            </div>
+            <div>
+              <h4 className="font-display text-base text-foreground">Explorar todas las respiraciones</h4>
+              <p className="font-body text-xs text-muted-foreground mt-0.5">{practiceCount} prácticas disponibles</p>
+            </div>
+          </div>
+          <CaretRight size={20} weight="bold" className="text-muted-foreground flex-shrink-0" />
+        </Link>
+      </section>
+
+      {/* 7. Programas */}
+      {programs && programs.length > 0 && (
+        <section className="mb-8">
+          <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">PROGRAMAS</h3>
           <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-thin stagger-children">
             {programs.map((prog) => {
               const progress = allProgress?.find((p) => p.program_id === prog.id);
@@ -285,45 +322,8 @@ const Index = () => {
               );
             })}
           </div>
-        ) : (
-          <p className="font-body text-sm text-muted-foreground text-center py-4">
-            Aún no hay programas disponibles
-          </p>
-        )}
-      </section>
-
-      {/* Explore */}
-      <section className="mb-8">
-        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">Explora</h3>
-        <div className="stagger-children space-y-3">
-          {[
-            { name: "Respiración", description: "Técnicas guiadas", icon: Wind, gradient: "var(--gradient-ice)", to: "/respirar", isHeat: false },
-            { name: "Frío", description: "Protocolos de frío", icon: Thermometer, gradient: "var(--gradient-ice)", to: "/sesion?tab=hielo", isHeat: false },
-            { name: "Calor", description: "Protocolos de calor", icon: Fire, gradient: "var(--gradient-fire)", to: "/sesion?tab=calor", isHeat: true },
-          ].map(({ name, description, icon: Icon, gradient, to, isHeat }, i) => (
-            <Link
-              to={to}
-              key={i}
-              className="card-body flex items-center justify-between rounded-xl px-5 py-6"
-              style={{ background: gradient }}
-            >
-              <div className="flex items-center gap-4">
-                <div className="relative flex-shrink-0">
-                  <div className={`absolute inset-0 rounded-xl blur-md ${isHeat ? "bg-orange-500/15" : "bg-primary/15"}`} />
-                  <div className={`relative flex h-11 w-11 items-center justify-center rounded-xl ${isHeat ? "bg-orange-500/10" : "bg-primary/10"}`}>
-                    <Icon size={20} weight="duotone" className={isHeat ? "text-orange-400" : "text-accent"} />
-                  </div>
-                </div>
-                <div>
-                  <span className="font-display text-base text-foreground">{name}</span>
-                  <p className="font-body text-xs text-muted-foreground mt-0.5">{description}</p>
-                </div>
-              </div>
-              <CaretRight size={20} weight="duotone" className="text-muted-foreground flex-shrink-0" />
-            </Link>
-          ))}
-        </div>
-      </section>
+        </section>
+      )}
     </PageTransition>
   );
 };

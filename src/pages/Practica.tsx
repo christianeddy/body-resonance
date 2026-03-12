@@ -78,7 +78,7 @@ const Practica = () => {
         <>
           <h3 className="font-display text-base text-muted-foreground mb-4">Fases</h3>
           <div className="relative pl-6 mb-8">
-            <div className="absolute left-2 top-2 bottom-2 w-px bg-[hsl(0_0%_100%/0.08)]" />
+            <div className="absolute left-2 top-2 bottom-2 w-px bg-input" />
             <div className="space-y-5 stagger-children">
               {phases.map((phase: any, i: number) => (
                 <div key={i} className="relative">
@@ -111,7 +111,7 @@ const Practica = () => {
       )}
 
       {/* Fixed CTA */}
-      <div className="fixed bottom-[72px] left-1/2 w-full max-w-4xl -translate-x-1/2 p-5 bg-background/90 backdrop-blur-md border-t border-[hsl(0_0%_100%/0.06)]">
+      <div className="fixed bottom-[72px] left-1/2 w-full max-w-4xl -translate-x-1/2 p-5 bg-background/90 backdrop-blur-md border-t border-border">
         <Link
           to={`/player/${practice.id}`}
           className="animate-pulse-cta flex w-full items-center justify-center rounded-xl bg-primary py-4 font-display text-sm text-primary-foreground"

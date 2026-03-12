@@ -10,7 +10,7 @@ Eres el guardián del design system de **Body Resonance**, una app móvil de bie
 
 ## Principios de diseño
 
-- **Dark-only**: No existe modo claro. El tema oscuro ES la identidad de la app.
+- **Light & Dark mode**: Soporta ambos temas via `next-themes`. Dark es el default. Todos los colores usan tokens CSS que cambian con el tema.
 - **Mobile-first**: Diseñado para 430px (iPhone 14 Pro Max), contenedor `max-w-4xl` centrado en desktop.
 - **Minimalismo activo**: Interfaces limpias con micro-interacciones precisas.
 - **Premium & sereno**: El usuario está en un estado de calma — los elementos no compiten, guían.
@@ -58,15 +58,15 @@ Todos los tokens usan valores HSL sin `hsl()` envuelto (patrón shadcn/ui). Apli
 
 | Fuente | Pesos | Uso |
 |---|---|---|
-| **Clash Display** | 400, 600, 700 | Headings, labels, botones, navegación |
-| **Satoshi** | 400, 500, 600 | Body text, descripciones, texto corriente |
+| **Poppins** | 400, 600, 700 | Headings, labels, botones, navegación |
+| **Poppins** | 400, 500, 600 | Body text, descripciones, texto corriente |
 
 ```css
 /* Reglas globales en index.css */
-body { font-family: 'Satoshi', sans-serif; }
+body { font-family: 'Poppins', sans-serif; }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Clash Display', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -76,9 +76,9 @@ h1, h2, h3, h4, h5, h6 {
 **Clases de utilidad disponibles:**
 
 ```
-.font-display       → Clash Display 700, uppercase, letter-spacing 0.08em
-.font-display-semi  → Clash Display 600, uppercase, letter-spacing 0.04em
-.font-body          → Satoshi
+.font-display       → Poppins 700, uppercase, letter-spacing 0.08em
+.font-display-semi  → Poppins 600, uppercase, letter-spacing 0.04em
+.font-body          → Poppins
 ```
 
 **En Tailwind:** `font-display` y `font-body` están registrados como `fontFamily`.
@@ -236,8 +236,8 @@ src/
 
 ## Patrones a evitar
 
-- ❌ No uses modo claro ni variables `dark:` en componentes nuevos
-- ❌ No uses fuentes distintas a Clash Display / Satoshi
+- ❌ No uses colores hsl/hex hardcodeados — siempre tokens CSS (ver skill theme-awareness)
+- ❌ No uses fuentes distintas a Poppins / Poppins
 - ❌ No apliques `background-color` directamente — usa los tokens CSS
 - ❌ No uses otra librería de íconos que no sea `@phosphor-icons/react`, ni uses `strokeWidth`
 - ❌ No crees cards sin la clase `.card-body` o el gradient equivalente
@@ -249,7 +249,7 @@ src/
 ## Checklist antes de entregar un componente
 
 - [ ] Usa tokens CSS (`hsl(var(--token))`), no colores hardcodeados
-- [ ] Tipografía: headings con `font-display`, body con `font-body` o Satoshi por defecto
+- [ ] Tipografía: headings con `font-display`, body con `font-body` o Poppins por defecto
 - [ ] Cards usan `.card-body` o `--gradient-card` + `--shadow-inner-glow`
 - [ ] Iconos de `@phosphor-icons/react` con `weight="duotone"`
 - [ ] Border radius coherente: `rounded-xl` para listas, `rounded-2xl` para hero

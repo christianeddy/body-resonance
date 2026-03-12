@@ -47,7 +47,7 @@ const Perfil = () => {
     <PageTransition>
       {/* Header */}
       <div className="flex items-center gap-4 pt-14 pb-8">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-card border border-[hsl(0_0%_100%/0.06)]">
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-card border border-border">
           <span className="font-display text-lg text-foreground">{initials}</span>
         </div>
         <div>
@@ -167,7 +167,7 @@ const Perfil = () => {
       {/* Logout */}
       <button
         onClick={() => signOut()}
-        className="w-full py-4 font-body text-sm text-destructive/70 hover:text-destructive transition-colors border border-[hsl(0_0%_100%/0.08)] rounded-xl"
+        className="w-full py-4 font-body text-sm text-destructive/70 hover:text-destructive transition-colors border border-input rounded-xl"
       >
         Cerrar sesión
       </button>

@@ -149,7 +149,7 @@ const Onboarding = () => {
           </div>
 
           {/* Progress bar */}
-          <div className="h-1 w-full max-w-xs mx-auto rounded-full bg-[hsl(0_0%_100%/0.08)]">
+          <div className="h-1 w-full max-w-xs mx-auto rounded-full bg-input">
             <div
               className="h-full rounded-full bg-primary transition-all duration-500"
               style={{ width: `${((step + 1) / steps.length) * 100}%` }}
@@ -171,7 +171,7 @@ const Onboarding = () => {
                     ? "border-primary text-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
-                style={selected === option ? { borderColor: "hsl(221 83% 53%)" } : {}}
+                style={selected === option ? { borderColor: "hsl(var(--primary))" } : {}}
               >
                 {option}
                 {selected === option && (

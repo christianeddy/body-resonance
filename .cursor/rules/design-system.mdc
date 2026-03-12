@@ -6,29 +6,38 @@ alwaysApply: false
 
 # Design System — Body Resonance
 
-App **siempre oscura** (dark-only). No hay modo light. No usar `dark:` prefixes.
+App con **light y dark mode** via `next-themes`. Dark es el default. Todos los colores usan tokens CSS.
 
 ## Tokens CSS — Variables de `index.css`
 
-| Token | Valor | Uso |
-|---|---|---|
-| `--background` | `240 10% 2%` | Fondo base negro profundo |
-| `--card` | `240 12% 5%` | Superficies de tarjetas |
-| `--primary` | `221 83% 53%` | Azul principal, CTAs |
-| `--accent` | `213 94% 68%` | Azul claro, highlights |
-| `--success` | `160 60% 52%` | Verde, estados completados |
-| `--muted-foreground` | `240 4% 56%` | Texto secundario |
-| `--surface-elevated` | `240 15% 6%` | Superficies elevadas |
-| `--surface-hover` | `240 15% 8%` | Estado hover |
+| Token | Dark | Light | Uso |
+|---|---|---|---|
+| `--background` | negro profundo | blanco | Fondo base |
+| `--card` | gris 9% | gris 97% | Superficies de tarjetas |
+| `--primary` | `221 83% 53%` | `221 83% 53%` | Azul principal, CTAs |
+| `--accent` | `213 94% 68%` | `213 94% 58%` | Azul claro, highlights |
+| `--success` | `160 60% 52%` | `160 60% 42%` | Verde, completados |
+| `--muted-foreground` | gris 56% | gris 46% | Texto secundario |
+| `--border` | blanco 6% | gris 91% | Bordes |
+| `--input` | blanco 8% | gris 91% | Inputs |
 
 ### Gradientes semánticos
 
 ```css
-/* Usa variables, no valores hardcodeados */
-background: var(--gradient-card);    /* sutil oscuro → más oscuro */
+background: var(--gradient-card);    /* cambia con el tema */
 background: var(--gradient-accent);  /* azul → azul claro */
-background: var(--gradient-ice);     /* overlay frío, 10% opacidad */
-background: var(--gradient-fire);    /* overlay cálido, 10% opacidad */
+background: var(--gradient-ice);     /* overlay frío sutil */
+background: var(--gradient-fire);    /* overlay cálido sutil */
+```
+
+### NUNCA usar hsl hardcodeado
+
+```tsx
+// ❌ INCORRECTO — no funciona en light mode
+border-[hsl(0_0%_100%/0.06)]
+
+// ✅ CORRECTO — usa token que cambia con tema
+border-border
 ```
 
 ## Clases Tailwind custom
@@ -36,64 +45,61 @@ background: var(--gradient-fire);    /* overlay cálido, 10% opacidad */
 ### `.font-display` y `.font-body`
 
 ```tsx
-// Tipografía display: Clash Display — uppercase, tracking-wide
-<h1 className="font-display text-2xl uppercase tracking-widest">SESIONES</h1>
+// Tipografía display: Poppins 700 — uppercase, tracking
+<h1 className="font-display text-2xl">SESIONES</h1>
 
-// Tipografía body: Satoshi — uso general
+// Tipografía body: Poppins 400 — uso general
 <p className="font-body text-sm text-muted-foreground">Descripción</p>
 ```
 
 ### `.card-body`
 
-Clase utilitaria para contenido interno de cards con padding y gap estándar.
+Clase para cards con gradient, inner glow y borde que cambia con el tema.
 
 ```tsx
-// ✅ CORRECTO
-<div className="card-body">
+<div className="card-body rounded-xl p-4">
   <h3>Título</h3>
   <p>Contenido</p>
 </div>
-
-// ❌ EVITAR — padding manual inconsistente
-<div className="p-4 space-y-2">...</div>
 ```
 
 ### `.stagger-children`
 
-Aplica animación escalonada a los hijos directos con `stagger-in`.
+Animación escalonada a hijos directos.
 
 ```tsx
-// ✅ En listas o grids de cards
 <div className="stagger-children grid gap-3">
   {items.map(item => <Card key={item.id} />)}
 </div>
 ```
 
-### `.breathing-circle` / animación `breathe-ring`
+## Iconos
 
-Para el componente de respiración guiada en `/respirar`.
+Exclusivamente `@phosphor-icons/react` con `weight="duotone"`.
 
 ```tsx
-<div className="breathing-circle animate-[breathe-ring_4s_ease-in-out_infinite]" />
+import { Heart } from "@phosphor-icons/react";
+<Heart size={20} weight="duotone" className="text-accent" />
 ```
 
 ## Animaciones disponibles
 
 | Clase | Descripción |
 |---|---|
-| `animate-fade-slide-in` | Entrada suave 200ms — usado en PageTransition |
+| `animate-page-enter` | Entrada de página 250ms con scale |
+| `animate-player-enter` | Zoom-in del player 400ms |
 | `animate-pulse-cta` | Pulso 3s para botones CTA |
-| `animate-[breathe-ring_...]` | Expansión rítmica para círculo respiración |
+| `animate-fade-slide-in` | Fade + slide 200ms |
 
 ## Sombras y bordes
 
 ```tsx
-// Borde sutil entre elementos
-className="border-[hsl(0_0%_100%/0.06)]"
+// Borde — siempre con token
+className="border-border"
 
-// Sombra de card estándar
+// Sombra de card
 style={{ boxShadow: 'var(--shadow-card)' }}
 
-// Glow de acento azul
+// Glow azul hover
 style={{ boxShadow: 'var(--shadow-accent-glow)' }}
 ```

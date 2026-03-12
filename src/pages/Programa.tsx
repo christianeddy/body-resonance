@@ -60,7 +60,7 @@ const Programa = () => {
           const cardContent = (
             <div
               className={`card-body rounded-xl p-4 ${isCurrent ? "border-primary" : ""}`}
-              style={isCurrent ? { borderColor: "hsl(221 83% 53%)" } : {}}
+              style={isCurrent ? { borderColor: "hsl(var(--primary))" } : {}}
             >
               <div className="flex items-center justify-between">
                 <div>

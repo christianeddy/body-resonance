@@ -51,7 +51,7 @@ const Index = () => {
           <h1 className="font-display text-3xl text-foreground mt-1">Vuelve a tu centro</h1>
         </div>
         <Link to="/perfil">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-card border border-[hsl(0_0%_100%/0.06)] transition-colors hover:border-[hsl(0_0%_100%/0.12)]">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-card border border-border transition-colors hover:border-muted-foreground/20">
             <GearSix size={16} weight="duotone" className="text-muted-foreground" />
           </div>
         </Link>
@@ -103,7 +103,7 @@ const Index = () => {
             <div className="flex justify-end">
               <Link
                 to={`/player/${recommended.id}`}
-                className="animate-pulse-cta inline-flex items-center rounded-full bg-gradient-to-r from-[hsl(221,83%,48%)] to-[hsl(213,94%,63%)] shadow-[0_0_20px_-4px_hsl(221,83%,53%/0.4)] px-6 py-2.5 font-display text-sm text-primary-foreground"
+                className="animate-pulse-cta inline-flex items-center rounded-full bg-gradient-to-r from-primary to-accent shadow-[0_0_20px_-4px_hsl(var(--primary)/0.4)] px-6 py-2.5 font-display text-sm text-primary-foreground"
               >
                 Comenzar
               </Link>
@@ -127,8 +127,8 @@ const Index = () => {
               key={id}
               type="button"
               onClick={() => setSelectedMood(selectedMood === id ? null : id)}
-              className={`card-body flex-shrink-0 flex flex-col items-center gap-3 rounded-xl px-4 py-4 min-w-[100px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_16px_-4px_hsl(221,83%,53%/0.2)] border ${
-                selectedMood === id ? "border-primary ring-2 ring-primary/20" : "border-[hsl(0_0%_100%/0.06)]"
+              className={`card-body flex-shrink-0 flex flex-col items-center gap-3 rounded-xl px-4 py-4 min-w-[100px] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_16px_-4px_hsl(var(--primary)/0.2)] border ${
+                selectedMood === id ? "border-primary ring-2 ring-primary/20" : "border-border"
               }`}
               style={{ background: gradient }}
             >
@@ -157,7 +157,7 @@ const Index = () => {
                   key={prog.id}
                   className="card-body flex-shrink-0 w-60 rounded-2xl p-5 transition-all duration-300 hover:-translate-y-0.5 relative overflow-hidden"
                 >
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(0_0%_100%/0.08)] to-transparent" />
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
                   <h4 className="font-display text-lg text-foreground mb-1">{prog.name}</h4>
                   <p className="font-body text-[13px] text-muted-foreground line-clamp-2 mb-3">{prog.description}</p>
                   <span className="inline-block rounded-full bg-primary/10 px-3 py-1 font-display text-[11px] text-accent">

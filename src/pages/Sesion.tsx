@@ -53,7 +53,7 @@ const Sesion = () => {
       <h1 className="font-display text-3xl text-foreground pt-14 pb-6">Sesión</h1>
 
       {/* Tabs */}
-      <div className="flex gap-6 mb-8 border-b border-[hsl(0_0%_100%/0.06)]">
+      <div className="flex gap-6 mb-8 border-b border-border">
         {(["hielo", "calor"] as Tab[]).map((tab) => {
           const count = tab === "hielo" ? (iceProtocols?.length ?? 0) : (heatProtocols?.length ?? 0);
           return (

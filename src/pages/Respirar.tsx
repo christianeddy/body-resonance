@@ -28,7 +28,7 @@ const IntensityBars = ({ level }: { level: number }) => (
       <div
         key={i}
         className={`h-3 w-1 rounded-full ${
-          i <= level ? "bg-primary" : "bg-[hsl(0_0%_100%/0.12)]"
+          i <= level ? "bg-primary" : "bg-muted"
         }`}
       />
     ))}

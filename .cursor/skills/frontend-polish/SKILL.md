@@ -9,7 +9,7 @@ description: >-
 
 # Frontend Polish — Body Resonance
 
-Guía para elevar componentes de "funcional" a "premium". No es documentación del design system (eso está en el subagente `body-resonance-ui`). Esto es un playbook de **cómo hacer que se vea increíble**.
+Guía para elevar componentes de "funcional" a "premium". Fuente: Poppins. Íconos: @phosphor-icons/react con weight="duotone". Temas: light y dark via tokens CSS (ver skill theme-awareness).
 
 ## Principio central
 

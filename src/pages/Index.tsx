@@ -97,14 +97,14 @@ const Index = () => {
   return (
     <PageTransition>
       {/* Header */}
-      <div className="flex items-center justify-between pt-14 pb-2 mb-6">
+      <div className="flex items-center justify-between pt-14 pb-2 mb-8">
         <div>
           <p className="font-body text-sm text-muted-foreground">Hola, {displayName}</p>
-          <h1 className="font-display text-3xl text-foreground mt-1">Vuelve a tu centro</h1>
+          <h1 className="font-display text-4xl uppercase tracking-wider text-foreground mt-1">Vuelve a tu centro</h1>
         </div>
         <Link to="/perfil">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-card border border-border transition-colors hover:border-muted-foreground/20">
-            <GearSix size={16} weight="duotone" className="text-muted-foreground" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-card transition-all duration-200 hover:scale-105 active:scale-95">
+            <GearSix size={18} weight="duotone" className="text-muted-foreground" />
           </div>
         </Link>
       </div>

@@ -103,7 +103,7 @@ const Sesion = () => {
           ))}
         </div>
       ) : protocols && protocols.length > 0 ? (
-        <div className="stagger-children space-y-3 mb-12">
+        <div className="stagger-children space-y-2 mb-12">
           {protocols.map((p) => {
             const { num, label } = getPhase(p, activeTab === "hielo");
             const isFrio = activeTab === "hielo";

@@ -124,10 +124,10 @@ const Respirar = () => {
           <button
             key={f}
             onClick={() => setActiveFilter(f)}
-            className={`flex-shrink-0 rounded-full px-3 py-1 font-display text-[11px] transition-all duration-200 ${
+            className={`flex-shrink-0 rounded-full px-3 py-1 font-display text-[11px] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
               activeFilter === f
-                ? "bg-primary text-primary-foreground"
-                : "border border-border/40 text-muted-foreground hover:text-foreground"
+                ? "bg-primary text-primary-foreground scale-105"
+                : "border border-border/40 text-muted-foreground hover:text-foreground hover:scale-105 hover:border-primary/40 hover:bg-primary/10"
             }`}
           >
             {f}
@@ -141,10 +141,10 @@ const Respirar = () => {
           <button
             key={f}
             onClick={() => setActiveDuration(f === activeDuration ? "Duración" : f)}
-            className={`flex-shrink-0 rounded-full px-3 py-1 font-display text-[11px] transition-all duration-200 ${
+            className={`flex-shrink-0 rounded-full px-3 py-1 font-display text-[11px] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
               activeDuration === f
-                ? "bg-primary text-primary-foreground"
-                : "border border-border/40 text-muted-foreground hover:text-foreground"
+                ? "bg-primary text-primary-foreground scale-105"
+                : "border border-border/40 text-muted-foreground hover:text-foreground hover:scale-105 hover:border-primary/40 hover:bg-primary/10"
             }`}
           >
             {f}

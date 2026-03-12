@@ -81,7 +81,7 @@ const Player = () => {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="min-h-screen w-full flex items-center justify-center bg-background">
         <div className="h-6 w-6 rounded-full border-2 border-primary border-t-transparent animate-spin" />
       </div>
     );
@@ -89,7 +89,7 @@ const Player = () => {
 
   if (completed) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-background px-5">
+      <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background px-5">
         <div className="animate-scale-check mb-8">
           <div className="flex h-20 w-20 items-center justify-center rounded-full bg-success/20">
             <Check size={40} strokeWidth={1.5} className="text-success" />
@@ -122,7 +122,7 @@ const Player = () => {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-5">
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-background px-5">
       {/* Practice name */}
       <p className="font-display text-lg text-foreground mb-1">
         {practice?.display_name || "Práctica"}

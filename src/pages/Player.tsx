@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, lazy, Suspense } from "react";
+import { useState, useEffect, useRef, lazy, Suspense, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Play, Pause, ArrowCounterClockwise, Check, ArrowClockwise, House } from "@phosphor-icons/react";
 
@@ -19,6 +19,37 @@ const Player = () => {
   const [feeling, setFeeling] = useState<string | null>(null);
   const [elapsed, setElapsed] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const isAudioMode = practice?.media_mode === "audio" && !!practice?.media_url;
+
+  // Audio setup & control
+  useEffect(() => {
+    if (!isAudioMode || !practice?.media_url) return;
+    
+    const audio = new Audio(practice.media_url);
+    audio.preload = "auto";
+    audioRef.current = audio;
+
+    audio.addEventListener("ended", () => {
+      setIsPlaying(false);
+    });
+
+    return () => {
+      audio.pause();
+      audio.src = "";
+      audioRef.current = null;
+    };
+  }, [isAudioMode, practice?.media_url]);
+
+  useEffect(() => {
+    if (!audioRef.current || !isAudioMode) return;
+    if (isPlaying) {
+      audioRef.current.play().catch(() => {});
+    } else {
+      audioRef.current.pause();
+    }
+  }, [isPlaying, isAudioMode]);
 
   const feelings = ["Poderoso", "Orgulloso", "En calma", "Energizado"];
 

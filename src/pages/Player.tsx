@@ -155,6 +155,7 @@ const Player = () => {
               setCompleted(false);
               setElapsed(0);
               setFeeling(null);
+              if (audioRef.current) audioRef.current.currentTime = 0;
             }}
             className="flex items-center gap-2 rounded-xl border border-primary bg-primary text-primary-foreground px-5 py-3 font-display text-sm transition-all"
           >

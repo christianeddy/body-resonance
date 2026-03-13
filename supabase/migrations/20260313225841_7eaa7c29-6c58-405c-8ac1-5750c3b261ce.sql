@@ -1,0 +1,1 @@
+UPDATE practices SET premium = true WHERE media_url IS NULL AND premium = false;

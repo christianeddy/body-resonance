@@ -239,7 +239,12 @@ const Player = () => {
       {/* Controls */}
       <div className="flex items-center gap-10">
         <button
-          onClick={() => setElapsed(Math.max(0, elapsed - 15))}
+          onClick={() => {
+            setElapsed(Math.max(0, elapsed - 15));
+            if (audioRef.current) {
+              audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 15);
+            }
+          }}
           className="text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowCounterClockwise size={24} weight="duotone" />

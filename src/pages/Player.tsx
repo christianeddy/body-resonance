@@ -107,6 +107,10 @@ const Player = () => {
   const isValidCompletion = completionPercent >= 70;
   const handleComplete = () => {
     setIsPlaying(false);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
     setExiting(true);
     setTimeout(() => {
       setExiting(false);

@@ -175,7 +175,7 @@ const Index = () => {
         </Link>
       </div>
 
-      {/* 2. Ritual de hoy - OCULTADO TEMPORALMENTE
+      {/* 2. Ritual de hoy */}
       {recommended && (
         <section className="mb-8">
           <div
@@ -215,7 +215,7 @@ const Index = () => {
             </div>
           </div>
         </section>
-      )} */}
+      )}
 
       {/* 3. Cómo te sientes hoy */}
       <section className="mb-8">

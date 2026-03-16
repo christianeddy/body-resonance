@@ -64,10 +64,18 @@ const Player = () => {
   }, [isPlaying]);
 
   // Visual mode: cycle through phases
-  const phases = practice?.phases && Array.isArray(practice.phases) ? practice.phases : [];
+  const defaultPhases = [
+    { name: "Inhala", duration: 4 },
+    { name: "Retención", duration: 4 },
+    { name: "Exhala", duration: 4 },
+    { name: "Retención", duration: 4 },
+  ];
+  const phases = practice?.phases && Array.isArray(practice.phases) && (practice.phases as any[]).length > 0
+    ? (practice.phases as any[])
+    : defaultPhases;
   let totalPhaseDuration = 0;
   phases.forEach((p: any) => { totalPhaseDuration += p.duration || 0; });
-  const cycleDuration = totalPhaseDuration || 16; // fallback 16s cycle
+  const cycleDuration = totalPhaseDuration || 16;
 
   const cycleElapsed = elapsed % cycleDuration;
   let currentPhaseName = "";

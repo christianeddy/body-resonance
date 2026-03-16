@@ -98,7 +98,7 @@ const Player = () => {
     return "";
   };
 
-  const isVisualPlaying = practice?.media_mode === "visual" && isPlaying;
+  const isVisualPlaying = isPlaying;
   const phaseClass = isVisualPlaying && currentPhaseName ? getPhaseClass(currentPhaseName) : "";
 
   // Estimate total duration for progress bar

@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef, lazy, Suspense, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Play, Pause, ArrowCounterClockwise, Check, ArrowClockwise, House } from "@phosphor-icons/react";
 
-const BreathingSphere3D = lazy(() => import("@/components/BreathingSphere3D"));
+import BreathingCircle from "@/components/BreathingCircle";
 import { usePractice } from "@/hooks/usePractices";
 import { useSaveSession } from "@/hooks/useSessions";
 import { toast } from "sonner";
@@ -218,14 +218,12 @@ const Player = () => {
       <p className="font-body text-sm text-muted-foreground mb-12">Respira con Lore</p>
 
       {/* 3D Breathing Sphere */}
-      <Suspense fallback={<div className="w-[260px] h-[260px] flex items-center justify-center"><div className="h-6 w-6 rounded-full border-2 border-primary border-t-transparent animate-spin" /></div>}>
-        <BreathingSphere3D
-          phase={currentPhaseName}
-          isPlaying={isVisualPlaying}
-          phaseDuration={currentPhaseDuration}
-          className={`mb-8 transition-opacity duration-300 ${exiting ? "opacity-0" : ""}`}
-        />
-      </Suspense>
+      <BreathingCircle
+        phase={currentPhaseName}
+        isPlaying={isVisualPlaying}
+        phaseDuration={currentPhaseDuration}
+        className={`mb-8 transition-opacity duration-300 ${exiting ? "opacity-0" : ""}`}
+      />
 
       {/* Progress bar */}
       <div className="w-full max-w-xs mb-8">

@@ -8,26 +8,23 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Practice } from "@/hooks/usePractices";
 import heroRespiracion from "@/assets/hero-respiracion.png";
 
-const intentionFilters = ["Todas", "Energía", "Calma", "Enfoque", "Reset", "Dormir", "Hielo", "Sauna"];
-const durationFilters = ["Duración", "3 min", "5 min", "10 min"];
+const intentionFilters = ["Todas", "Energía", "Calma", "Reset", "Dormir", "Hielo"];
+const durationFilters = ["Duración", "3 min", "5 min", "7 min", "20 min"];
 
 const filterToCategory: Record<string, string | undefined> = {
   Hielo: "hielo",
-  Sauna: "calor",
 };
 const filterToIntention: Record<string, string | undefined> = {
   Energía: "energia",
   Calma: "calma",
-  Enfoque: "enfoque",
   Reset: "reset",
   Dormir: "dormir",
 };
 
 const labelForPractice = (p: Practice) => {
   if (p.category === "hielo") return "Hielo";
-  if (p.category === "calor") return "Sauna";
   if (p.intention) {
-    const map: Record<string, string> = { energia: "Energía", calma: "Calma", reset: "Reset", dormir: "Dormir", enfoque: "Enfoque" };
+    const map: Record<string, string> = { energia: "Energía", calma: "Calma", reset: "Reset", dormir: "Dormir" };
     return map[p.intention] || p.intention;
   }
   return p.category;

@@ -13,12 +13,10 @@ const durationFilters = ["Duración", "3 min", "5 min", "7 min", "20 min"];
 
 const filterToCategory: Record<string, string | undefined> = {
   Hielo: "hielo",
-  Sauna: "calor",
 };
 const filterToIntention: Record<string, string | undefined> = {
   Energía: "energia",
   Calma: "calma",
-  Enfoque: "enfoque",
   Reset: "reset",
   Dormir: "dormir",
 };

@@ -23,9 +23,8 @@ const filterToIntention: Record<string, string | undefined> = {
 
 const labelForPractice = (p: Practice) => {
   if (p.category === "hielo") return "Hielo";
-  if (p.category === "calor") return "Sauna";
   if (p.intention) {
-    const map: Record<string, string> = { energia: "Energía", calma: "Calma", reset: "Reset", dormir: "Dormir", enfoque: "Enfoque" };
+    const map: Record<string, string> = { energia: "Energía", calma: "Calma", reset: "Reset", dormir: "Dormir" };
     return map[p.intention] || p.intention;
   }
   return p.category;

@@ -170,8 +170,12 @@ const Respirar = () => {
                 {...(wrapperProps as any)}
               >
                 {/* Breathing icon */}
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-primary/10">
-                  <Wind size={20} weight="duotone" className="text-primary" />
+                <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl ${p.category === 'hielo' ? 'bg-sky-500/20' : 'bg-primary/10'}`}>
+                  {p.category === 'hielo' ? (
+                    <Snowflake size={20} weight="duotone" className="text-sky-400" />
+                  ) : (
+                    <Wind size={20} weight="duotone" className="text-primary" />
+                  )}
                 </div>
 
                 {/* Info */}

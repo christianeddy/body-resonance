@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { House, Wind, Snowflake, Fire, UserCircle } from "@phosphor-icons/react";
+import { House, Wind, Snowflake, UserCircle } from "@phosphor-icons/react";
 
 const tabs = [
   { to: "/", label: "Inicio", icon: House },

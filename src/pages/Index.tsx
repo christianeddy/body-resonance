@@ -250,17 +250,32 @@ const Index = () => {
       {/* 4. Protocolo Bodhi */}
       <section className="mb-8">
         <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">PROTOCOLOS BODHI</h3>
-        <Link
-          to="/sesion?tab=hielo"
-          className="relative overflow-hidden rounded-2xl p-5 min-h-[120px] flex items-center gap-4 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
-          style={{ background: "linear-gradient(135deg, hsl(200 30% 12%) 0%, hsl(200 40% 8%) 100%)", border: "1px solid hsl(200 30% 18%)" }}
-        >
-          <Snowflake size={28} weight="duotone" className="text-blue-400 flex-shrink-0" />
-          <div>
-            <h4 className="font-display text-base text-foreground">Preparación para hielo</h4>
-            <p className="font-body text-xs text-muted-foreground mt-0.5">Protocolo completo</p>
-          </div>
-        </Link>
+        <div className="space-y-3">
+          <Link
+            to="/sesion?tab=hielo"
+            className="relative overflow-hidden rounded-2xl p-5 min-h-[100px] flex items-center gap-4 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
+            style={{ background: "linear-gradient(135deg, hsl(160 30% 12%) 0%, hsl(160 40% 8%) 100%)", border: "1px solid hsl(160 30% 18%)" }}
+          >
+            <Lightning size={28} weight="duotone" className="text-emerald-400 flex-shrink-0" />
+            <div>
+              <h4 className="font-display text-base text-foreground">Energy Flow</h4>
+              <p className="font-body text-xs text-muted-foreground mt-0.5">Protocolo de activación</p>
+            </div>
+            <CaretRight size={20} weight="bold" className="text-muted-foreground flex-shrink-0 ml-auto" />
+          </Link>
+          <Link
+            to="/sesion?tab=hielo"
+            className="relative overflow-hidden rounded-2xl p-5 min-h-[100px] flex items-center gap-4 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
+            style={{ background: "linear-gradient(135deg, hsl(250 30% 12%) 0%, hsl(250 40% 8%) 100%)", border: "1px solid hsl(250 30% 18%)" }}
+          >
+            <ArrowsClockwise size={28} weight="duotone" className="text-violet-400 flex-shrink-0" />
+            <div>
+              <h4 className="font-display text-base text-foreground">Reset Flow</h4>
+              <p className="font-body text-xs text-muted-foreground mt-0.5">Protocolo de recuperación</p>
+            </div>
+            <CaretRight size={20} weight="bold" className="text-muted-foreground flex-shrink-0 ml-auto" />
+          </Link>
+        </div>
       </section>
 
       {/* 5. Tu Camino (Stats) */}

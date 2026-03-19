@@ -1,11 +1,9 @@
 import { PageTransition } from "@/components/layout/PageTransition";
-import { CaretRight, Thermometer, Fire, Heart, Clock, Snowflake, Lock } from "@phosphor-icons/react";
-import { useState, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { CaretRight, Thermometer, Heart, Clock, Snowflake, Lock } from "@phosphor-icons/react";
+import { Link } from "react-router-dom";
 import { usePractices } from "@/hooks/usePractices";
 import type { Practice } from "@/hooks/usePractices";
 import heroFrio from "@/assets/hero-frio.png";
-import heroCalor from "@/assets/hero-calor.png";
 
 const getTagLabel = (p: Practice): string => {
   const tags = Array.isArray(p.tags) ? (p.tags as string[]).map((t) => String(t).toLowerCase()) : [];

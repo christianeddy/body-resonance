@@ -44,49 +44,21 @@ const Sesion = () => {
 
   return (
     <PageTransition>
-      <h1
-        className="group font-display text-2xl pt-14 pb-6 flex items-center gap-2.5 cursor-default transition-all duration-500"
-      >
-        {activeTab === "hielo" ? (
-          <>
-            <Snowflake size={24} weight="duotone" className="text-sky-400 transition-transform duration-500 group-hover:rotate-90 group-hover:scale-110" />
-            <span className="frio-hover-gradient transition-all duration-500">
-              Frío
-            </span>
-          </>
-        ) : (
-          <>
-            <Fire size={24} weight="duotone" className="text-orange-400 transition-transform duration-500 group-hover:scale-125" />
-            <span className="calor-hover-gradient transition-all duration-500">
-              Calor
-            </span>
-          </>
-        )}
+      <h1 className="group font-display text-2xl pt-14 pb-6 flex items-center gap-2.5 cursor-default transition-all duration-500">
+        <Snowflake size={24} weight="duotone" className="text-sky-400 transition-transform duration-500 group-hover:rotate-90 group-hover:scale-110" />
+        <span className="frio-hover-gradient transition-all duration-500">Frío</span>
       </h1>
 
       {/* Hero image */}
-      {activeTab === "hielo" && (
-        <div className="relative rounded-2xl overflow-hidden mb-6">
-          <img src={heroFrio} alt="Ice bath Bodhi" className="w-full h-52 object-cover animate-[heroZoom_1.2s_cubic-bezier(0.22,1,0.36,1)_forwards]" style={{ objectPosition: '50% 35%' }} />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-          <p className="absolute bottom-3 left-4 right-4 font-body text-sm text-foreground/90">
-            El frío es una herramienta poderosa para regular tu sistema nervioso.
-          </p>
-        </div>
-      )}
-      {activeTab === "calor" && (
-        <div className="relative rounded-2xl overflow-hidden mb-6">
-          <img src={heroCalor} alt="Sauna infrarrojo Bodhi" className="w-full h-52 object-cover animate-[heroZoom_1.2s_cubic-bezier(0.22,1,0.36,1)_forwards]" style={{ objectPosition: '50% 25%' }} />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-          <p className="absolute bottom-3 left-4 right-4 font-body text-sm text-foreground/90">
-            El calor ayuda a liberar tensión profunda y relajar el sistema nervioso.
-          </p>
-        </div>
-      )}
+      <div className="relative rounded-2xl overflow-hidden mb-6">
+        <img src={heroFrio} alt="Ice bath Bodhi" className="w-full h-52 object-cover animate-[heroZoom_1.2s_cubic-bezier(0.22,1,0.36,1)_forwards]" style={{ objectPosition: '50% 35%' }} />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+        <p className="absolute bottom-3 left-4 right-4 font-body text-sm text-foreground/90">
+          El frío es una herramienta poderosa para regular tu sistema nervioso.
+        </p>
+      </div>
 
-      <h2 className="font-display text-base text-foreground mb-4">
-        Protocolo Bodhi para {activeTab === "hielo" ? "frío" : "sauna"}
-      </h2>
+      <h2 className="font-display text-base text-foreground mb-4">Protocolo Bodhi para frío</h2>
 
       {isLoading ? (
         <div className="space-y-3 mb-12">

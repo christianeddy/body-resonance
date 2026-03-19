@@ -247,29 +247,20 @@ const Index = () => {
         {selectedMood && <MoodPractices intention={selectedMood} />}
       </section>
 
-      {/* 4. Protocolos Bodhi */}
+      {/* 4. Protocolo Bodhi */}
       <section className="mb-8">
         <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">PROTOCOLOS BODHI</h3>
-        <div className="grid grid-cols-2 gap-3">
-          <Link
-            to="/sesion?tab=hielo"
-            className="relative overflow-hidden rounded-2xl p-5 min-h-[120px] flex flex-col justify-end transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
-            style={{ background: "linear-gradient(135deg, hsl(200 30% 12%) 0%, hsl(200 40% 8%) 100%)", border: "1px solid hsl(200 30% 18%)" }}
-          >
-            <Snowflake size={28} weight="duotone" className="text-blue-400 mb-auto" />
-            <h4 className="font-display text-base text-foreground mt-4">Preparación para hielo</h4>
+        <Link
+          to="/sesion?tab=hielo"
+          className="relative overflow-hidden rounded-2xl p-5 min-h-[120px] flex items-center gap-4 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
+          style={{ background: "linear-gradient(135deg, hsl(200 30% 12%) 0%, hsl(200 40% 8%) 100%)", border: "1px solid hsl(200 30% 18%)" }}
+        >
+          <Snowflake size={28} weight="duotone" className="text-blue-400 flex-shrink-0" />
+          <div>
+            <h4 className="font-display text-base text-foreground">Preparación para hielo</h4>
             <p className="font-body text-xs text-muted-foreground mt-0.5">Protocolo completo</p>
-          </Link>
-          <Link
-            to="/sesion?tab=calor"
-            className="relative overflow-hidden rounded-2xl p-5 min-h-[120px] flex flex-col justify-end transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
-            style={{ background: "linear-gradient(135deg, hsl(30 30% 12%) 0%, hsl(30 40% 8%) 100%)", border: "1px solid hsl(30 30% 18%)" }}
-          >
-            <Sun size={28} weight="duotone" className="text-amber-400 mb-auto" />
-            <h4 className="font-display text-base text-foreground mt-4">Preparación para sauna</h4>
-            <p className="font-body text-xs text-muted-foreground mt-0.5">Protocolo completo</p>
-          </Link>
-        </div>
+          </div>
+        </Link>
       </section>
 
       {/* 5. Tu Camino (Stats) */}
@@ -315,33 +306,17 @@ const Index = () => {
       </section>
 
       {/* 7. Programas */}
-      {programs && programs.length > 0 && (
-        <section className="mb-8">
-          <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">PROGRAMAS</h3>
-          <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-thin stagger-children">
-            {programs.map((prog) => {
-              const progress = allProgress?.find((p) => p.program_id === prog.id);
-              const progressLabel = progress
-                ? `Día ${progress.current_day} de ${prog.max_days}`
-                : "Nuevo";
-              return (
-                <Link
-                  to={`/programa/${prog.id}`}
-                  key={prog.id}
-                  className="card-body flex-shrink-0 w-52 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-0.5 relative overflow-hidden"
-                >
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-                  <h4 className="font-display text-sm text-foreground mb-1">{prog.name}</h4>
-                  <p className="font-body text-xs text-muted-foreground line-clamp-2 mb-2">{prog.description}</p>
-                  <span className="inline-block rounded-full bg-primary/10 px-2.5 py-0.5 font-display text-[10px] text-accent">
-                    {progressLabel}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </section>
-      )}
+      <section className="mb-8">
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">PROGRAMAS</h3>
+        <div className="card-body rounded-2xl p-5 relative overflow-hidden opacity-70">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+          <h4 className="font-display text-sm text-foreground mb-1">New to Body</h4>
+          <p className="font-body text-xs text-muted-foreground mb-3">Tu primera semana con Body. Una práctica por día durante 7 días.</p>
+          <span className="inline-block rounded-full bg-muted px-2.5 py-0.5 font-display text-[10px] text-muted-foreground">
+            Próximamente
+          </span>
+        </div>
+      </section>
     </PageTransition>
   );
 };

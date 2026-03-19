@@ -323,13 +323,18 @@ const Index = () => {
       {/* 7. Programas */}
       <section className="mb-8">
         <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">PROGRAMAS</h3>
-        <div className="card-body rounded-2xl p-5 relative overflow-hidden opacity-70">
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-          <h4 className="font-display text-sm text-foreground mb-1">New to Body</h4>
-          <p className="font-body text-xs text-muted-foreground mb-3">Tu primera semana con Body. Una práctica por día durante 7 días.</p>
-          <span className="inline-block rounded-full bg-muted px-2.5 py-0.5 font-display text-[10px] text-muted-foreground">
-            Próximamente
-          </span>
+        <div className="card-body rounded-2xl p-5 relative overflow-hidden transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] cursor-pointer">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+          <div className="flex items-center gap-4">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 flex-shrink-0">
+              <Heartbeat size={20} weight="duotone" className="text-accent" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="font-display text-base text-foreground">New to Body</h4>
+              <p className="font-body text-xs text-muted-foreground mt-0.5">7 días · Una práctica por día</p>
+            </div>
+            <CaretRight size={20} weight="bold" className="text-muted-foreground flex-shrink-0" />
+          </div>
         </div>
       </section>
     </PageTransition>

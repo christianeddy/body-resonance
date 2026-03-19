@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { PageTransition } from "@/components/layout/PageTransition";
-import { Heart, MagnifyingGlass, Wind, Lock } from "@phosphor-icons/react";
+import { Heart, MagnifyingGlass, Wind, Snowflake, Lock } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { useFavorites, useToggleFavorite } from "@/hooks/useFavorites";
 import { useQuery } from "@tanstack/react-query";

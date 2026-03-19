@@ -247,29 +247,20 @@ const Index = () => {
         {selectedMood && <MoodPractices intention={selectedMood} />}
       </section>
 
-      {/* 4. Protocolos Bodhi */}
+      {/* 4. Protocolo Bodhi */}
       <section className="mb-8">
         <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">PROTOCOLOS BODHI</h3>
-        <div className="grid grid-cols-2 gap-3">
-          <Link
-            to="/sesion?tab=hielo"
-            className="relative overflow-hidden rounded-2xl p-5 min-h-[120px] flex flex-col justify-end transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
-            style={{ background: "linear-gradient(135deg, hsl(200 30% 12%) 0%, hsl(200 40% 8%) 100%)", border: "1px solid hsl(200 30% 18%)" }}
-          >
-            <Snowflake size={28} weight="duotone" className="text-blue-400 mb-auto" />
-            <h4 className="font-display text-base text-foreground mt-4">Preparación para hielo</h4>
+        <Link
+          to="/sesion?tab=hielo"
+          className="relative overflow-hidden rounded-2xl p-5 min-h-[120px] flex items-center gap-4 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
+          style={{ background: "linear-gradient(135deg, hsl(200 30% 12%) 0%, hsl(200 40% 8%) 100%)", border: "1px solid hsl(200 30% 18%)" }}
+        >
+          <Snowflake size={28} weight="duotone" className="text-blue-400 flex-shrink-0" />
+          <div>
+            <h4 className="font-display text-base text-foreground">Preparación para hielo</h4>
             <p className="font-body text-xs text-muted-foreground mt-0.5">Protocolo completo</p>
-          </Link>
-          <Link
-            to="/sesion?tab=calor"
-            className="relative overflow-hidden rounded-2xl p-5 min-h-[120px] flex flex-col justify-end transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]"
-            style={{ background: "linear-gradient(135deg, hsl(30 30% 12%) 0%, hsl(30 40% 8%) 100%)", border: "1px solid hsl(30 30% 18%)" }}
-          >
-            <Sun size={28} weight="duotone" className="text-amber-400 mb-auto" />
-            <h4 className="font-display text-base text-foreground mt-4">Preparación para sauna</h4>
-            <p className="font-body text-xs text-muted-foreground mt-0.5">Protocolo completo</p>
-          </Link>
-        </div>
+          </div>
+        </Link>
       </section>
 
       {/* 5. Tu Camino (Stats) */}

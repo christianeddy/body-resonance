@@ -68,9 +68,8 @@ const Sesion = () => {
         </div>
       ) : protocols && protocols.length > 0 ? (
         <div className="stagger-children space-y-2 mb-12">
-          {protocols.map((p) => {
-            const { num, label } = getPhase(p, activeTab === "hielo");
-            const isFrio = activeTab === "hielo";
+        {protocols.map((p) => {
+            const tagLabel = getTagLabel(p);
             const isPremium = p.premium;
             const Wrapper = isPremium ? 'div' : Link;
             const wrapperProps = isPremium
@@ -81,8 +80,8 @@ const Sesion = () => {
                 key={p.id}
                 {...(wrapperProps as any)}
               >
-                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg font-display text-xs ${isFrio ? "bg-sky-500/20 text-sky-400" : "bg-orange-500/20 text-foreground"}`}>
-                  {num}
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sky-500/20">
+                  <Snowflake size={16} weight="duotone" className="text-sky-400" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-body text-sm font-medium text-foreground truncate flex items-center gap-1.5">
@@ -90,7 +89,7 @@ const Sesion = () => {
                     {isPremium && <Lock size={12} weight="fill" className="text-muted-foreground flex-shrink-0" />}
                   </h3>
                   <p className="font-body text-xs text-muted-foreground mt-0.5">
-                    {label} · {p.duration_estimated}
+                    {tagLabel} · {p.duration_estimated}
                   </p>
                 </div>
                 <CaretRight size={18} weight="regular" className="text-muted-foreground flex-shrink-0" />

@@ -19,24 +19,7 @@ const LEARN_FRIO = [
   { icon: Thermometer, title: "Temperatura recomendada", text: "Entre 0°C y 15°C. Lo importante es que sientas el frío como un desafío controlable." },
 ];
 
-const LEARN_CALOR = [
-  { icon: Heart, title: "Beneficios del sauna", text: "Mejora la circulación, reduce el cortisol, libera tensión muscular profunda y promueve la desintoxicación natural." },
-  { icon: Clock, title: "Cómo usar sauna correctamente", text: "Comienza con 10-15 minutos a temperatura moderada. Hidrátate bien antes y después. Escucha a tu cuerpo." },
-  { icon: Thermometer, title: "Cómo combinar calor y frío", text: "Alterna sauna con inmersión en frío para potenciar los beneficios. El contraste térmico activa la regulación del sistema nervioso." },
-];
-
 const Sesion = () => {
-  const [searchParams] = useSearchParams();
-  const [activeTab, setActiveTab] = useState<Tab>(() => {
-    const tab = searchParams.get("tab");
-    return tab === "calor" ? "calor" : "hielo";
-  });
-
-  useEffect(() => {
-    const tab = searchParams.get("tab");
-    if (tab === "calor" || tab === "hielo") setActiveTab(tab);
-  }, [searchParams]);
-
   const { data: iceProtocols, isLoading } = usePractices("hielo");
   const protocols = iceProtocols;
 

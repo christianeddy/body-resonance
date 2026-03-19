@@ -99,13 +99,9 @@ const Sesion = () => {
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center py-12 gap-3 mb-12">
-          {activeTab === "hielo" ? (
-            <Thermometer size={32} weight="duotone" className="text-muted-foreground" />
-          ) : (
-            <Fire size={32} weight="duotone" className="text-muted-foreground" />
-          )}
+          <Snowflake size={32} weight="duotone" className="text-muted-foreground" />
           <p className="font-body text-sm text-muted-foreground text-center">
-            No hay protocolos de {activeTab === "hielo" ? "frío" : "calor"} aún
+            No hay protocolos de frío aún
           </p>
         </div>
       )}

@@ -5,7 +5,6 @@ const tabs = [
   { to: "/", label: "Inicio", icon: House },
   { to: "/respirar", label: "Respirar", icon: Wind },
   { to: "/sesion?tab=hielo", label: "Frío", icon: Snowflake, match: "/sesion", matchParam: "hielo" },
-  { to: "/sesion?tab=calor", label: "Calor", icon: Fire, match: "/sesion", matchParam: "calor" },
   { to: "/perfil", label: "Perfil", icon: UserCircle },
 ];
 

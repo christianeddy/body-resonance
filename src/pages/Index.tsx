@@ -306,33 +306,17 @@ const Index = () => {
       </section>
 
       {/* 7. Programas */}
-      {programs && programs.length > 0 && (
-        <section className="mb-8">
-          <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">PROGRAMAS</h3>
-          <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-thin stagger-children">
-            {programs.map((prog) => {
-              const progress = allProgress?.find((p) => p.program_id === prog.id);
-              const progressLabel = progress
-                ? `Día ${progress.current_day} de ${prog.max_days}`
-                : "Nuevo";
-              return (
-                <Link
-                  to={`/programa/${prog.id}`}
-                  key={prog.id}
-                  className="card-body flex-shrink-0 w-52 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-0.5 relative overflow-hidden"
-                >
-                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-                  <h4 className="font-display text-sm text-foreground mb-1">{prog.name}</h4>
-                  <p className="font-body text-xs text-muted-foreground line-clamp-2 mb-2">{prog.description}</p>
-                  <span className="inline-block rounded-full bg-primary/10 px-2.5 py-0.5 font-display text-[10px] text-accent">
-                    {progressLabel}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        </section>
-      )}
+      <section className="mb-8">
+        <h3 className="font-display text-xs tracking-[0.15em] text-muted-foreground mb-4">PROGRAMAS</h3>
+        <div className="card-body rounded-2xl p-5 relative overflow-hidden opacity-70">
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+          <h4 className="font-display text-sm text-foreground mb-1">New to Body</h4>
+          <p className="font-body text-xs text-muted-foreground mb-3">Tu primera semana con Body. Una práctica por día durante 7 días.</p>
+          <span className="inline-block rounded-full bg-muted px-2.5 py-0.5 font-display text-[10px] text-muted-foreground">
+            Próximamente
+          </span>
+        </div>
+      </section>
     </PageTransition>
   );
 };

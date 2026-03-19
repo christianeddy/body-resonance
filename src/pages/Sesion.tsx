@@ -39,11 +39,8 @@ const Sesion = () => {
     if (tab === "calor" || tab === "hielo") setActiveTab(tab);
   }, [searchParams]);
 
-  const { data: iceProtocols, isLoading: loadingIce } = usePractices("hielo");
-  const { data: heatProtocols, isLoading: loadingHeat } = usePractices("calor");
-
-  const isLoading = activeTab === "hielo" ? loadingIce : loadingHeat;
-  const protocols = activeTab === "hielo" ? iceProtocols : heatProtocols;
+  const { data: iceProtocols, isLoading } = usePractices("hielo");
+  const protocols = iceProtocols;
 
   return (
     <PageTransition>

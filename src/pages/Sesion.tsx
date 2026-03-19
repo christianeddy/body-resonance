@@ -7,17 +7,12 @@ import type { Practice } from "@/hooks/usePractices";
 import heroFrio from "@/assets/hero-frio.png";
 import heroCalor from "@/assets/hero-calor.png";
 
-type Tab = "hielo" | "calor";
-
-const getPhase = (p: Practice, isFrio: boolean): { num: number; label: string } => {
-  const name = (p.display_name || "").toLowerCase();
+const getTagLabel = (p: Practice): string => {
   const tags = Array.isArray(p.tags) ? (p.tags as string[]).map((t) => String(t).toLowerCase()) : [];
-  const all = name + " " + tags.join(" ");
-  const word = isFrio ? "Hielo" : "Sauna";
-  if (all.includes("pre")) return { num: 1, label: `Pre ${word}` };
-  if (all.includes("durante")) return { num: 2, label: `Durante ${word}` };
-  if (all.includes("post")) return { num: 3, label: `Post ${word}` };
-  return { num: 1, label: `Pre ${word}` };
+  if (tags.includes("pre")) return "Preparación";
+  if (tags.includes("durante")) return "Durante el frío";
+  if (tags.includes("post")) return "Recuperación";
+  return "Preparación";
 };
 
 const LEARN_FRIO = [

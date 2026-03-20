@@ -6,10 +6,10 @@ import type { Practice } from "@/hooks/usePractices";
 import heroFrio from "@/assets/hero-frio.png";
 import heroCalor from "@/assets/hero-calor.png";
 
-const getTagLabel = (p: Practice): string => {
+const getTagLabel = (p: Practice, isIce: boolean): string => {
   const tags = Array.isArray(p.tags) ? (p.tags as string[]).map((t) => String(t).toLowerCase()) : [];
   if (tags.includes("pre")) return "Preparación";
-  if (tags.includes("durante")) return "Durante el frío";
+  if (tags.includes("durante")) return isIce ? "Durante el frío" : "Durante el calor";
   if (tags.includes("post")) return "Recuperación";
   return "Preparación";
 };

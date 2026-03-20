@@ -107,7 +107,7 @@ const Sesion = () => {
       ) : protocols && protocols.length > 0 ? (
         <div className="stagger-children space-y-2 mb-12">
           {protocols.map((p) => {
-            const tagLabel = isIce ? getTagLabel(p) : "";
+            const tagLabel = getTagLabel(p, isIce);
             const tagStyle = getTagStyle(tagLabel);
             const isPremium = p.premium;
             const Wrapper = isPremium ? 'div' : Link;

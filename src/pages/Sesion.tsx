@@ -6,10 +6,10 @@ import type { Practice } from "@/hooks/usePractices";
 import heroFrio from "@/assets/hero-frio.png";
 import heroCalor from "@/assets/hero-calor.png";
 
-const getTagLabel = (p: Practice): string => {
+const getTagLabel = (p: Practice, isIce: boolean): string => {
   const tags = Array.isArray(p.tags) ? (p.tags as string[]).map((t) => String(t).toLowerCase()) : [];
   if (tags.includes("pre")) return "Preparación";
-  if (tags.includes("durante")) return "Durante el frío";
+  if (tags.includes("durante")) return isIce ? "Durante el frío" : "Durante el calor";
   if (tags.includes("post")) return "Recuperación";
   return "Preparación";
 };
@@ -20,6 +20,8 @@ const getTagStyle = (label: string) => {
       return "bg-sky-500/15 text-sky-300 border-sky-500/30";
     case "Durante el frío":
       return "bg-blue-500/15 text-blue-300 border-blue-500/30";
+    case "Durante el calor":
+      return "bg-orange-500/15 text-orange-300 border-orange-500/30";
     case "Recuperación":
       return "bg-emerald-500/15 text-emerald-300 border-emerald-500/30";
     default:
@@ -105,7 +107,7 @@ const Sesion = () => {
       ) : protocols && protocols.length > 0 ? (
         <div className="stagger-children space-y-2 mb-12">
           {protocols.map((p) => {
-            const tagLabel = isIce ? getTagLabel(p) : "";
+            const tagLabel = getTagLabel(p, isIce);
             const tagStyle = getTagStyle(tagLabel);
             const isPremium = p.premium;
             const Wrapper = isPremium ? 'div' : Link;

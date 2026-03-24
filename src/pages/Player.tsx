@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Play, Pause, ArrowCounterClockwise, Check, ArrowClockwise, House } from "@phosphor-icons/react";
 
@@ -18,6 +18,7 @@ const Player = () => {
   const [exiting, setExiting] = useState(false);
   const [feeling, setFeeling] = useState<string | null>(null);
   const [elapsed, setElapsed] = useState(0);
+  const [audioDuration, setAudioDuration] = useState(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -26,10 +27,14 @@ const Player = () => {
   // Audio setup & control
   useEffect(() => {
     if (!isAudioMode || !practice?.media_url) return;
-    
+
     const audio = new Audio(practice.media_url);
     audio.preload = "auto";
     audioRef.current = audio;
+
+    audio.addEventListener("loadedmetadata", () => {
+      if (isFinite(audio.duration)) setAudioDuration(Math.round(audio.duration));
+    });
 
     audio.addEventListener("ended", () => {
       setIsPlaying(false);
@@ -39,6 +44,7 @@ const Player = () => {
       audio.pause();
       audio.src = "";
       audioRef.current = null;
+      setAudioDuration(0);
     };
   }, [isAudioMode, practice?.media_url]);
 
@@ -110,7 +116,9 @@ const Player = () => {
   const phaseClass = isVisualPlaying && currentPhaseName ? getPhaseClass(currentPhaseName) : "";
 
   // Estimate total duration for progress bar
-  const estimatedTotal = totalPhaseDuration > 0 ? totalPhaseDuration * 3 : 300;
+  const estimatedTotal = isAudioMode && audioDuration > 0
+    ? audioDuration
+    : totalPhaseDuration > 0 ? totalPhaseDuration * 3 : 300;
   const completionPercent = estimatedTotal > 0 ? (elapsed / estimatedTotal) * 100 : 100;
   const isValidCompletion = completionPercent >= 70;
   const handleComplete = () => {

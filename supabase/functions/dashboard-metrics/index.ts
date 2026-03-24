@@ -77,9 +77,10 @@ Deno.serve(async (req) => {
 
       // 5. Top favorites
       sql.unsafe(`
-        SELECT sp.practice_id, COALESCE(p.display_name, 'Práctica eliminada') AS name,
-               COALESCE(p.category, 'respiracion') AS category, COUNT(*)::int AS saved_count
-        FROM saved_practices sp LEFT JOIN practices p ON p.id = sp.practice_id
+        SELECT sp.practice_id, p.display_name AS name,
+               p.category, COUNT(*)::int AS saved_count
+        FROM saved_practices sp
+        JOIN practices p ON p.id = sp.practice_id
         GROUP BY sp.practice_id, p.display_name, p.category
         ORDER BY saved_count DESC LIMIT 10
       `),

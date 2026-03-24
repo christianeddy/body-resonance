@@ -1,4 +1,4 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import postgres from "npm:postgres";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -11,297 +11,206 @@ Deno.serve(async (req) => {
     return new Response("ok", { headers: corsHeaders });
   }
 
+  const sql = postgres(Deno.env.get("SUPABASE_DB_URL")!, {
+    ssl: "require",
+    max: 3,
+  });
+
   try {
     const url = new URL(req.url);
     const dateFrom = url.searchParams.get("date_from");
     const dateTo = url.searchParams.get("date_to");
 
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
-    );
+    // Build date filter fragment for sessions
+    const dateFilterParts: string[] = [];
+    if (dateFrom) dateFilterParts.push(`completed_at >= '${dateFrom}'`);
+    if (dateTo) dateFilterParts.push(`completed_at <= '${dateTo}'`);
+    const dateFilter = dateFilterParts.length
+      ? "AND " + dateFilterParts.join(" AND ")
+      : "";
 
-    // 1. Users
-    const { count: totalUsers } = await supabase
-      .from("profiles")
-      .select("*", { count: "exact", head: true });
+    const [
+      usersResult,
+      sessionsResult,
+      completionResult,
+      topPracticesResult,
+      topFavoritesResult,
+      funnelResult,
+      abandonmentResult,
+      feelingResult,
+      streaksResult,
+    ] = await Promise.all([
+      // 1. Users
+      sql.unsafe(`
+        SELECT COUNT(*)::int AS total_users,
+               COUNT(*) FILTER (WHERE created_at >= date_trunc('week', now()))::int AS new_this_week
+        FROM profiles
+      `),
 
-    const weekStart = getWeekStart();
-    const { count: newThisWeek } = await supabase
-      .from("profiles")
-      .select("*", { count: "exact", head: true })
-      .gte("created_at", weekStart);
+      // 2. Sessions
+      sql.unsafe(`
+        SELECT
+          COUNT(*) FILTER (WHERE completed_at >= CURRENT_DATE)::int AS today,
+          COUNT(*) FILTER (WHERE completed_at >= date_trunc('week', now()))::int AS this_week,
+          COUNT(*)::int AS total
+        FROM sessions WHERE 1=1 ${dateFilter}
+      `),
 
-    // 2. Onboarding
-    const { count: onboardingCompleted } = await supabase
-      .from("profiles")
-      .select("*", { count: "exact", head: true })
-      .eq("onboarding_completed", true);
+      // 3. Completion rate
+      sql.unsafe(`
+        SELECT ROUND(AVG(CASE WHEN estimated_duration_seconds > 0
+          THEN LEAST(duration_seconds::numeric / estimated_duration_seconds, 1.0) END) * 100, 1) AS avg_completion_pct
+        FROM sessions
+        WHERE duration_seconds IS NOT NULL AND estimated_duration_seconds IS NOT NULL ${dateFilter}
+      `),
 
-    const onboardingTotal = totalUsers ?? 0;
-    const onboardingPct =
-      onboardingTotal > 0
-        ? Math.round(((onboardingCompleted ?? 0) / onboardingTotal) * 100)
-        : 0;
+      // 4. Top 5 practices
+      sql.unsafe(`
+        SELECT s.practice_id, COALESCE(p.display_name, s.practice_name) AS name,
+               COALESCE(p.category, 'respiracion') AS category,
+               COUNT(*)::int AS times_used, COUNT(DISTINCT s.user_id)::int AS unique_users
+        FROM sessions s LEFT JOIN practices p ON p.id = s.practice_id
+        WHERE s.practice_id IS NOT NULL ${dateFilter}
+        GROUP BY s.practice_id, p.display_name, s.practice_name, p.category
+        ORDER BY times_used DESC LIMIT 5
+      `),
 
-    // 3. Sessions
-    const todayStart = getTodayStart();
-    const { count: sessionsToday } = await supabase
-      .from("sessions")
-      .select("*", { count: "exact", head: true })
-      .gte("completed_at", todayStart);
+      // 5. Top favorites
+      sql.unsafe(`
+        SELECT sp.practice_id, COALESCE(p.display_name, 'Práctica eliminada') AS name,
+               COALESCE(p.category, 'respiracion') AS category, COUNT(*)::int AS saved_count
+        FROM saved_practices sp LEFT JOIN practices p ON p.id = sp.practice_id
+        GROUP BY sp.practice_id, p.display_name, p.category
+        ORDER BY saved_count DESC LIMIT 10
+      `),
 
-    const { count: sessionsThisWeek } = await supabase
-      .from("sessions")
-      .select("*", { count: "exact", head: true })
-      .gte("completed_at", weekStart);
+      // 6. Program funnel
+      sql.unsafe(`
+        SELECT COUNT(*)::int AS total_started, ROUND(AVG(current_day), 1) AS avg_current_day,
+               COUNT(*) FILTER (WHERE completed_at IS NOT NULL)::int AS total_completed,
+               ROUND(COUNT(*) FILTER (WHERE completed_at IS NOT NULL)::numeric / NULLIF(COUNT(*), 0) * 100, 1) AS completion_pct,
+               ROUND(AVG(EXTRACT(EPOCH FROM (completed_at - started_at)) / 86400) FILTER (WHERE completed_at IS NOT NULL), 1) AS avg_days_to_complete
+        FROM user_program_progress
+      `),
 
-    let sessionsQuery = supabase
-      .from("sessions")
-      .select("*", { count: "exact", head: true });
-    if (dateFrom) sessionsQuery = sessionsQuery.gte("completed_at", dateFrom);
-    if (dateTo) sessionsQuery = sessionsQuery.lte("completed_at", dateTo);
-    const { count: sessionsTotal } = await sessionsQuery;
+      // 7. Abandonment
+      sql.unsafe(`
+        SELECT ROUND(AVG(current_day), 1) AS avg_day_abandoned,
+               MODE() WITHIN GROUP (ORDER BY current_day) AS most_common_dropoff
+        FROM user_program_progress
+        WHERE completed_at IS NULL AND started_at < now() - INTERVAL '7 days'
+      `),
 
-    // 4. Completion rate — need raw data
-    let completionQuery = supabase
-      .from("sessions")
-      .select("duration_seconds, estimated_duration_seconds")
-      .not("duration_seconds", "is", null)
-      .not("estimated_duration_seconds", "is", null)
-      .gt("estimated_duration_seconds", 0);
-    if (dateFrom) completionQuery = completionQuery.gte("completed_at", dateFrom);
-    if (dateTo) completionQuery = completionQuery.lte("completed_at", dateTo);
-    const { data: completionData } = await completionQuery;
+      // 8. Feeling distribution
+      sql.unsafe(`
+        SELECT COALESCE(feeling, 'Sin respuesta') AS feeling,
+               COUNT(*)::int AS count,
+               ROUND(COUNT(*)::numeric / NULLIF(SUM(COUNT(*)) OVER (), 0) * 100, 1) AS pct
+        FROM sessions WHERE 1=1 ${dateFilter}
+        GROUP BY feeling ORDER BY count DESC
+      `),
 
-    let completionPct = 0;
-    const sessionsWithEstimate = completionData?.length ?? 0;
-    if (completionData && completionData.length > 0) {
-      const sum = completionData.reduce((acc, s) => {
-        const ratio = Math.min(s.duration_seconds! / s.estimated_duration_seconds!, 1.0);
-        return acc + ratio;
-      }, 0);
-      completionPct = Math.round((sum / completionData.length) * 100);
+      // 9. Streaks
+      sql.unsafe(`
+        WITH daily AS (
+          SELECT user_id, DATE(completed_at AT TIME ZONE 'America/Lima') AS day
+          FROM sessions GROUP BY user_id, DATE(completed_at AT TIME ZONE 'America/Lima')
+        ), numbered AS (
+          SELECT user_id, day, ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY day) AS rn
+          FROM daily
+        ), islands AS (
+          SELECT user_id, day, (day - rn::int) AS grp FROM numbered
+        ), streaks AS (
+          SELECT user_id, COUNT(*)::int AS streak_days, MAX(day) AS last_day
+          FROM islands GROUP BY user_id, grp
+        ), current_streaks AS (
+          SELECT user_id, streak_days FROM streaks WHERE last_day >= CURRENT_DATE - INTERVAL '1 day'
+        )
+        SELECT ROUND(AVG(streak_days), 1) AS avg_streak,
+               MAX(streak_days)::int AS max_streak, COUNT(*)::int AS active_users
+        FROM current_streaks
+      `),
+    ]);
+
+    // User list (separate try/catch)
+    let userList: unknown[] = [];
+    let userListError: string | null = null;
+    try {
+      userList = await sql.unsafe(`
+        SELECT p.user_id, p.display_name, u.email, p.created_at,
+               COUNT(s.id)::int AS total_sessions,
+               ROUND(COALESCE(SUM(s.duration_seconds), 0) / 60.0, 0)::int AS total_minutes,
+               MAX(s.completed_at) AS last_session_at
+        FROM profiles p
+        JOIN auth.users u ON u.id = p.user_id
+        LEFT JOIN sessions s ON s.user_id = p.user_id
+        GROUP BY p.user_id, p.display_name, u.email, p.created_at
+        ORDER BY p.created_at DESC
+      `);
+    } catch (e) {
+      userListError = e instanceof Error ? e.message : String(e);
     }
 
-    // 5. Top practices
-    let topPracticesQuery = supabase
-      .from("sessions")
-      .select("practice_id, practice_name, user_id");
-    if (dateFrom) topPracticesQuery = topPracticesQuery.gte("completed_at", dateFrom);
-    if (dateTo) topPracticesQuery = topPracticesQuery.lte("completed_at", dateTo);
-    const { data: sessionsForTop } = await topPracticesQuery;
-
-    const { data: allPractices } = await supabase
-      .from("practices")
-      .select("id, display_name, category");
-
-    const practiceMap = new Map(
-      (allPractices ?? []).map((p) => [p.id, { name: p.display_name, category: p.category }])
-    );
-
-    const practiceStats = new Map<
-      string,
-      { name: string; category: string; count: number; users: Set<string> }
-    >();
-    for (const s of sessionsForTop ?? []) {
-      const key = s.practice_id ?? s.practice_name ?? "unknown";
-      const info = practiceMap.get(s.practice_id ?? "");
-      if (!practiceStats.has(key)) {
-        practiceStats.set(key, {
-          name: info?.name ?? s.practice_name ?? key,
-          category: info?.category ?? "desconocida",
-          count: 0,
-          users: new Set(),
-        });
-      }
-      const stat = practiceStats.get(key)!;
-      stat.count++;
-      stat.users.add(s.user_id);
-    }
-    const topPractices = [...practiceStats.values()]
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 5)
-      .map((s) => ({
-        name: s.name,
-        category: s.category,
-        times_used: s.count,
-        unique_users: s.users.size,
-      }));
-
-    // 6. Top favorites
-    const { data: savedData } = await supabase
-      .from("saved_practices")
-      .select("practice_id");
-
-    const favStats = new Map<string, number>();
-    for (const f of savedData ?? []) {
-      favStats.set(f.practice_id, (favStats.get(f.practice_id) ?? 0) + 1);
-    }
-    const topFavorites = [...favStats.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 10)
-      .map(([pid, count]) => {
-        const info = practiceMap.get(pid);
-        return {
-          name: info?.name ?? pid,
-          category: info?.category ?? "desconocida",
-          saved_count: count,
-        };
-      });
-
-    // 7. Program funnel
-    const { data: progressData } = await supabase
-      .from("user_program_progress")
-      .select("current_day, completed_at, started_at, completed_days");
-
-    const totalStarted = progressData?.length ?? 0;
-    const completed = (progressData ?? []).filter((p) => p.completed_at !== null);
-    const totalCompleted = completed.length;
-    const avgCurrentDay =
-      totalStarted > 0
-        ? Math.round(
-            (progressData ?? []).reduce((a, p) => a + p.current_day, 0) / totalStarted
-          )
-        : 0;
-    const completionPctProgram =
-      totalStarted > 0 ? Math.round((totalCompleted / totalStarted) * 100) : 0;
-
-    let avgDaysToComplete = 0;
-    if (completed.length > 0) {
-      const totalDays = completed.reduce((acc, p) => {
-        const start = new Date(p.started_at).getTime();
-        const end = new Date(p.completed_at!).getTime();
-        return acc + (end - start) / (1000 * 60 * 60 * 24);
-      }, 0);
-      avgDaysToComplete = Math.round(totalDays / completed.length);
-    }
-
-    // 8. Abandonment
-    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-    const abandoned = (progressData ?? []).filter(
-      (p) => p.completed_at === null && p.started_at < sevenDaysAgo
-    );
-    const avgAbandonDay =
-      abandoned.length > 0
-        ? Math.round(abandoned.reduce((a, p) => a + p.current_day, 0) / abandoned.length)
-        : 0;
-
-    const dayCount = new Map<number, number>();
-    for (const a of abandoned) {
-      dayCount.set(a.current_day, (dayCount.get(a.current_day) ?? 0) + 1);
-    }
-    let mostCommonDay = 0;
-    let maxDayCount = 0;
-    for (const [day, c] of dayCount) {
-      if (c > maxDayCount) {
-        mostCommonDay = day;
-        maxDayCount = c;
-      }
-    }
-
-    // 9. Feeling distribution
-    let feelingQuery = supabase.from("sessions").select("feeling");
-    if (dateFrom) feelingQuery = feelingQuery.gte("completed_at", dateFrom);
-    if (dateTo) feelingQuery = feelingQuery.lte("completed_at", dateTo);
-    const { data: feelingData } = await feelingQuery;
-
-    const feelingMap = new Map<string, number>();
-    for (const f of feelingData ?? []) {
-      const key = f.feeling ?? "Sin respuesta";
-      feelingMap.set(key, (feelingMap.get(key) ?? 0) + 1);
-    }
-    const feelingTotal = feelingData?.length ?? 0;
-    const feelingDistribution = [...feelingMap.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .map(([feeling, count]) => ({
-        feeling,
-        count,
-        pct: feelingTotal > 0 ? Math.round((count / feelingTotal) * 100) : 0,
-      }));
-
-    // 10. Streaks — island gap detection
-    let streakQuery = supabase
-      .from("sessions")
-      .select("user_id, completed_at")
-      .order("completed_at", { ascending: true });
-    if (dateFrom) streakQuery = streakQuery.gte("completed_at", dateFrom);
-    if (dateTo) streakQuery = streakQuery.lte("completed_at", dateTo);
-    const { data: streakData } = await streakQuery;
-
-    const userDays = new Map<string, Set<string>>();
-    for (const s of streakData ?? []) {
-      if (!userDays.has(s.user_id)) userDays.set(s.user_id, new Set());
-      // Convert to Lima timezone day
-      const day = toLimaDate(s.completed_at);
-      userDays.get(s.user_id)!.add(day);
-    }
-
-    let totalStreakSum = 0;
-    let maxStreak = 0;
-    let userCount = 0;
-    let activeUsers = 0;
-    const todayLima = toLimaDate(new Date().toISOString());
-    const yesterdayLima = toLimaDate(
-      new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-    );
-
-    for (const [, days] of userDays) {
-      userCount++;
-      const sorted = [...days].sort();
-      let currentStreak = 1;
-      let bestStreak = 1;
-
-      for (let i = 1; i < sorted.length; i++) {
-        const prev = new Date(sorted[i - 1]).getTime();
-        const curr = new Date(sorted[i]).getTime();
-        const diffDays = (curr - prev) / (1000 * 60 * 60 * 24);
-
-        if (diffDays <= 2) {
-          // 1 day grace
-          currentStreak++;
-        } else {
-          currentStreak = 1;
-        }
-        bestStreak = Math.max(bestStreak, currentStreak);
-      }
-
-      totalStreakSum += bestStreak;
-      maxStreak = Math.max(maxStreak, bestStreak);
-
-      // Active if practiced today or yesterday
-      if (days.has(todayLima) || days.has(yesterdayLima)) {
-        activeUsers++;
-      }
-    }
-
-    const avgStreak = userCount > 0 ? Math.round(totalStreakSum / userCount) : 0;
+    const u = usersResult[0];
+    const s = sessionsResult[0];
+    const c = completionResult[0];
+    const f = funnelResult[0];
+    const a = abandonmentResult[0];
+    const st = streaksResult[0];
 
     const result = {
-      users: { total: totalUsers ?? 0, new_this_week: newThisWeek ?? 0 },
-      onboarding: {
-        total: onboardingTotal,
-        completed: onboardingCompleted ?? 0,
-        pct: onboardingPct,
+      users: {
+        total: u.total_users ?? 0,
+        new_this_week: u.new_this_week ?? 0,
       },
       sessions: {
-        today: sessionsToday ?? 0,
-        this_week: sessionsThisWeek ?? 0,
-        total: sessionsTotal ?? 0,
+        today: s.today ?? 0,
+        this_week: s.this_week ?? 0,
+        total: s.total ?? 0,
+        completion_rate_pct: Number(c.avg_completion_pct) || 0,
       },
-      completion_rate: { pct: completionPct, sessions_with_estimate: sessionsWithEstimate },
-      top_practices: topPractices,
-      top_favorites: topFavorites,
+      top_practices: topPracticesResult.map((r: any) => ({
+        name: r.name,
+        category: r.category,
+        times_used: r.times_used,
+        unique_users: r.unique_users,
+      })),
+      top_favorites: topFavoritesResult.map((r: any) => ({
+        name: r.name,
+        category: r.category,
+        saved_count: r.saved_count,
+      })),
       program_funnel: {
-        total_started: totalStarted,
-        avg_current_day: avgCurrentDay,
-        total_completed: totalCompleted,
-        completion_pct: completionPctProgram,
-        avg_days_to_complete: avgDaysToComplete,
+        total_started: f.total_started ?? 0,
+        avg_current_day: Number(f.avg_current_day) || 0,
+        total_completed: f.total_completed ?? 0,
+        completion_pct: Number(f.completion_pct) || 0,
+        avg_days_to_complete: Number(f.avg_days_to_complete) || 0,
       },
-      abandonment: { avg_day: avgAbandonDay, most_common_day: mostCommonDay },
-      feeling_distribution: feelingDistribution,
-      streaks: { avg: avgStreak, max: maxStreak, active_users: activeUsers },
+      abandonment: {
+        avg_day: Number(a.avg_day_abandoned) || 0,
+        most_common_day: a.most_common_dropoff ?? 0,
+      },
+      feeling_distribution: feelingResult.map((r: any) => ({
+        feeling: r.feeling,
+        count: r.count,
+        pct: Number(r.pct) || 0,
+      })),
+      streaks: {
+        avg: Number(st.avg_streak) || 0,
+        max: st.max_streak ?? 0,
+        active_users: st.active_users ?? 0,
+      },
+      user_list: (userList as any[]).map((r: any) => ({
+        user_id: r.user_id,
+        display_name: r.display_name,
+        email: r.email,
+        created_at: r.created_at,
+        total_sessions: r.total_sessions,
+        total_minutes: r.total_minutes,
+        last_session_at: r.last_session_at,
+      })),
+      user_list_error: userListError,
     };
 
     return new Response(JSON.stringify(result, null, 2), {
@@ -309,30 +218,13 @@ Deno.serve(async (req) => {
     });
   } catch (error) {
     return new Response(
-      JSON.stringify({ error: error.message }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      JSON.stringify({ error: (error as Error).message }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      }
     );
+  } finally {
+    await sql.end();
   }
 });
-
-function getWeekStart(): string {
-  const now = new Date();
-  const day = now.getDay();
-  const diff = now.getDate() - day + (day === 0 ? -6 : 1);
-  const monday = new Date(now.setDate(diff));
-  monday.setHours(0, 0, 0, 0);
-  return monday.toISOString();
-}
-
-function getTodayStart(): string {
-  const now = new Date();
-  now.setHours(0, 0, 0, 0);
-  return now.toISOString();
-}
-
-function toLimaDate(iso: string): string {
-  const d = new Date(iso);
-  // Lima is UTC-5
-  const lima = new Date(d.getTime() - 5 * 60 * 60 * 1000);
-  return lima.toISOString().split("T")[0];
-}

@@ -328,7 +328,7 @@ const Index = () => {
               <Heartbeat size={20} weight="duotone" className="text-accent" />
             </div>
             <div className="flex-1 min-w-0">
-              <h4 className="font-display text-base text-foreground">New to Body</h4>
+              <h4 className="font-display text-base text-foreground">New to Bodhi</h4>
               <p className="font-body text-xs text-muted-foreground mt-0.5">7 días · Una práctica por día</p>
             </div>
             <CaretRight size={20} weight="bold" className="text-muted-foreground flex-shrink-0" />
